@@ -71,22 +71,6 @@ dependencies[] = ma_scald
 dependencies[] = ma_importexport
 dependencies[] = ma_importexport_media
 
-
-; Drupal Core
-dependencies[] = menu
-dependencies[] = image
-dependencies[] = list
-dependencies[] = number
-dependencies[] = options
-dependencies[] = path
-dependencies[] = taxonomy
-dependencies[] = search
-dependencies[] = shortcut
-dependencies[] = field
-dependencies[] = field_ui
-dependencies[] = file
-dependencies[] = update
-
 ;
 ; Panopoly Modules
 ;
@@ -153,14 +137,11 @@ dependencies[] = bootstrap_library
 ;
 ; Open Atrium required contrib modules
 ;
-dependencies[] = apps
+;dependencies[] = apps
 dependencies[] = features_override
-dependencies[] = feeds
 dependencies[] = job_scheduler
 dependencies[] = libraries
 dependencies[] = variable
-
-
 
 ;
 ; APPS
