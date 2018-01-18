@@ -83,7 +83,7 @@ projects[og][patch][] = contrib/132925713-Apply-Mukurtu-og-patches.patch
 ; Feeds Import Not Saving Geofield
 projects[geofield][patch][] = https://www.drupal.org/files/issues/geofield-feeds_import_not_saving-2534822-17.patch
 ; Google maps API fix
-projects[geofield][patch][] = https://www.drupal.org/files/issues/geofield-google-api-key-2757953-71.patch
+projects[geofield][patch][] = https://www.drupal.org/files/issues/geofield-google-api-key-2757953-42.patch
 projects[geofield_gmap][patch][] = https://www.drupal.org/files/issues/fix-api-key-not-being-used-2746209-16.patch
 
 ;;; Partial Date
