@@ -154,3 +154,9 @@ projects[views][patch][] = http://drupal.org/files/1979926-views-reset_fetch_dat
 projects[views][patch][] = https://www.drupal.org/files/issues/1735096-views-multiple-instance-exposed-form-15.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/2411922-views-group_name-3.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/2473389-views-arg-15.patch
+
+;;; WYSIWYG (as already patched by Open Atrium)
+; Do not disable ckeditor, as it is used in Mukurtu for Scald in text fields.
+projects[wysiwyg][patch][] = contrib/do_not_disable_ckeditor.patch
+
+
