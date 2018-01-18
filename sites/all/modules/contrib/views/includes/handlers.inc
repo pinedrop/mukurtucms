@@ -1592,7 +1592,8 @@ class views_join {
             }
 
             $operator = !empty($info['operator']) ? $info['operator'] : 'IN';
-            $placeholder = '( ' . implode(', ', array_keys($arguments)) . ' )';
+            $value_count = count($info['value']);
+            $placeholder = '( ' . implode(', ', array_slice(array_keys($arguments), count($arguments) - $value_count, $value_count)) . ' )';
           }
           else {
             // With a single value, the '=' operator is implicit.

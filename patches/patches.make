@@ -57,6 +57,10 @@ projects[bootstrap][patch][] = contrib/150281089-Dont-skip-over-text_format-fiel
 ; PHP Notice: Undefined variables: user and terms_to_add
 projects[community_tags][patch][] = https://www.drupal.org/files/issues/community_tags-undefined-variables-7.x-1.x-2420969-1_0.patch
 
+;;; Conditional Fields
+; Patches copied from the Open Atrium's PATCHES.txt for this module.
+projects[conditional_fields][patch][] = https://www.drupal.org/files/issues/2027307-conditional_fields-export-clean-3.patch
+
 ;;; Ctools
 ; Modal dialog position after ajax load is not refreshed
 projects[ctools][patch][] = https://www.drupal.org/files/issues/ctools-fix_modal_position_after_ajax-1803104-25.patch
@@ -144,3 +148,9 @@ projects[tree][patch][] = contrib/skip_treeable_field_formatter.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/views-representative_view-1417090-82.patch
 ; Change delimiter from coma to semi-colon
 projects[views][patch][] = contrib/109315810-Views-Change-delimiter-from-comma-to-semi-colon.patch
+; Patches copied from the Open Atrium's PATCHES.txt for this module.
+projects[views][patch][] = http://drupal.org/files/views-exposed-sorts-2037469-1.patch
+projects[views][patch][] = http://drupal.org/files/1979926-views-reset_fetch_data-2.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/1735096-views-multiple-instance-exposed-form-15.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/2411922-views-group_name-3.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/2473389-views-arg-15.patch
