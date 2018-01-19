@@ -5478,6 +5478,37 @@ function drupal_cron_cleanup() {
 }
 
 /**
+ * Recursive function to find listing paths for profiles and their parents.
+ *
+ * @param string $profile
+ *   The name of the profile to search.
+ * @param string $directory
+ *   The subdirectory name in which the files are found. For example,
+ *   'modules' will search in sub-directories of the top-level /modules
+ *   directory, sub-directories of /sites/all/modules/, etc.
+ * @param array $searchdir
+ *   The searchdir already found and to which to add before returning.
+ *
+ * @return array
+ *   An array of paths that should be searched. Starting with param $searchdir and any
+ *   items added from the profile and parents.
+ */
+function drupal_system_listing_profile($profile, $directory, $searchdir = array()) {
+  $info  = drupal_parse_info_file("profiles/$profile/$profile.info");
+  if(isset($info['base'])) {
+    $bases = is_array($info['base']) ? $info['base'] : array($info['base']);
+    foreach($info['base'] as $base) {
+      $searchdir = drupal_system_listing_profile($base, $directory, $searchdir);
+    }
+  }
+  if (file_exists("profiles/$profile/$directory")) {
+    $searchdir[] = "profiles/$profile/$directory";
+  }
+
+  return $searchdir;
+}
+
+/**
  * Returns information about system object files (modules, themes, etc.).
  *
  * This function is used to find all or some system object files (module files,
@@ -5540,7 +5571,7 @@ function drupal_system_listing($mask, $directory, $key = 'name', $min_depth = 1)
   // For SimpleTest to be able to test modules packaged together with a
   // distribution we need to include the profile of the parent site (in which
   // test runs are triggered).
-  if (drupal_valid_test_ua()) {
+  if (drupal_test_running()) {
     $testing_profile = variable_get('simpletest_parent_profile', FALSE);
     if ($testing_profile && $testing_profile != $profile) {
       $profiles[] = $testing_profile;
@@ -5550,9 +5581,7 @@ function drupal_system_listing($mask, $directory, $key = 'name', $min_depth = 1)
   // profile always has precedence.
   $profiles[] = $profile;
   foreach ($profiles as $profile) {
-    if (file_exists("profiles/$profile/$directory")) {
-      $searchdir[] = "profiles/$profile/$directory";
-    }
+    $searchdir = drupal_system_listing_profile($profile, $directory, $searchdir);
   }
 
   // Always search sites/all/* as well as the global directories.
@@ -5562,12 +5591,22 @@ function drupal_system_listing($mask, $directory, $key = 'name', $min_depth = 1)
     $searchdir[] = "$config/$directory";
   }
 
+  // By default, do not check for files in common special-purpose directories.
+  // The folders here are front-end related and they have been added to avoid
+  // issues with Drupal recursive scanning. In this case, we added node_modules
+  // and bower_components. This also improves performance on frontend builds.
+  $ignore_directories = variable_get('drupal_file_scan_ignore_directories', array(
+    'node_modules',
+    'bower_components',
+  ));
+  $no_mask = '/^(\..*)|' . implode('|', $ignore_directories) . '$/';
+
   // Get current list of items.
   if (!function_exists('file_scan_directory')) {
     require_once DRUPAL_ROOT . '/includes/file.inc';
   }
   foreach ($searchdir as $dir) {
-    $files_to_add = file_scan_directory($dir, $mask, array('key' => $key, 'min_depth' => $min_depth));
+    $files_to_add = file_scan_directory($dir, $mask, array('key' => $key, 'min_depth' => $min_depth, 'nomask' => $no_mask));
 
     // Duplicate files found in later search directories take precedence over
     // earlier ones, so we want them to overwrite keys in our resulting
