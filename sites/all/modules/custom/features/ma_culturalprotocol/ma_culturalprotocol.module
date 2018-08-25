@@ -381,7 +381,7 @@ function ma_culturalprotocol_node_validate($node, $form, &$form_state) {
 /**
  * Helper function used both by for DH/DW custom protocol field and scald protocol field (default OG) to reduce down the available groups the user is a member of to those the user has posting permissions on, because OG on its own is not handling this
  */
-function ma_cultural_protocol_get_cps_user_can_post_to ($community_nid = NULL) {
+function ma_cultural_protocol_get_cps_user_can_post_to($community_nid = NULL) {
   $groups_for_user = og_get_groups_by_user(null, 'node');
   $allowed_groups_for_user[] = array();
   foreach ($groups_for_user as $group_for_user) {
