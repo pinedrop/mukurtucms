@@ -10226,7 +10226,7 @@ a:hover {
   background: none;
 }
 .navbar-bottom ul.nav {
-  margin-top: 10px;
+  margin-top: 30px; /* was 10px; */
 }
 .navbar-bottom ul.nav li {
   border: 1px solid #E3E2E1;
