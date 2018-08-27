@@ -10250,7 +10250,7 @@ a:hover {
 }
 #navbar {
   margin-bottom: 0;
-  background: #F8F7F7;
+  background: #000000; /* was #F8F7F7; */
 }
 #page-header .navbar-default {
   margin: 0 0 20px 0;
