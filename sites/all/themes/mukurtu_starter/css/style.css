@@ -9773,10 +9773,11 @@ table .checkbox input[type="checkbox"] {
 .page-node-add-digital-heritage {
   /* hiding the og ref field for digital heritage items */
 }
+/* edge why hide og ref field for digital heritage items
 .node-type-digital-heritage #edit-og-group-ref,
 .page-node-add-digital-heritage #edit-og-group-ref {
   display: none;
-}
+} */
 .node-type-community #edit-group-access,
 .page-node-add-community #edit-group-access {
   display: none;
