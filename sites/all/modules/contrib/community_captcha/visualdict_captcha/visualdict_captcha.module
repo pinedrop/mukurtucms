@@ -1,0 +1,127 @@
+<?php
+
+/**
+ * @file
+ * Provides a configurable image-recognition CAPTCHA.
+ */
+
+define("VISUALDICT_CAPTCHA_CAPTCHA_TYPE", "Image-Recognition CAPTCHA");
+
+/**
+ * Implements hook_captcha().
+ */
+function visualdict_captcha_captcha($op, $captcha_type = '') {
+  switch ($op) {
+    case 'list':
+      return array(VISUALDICT_CAPTCHA_CAPTCHA_TYPE);
+
+    case 'generate':
+      if ($captcha_type == VISUALDICT_CAPTCHA_CAPTCHA_TYPE) {
+        module_load_include('inc', 'visualdict_captcha', 'visualdict_captcha.captcha');
+        return _visualdict_captcha_generate_captcha();
+      }
+      break;
+
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function visualdict_captcha_menu() {
+  $items['admin/config/people/captcha/visualdict_captcha'] = array(
+    'title' => 'Image-Recognition CAPTCHA',
+    'description' => 'Configure Image-Recognition CAPTCHA settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('visualdict_captcha_settings_form'),
+    'access arguments' => array('administer CAPTCHA settings'),
+    'file' => 'visualdict_captcha.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function visualdict_captcha_form_alter(&$form, &$form_state, $form_id) {
+  $form['#after_build'][] = '_visualdict_captcha_after_build';
+}
+
+/**
+ * After-build callback for all forms.
+ *
+ * This is used as a hack to clear responses (i.e., uncheck all checkboxes)
+ * after failed validation.
+ */
+function _visualdict_captcha_after_build(&$form, &$form_state) {
+  module_load_include('inc', 'visualdict_captcha', 'visualdict_captcha.captcha');
+  if (_visualdict_captcha_is_form_using_visualdict_captcha($form)) {
+    _visualdict_captcha_clear_challenge_item_responses($form);
+  }
+  return $form;
+}
+
+/**
+ * Gets the global CAPTCHA type.
+ *
+ * The global CAPTCHA type is the CAPTCHA type with the module name prepended
+ * to ensure it is globally unique.
+ *
+ * @return string
+ *   Global CAPTCHA type.
+ */
+function _visualdict_captcha_get_global_captcha_type() {
+  return 'visualdict_captcha/' . VISUALDICT_CAPTCHA_CAPTCHA_TYPE;
+}
+
+/**
+ * Implements hook_help().
+ */
+function visualdict_captcha_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#visualdict_captcha':
+      return _visualdict_captcha_get_help_output();
+  }
+}
+
+/**
+ * Gets help output for hook_help().
+ *
+ * The output consists of the README.txt contents, if they can be loaded.
+ *
+ * @return string
+ *   README.txt contents within an HTML pre tag, or empty string if they could
+ *   not be loaded.
+ */
+function _visualdict_captcha_get_help_output() {
+  $readme = _visualdict_captcha_get_readme();
+  if ($readme === FALSE) {
+    $output = '';
+  }
+  else {
+    $output = '<pre>' . $readme . '</pre>';
+  }
+  return $output;
+}
+
+/**
+ * Gets README.txt.
+ *
+ * This code adapted from the Drupal module documentation guidelines.
+ *
+ * @see https://www.drupal.org/docs/develop/documenting-your-project/module-documentation-guidelines#hook_help
+ *
+ * @return string|false
+ *   The contents of README.txt, or FALSE if they could not be loaded.
+ */
+function _visualdict_captcha_get_readme() {
+  $filepath = dirname(__FILE__) . '/README.txt';
+  if (file_exists($filepath)) {
+    $readme = file_get_contents($filepath);
+  }
+  else {
+    $readme = FALSE;
+  }
+  return $readme;
+}

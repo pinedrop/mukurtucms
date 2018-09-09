@@ -1,3 +1,6 @@
+# Ignore IDE
+.idea/*
+
 # Ignore paths that contain user-generated content.
 /sites/*/files
 /sites/*/private

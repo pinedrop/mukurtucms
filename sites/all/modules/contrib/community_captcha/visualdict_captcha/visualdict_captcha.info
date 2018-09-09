@@ -1,0 +1,7 @@
+name = Visual Dictionary CAPTCHA
+description = Provides CAPTCHA whose solution requires recognizing matching a recording to the image of that recording
+package = Spam control
+core = 7.x
+configure = admin/config/people/visualdict_captcha
+dependencies[] = captcha
+files[] = visualdict_captcha.test
