@@ -20,7 +20,7 @@ require_once 'visualdict_captcha.admin.inc';
 function _visualdict_captcha_generate_captcha() {
   list($audio_prompt, $image_filenames, $solution) = _visualdict_captcha_get_dictionary_captcha();
   return array(
-    'form' => _visualdict_captcha_build_challenge_form($audio_prompt, $image_filenames, $solution),
+    'form' => _visualdict_captcha_build_challenge_form($audio_prompt, $image_filenames),
     'solution' => serialize($solution),
     'captcha_validate' => '_visualdict_captcha_validate',
   );
@@ -243,10 +243,10 @@ function _visualdict_captcha_get_image_filenames_from_images_directory() {
  * @return array
  *   Form array for the challenge.
  */
-function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_filenames, $solution) {
+function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_filenames) {
   $form = array();
   $form['#prefix'] = '<div class="visualdict-captcha">';
-  _visualdict_captcha_add_challenge_form_elements($form, $audio_prompt, $image_filenames, $solution);
+  _visualdict_captcha_add_challenge_form_elements($form, $audio_prompt, $image_filenames);
   $form['#suffix'] = '</div>';
   _visualdict_captcha_attach_css_to_challenge_form($form);
   _visualdict_captcha_attach_js_to_challenge_form($form);
@@ -272,8 +272,8 @@ function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_fi
  * @param string[] $image_filenames
  *   Array of correct and incorrect challenge image filenames.
  */
-function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames, $solution) {
-  $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt, $image_filenames, $solution);
+function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames) {
+  $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt);
   foreach ($image_filenames as $i => $image_filename) {
     $form["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
   }
@@ -296,11 +296,11 @@ function _visualdict_captcha_build_hidden_captcha_response_element() {
  * @return array
  *   Form element for the challenge prompt.
  */
-function _visualdict_captcha_build_audio_prompt($audio_prompt, $image_filenames, $solution) {
+function _visualdict_captcha_build_audio_prompt($audio_prompt) {
   $audio_uri = _visualdict_captcha_get_image_uri_from_filename($audio_prompt);
   return array(
     '#prefix' => '<div class="visualdict-audio-prompt">',
-    '#markup' => '<audio controls autoplay><source src="' .file_create_url($audio_uri). '" type="audio/mpeg">Your browser does not support audio.</audio>' . print_r($image_filenames, TRUE) . print_r($solution, TRUE),
+    '#markup' => '<audio controls autoplay><source src="' .file_create_url($audio_uri). '" type="audio/mpeg">Your browser does not support audio.</audio>',
     '#suffix' => '</div>',
   );
 }
