@@ -400,9 +400,10 @@ function _visualdict_captcha_render_challenge_item_image($image_filename) {
   $image_uri = _visualdict_captcha_get_image_uri_from_filename($image_filename);
   $variables = array(
     'path' => $image_uri,
+    'style_name' => 'medium',
     'attributes' => array(),
   );
-  return theme('image', $variables);
+  return theme('image_style', $variables);
 }
 
 /**
