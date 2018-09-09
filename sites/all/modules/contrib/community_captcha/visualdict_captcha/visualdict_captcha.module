@@ -5,7 +5,7 @@
  * Provides a configurable image-recognition CAPTCHA.
  */
 
-define("VISUALDICT_CAPTCHA_CAPTCHA_TYPE", "Image-Recognition CAPTCHA");
+define("VISUALDICT_CAPTCHA_CAPTCHA_TYPE", "Visual Dictionary CAPTCHA");
 
 /**
  * Implements hook_captcha().
@@ -30,8 +30,8 @@ function visualdict_captcha_captcha($op, $captcha_type = '') {
  */
 function visualdict_captcha_menu() {
   $items['admin/config/people/captcha/visualdict_captcha'] = array(
-    'title' => 'Image-Recognition CAPTCHA',
-    'description' => 'Configure Image-Recognition CAPTCHA settings.',
+    'title' => 'Visual Dictionary CAPTCHA',
+    'description' => 'Configure Visual Dictionary CAPTCHA settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('visualdict_captcha_settings_form'),
     'access arguments' => array('administer CAPTCHA settings'),
