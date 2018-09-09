@@ -25,6 +25,12 @@ function visualdict_captcha_settings_form() {
     '#default_value' => _visualdict_captcha_get_challenge_prompt(),
     '#maxlength' => 180,
   );
+  $form['visualdict_captcha_dictionary'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Visual dictionary map'),
+    '#default_value' => _visualdict_captcha_get_dictionary(),
+    '#description' => t('Enter the audio filename followed by // then one or more image filenames separated by /.'),
+  );
   $form['visualdict_captcha_num_correct_images'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of correct images to display'),
@@ -72,6 +78,15 @@ function _visualdict_captcha_get_audio_prompt() {
 function _visualdict_captcha_get_challenge_prompt() {
   $default_prompt = t("<strong>Select all images with trees:</strong>");
   $prompt = variable_get("visualdict_captcha_challenge_prompt", $default_prompt);
+  return filter_xss($prompt);
+}
+
+/**
+ * Gets challenge prompt.
+ */
+function _visualdict_captcha_get_dictionary_value() {
+  $default_prompt = t("");
+  $prompt = variable_get("visualdict_captcha_dictionary", $default_prompt);
   return filter_xss($prompt);
 }
 
@@ -158,6 +173,23 @@ FILENAMES;
 function _visualdict_captcha_get_correct_image_filenames() {
   $value = _visualdict_captcha_get_correct_image_filenames_value();
   return _visualdict_captcha_get_image_filenames_from_image_filenames_value($value);
+}
+
+/**
+ * Gets correct image filenames.
+ *
+ * @return string[]
+ *   Correct image filenames.
+ */
+function _visualdict_captcha_get_dictionary() {
+  $value = _visualdict_captcha_get_dictionary_value();
+  $items = _visualdict_captcha_get_image_filenames_from_image_filenames_value($value);
+  $dict = array();
+  foreach ($items as $item) {
+    $bits = explode("//", $item);
+    $dict[trim($bits[0])] = trim($bits[1]);
+  }
+  return $dict;
 }
 
 /**
