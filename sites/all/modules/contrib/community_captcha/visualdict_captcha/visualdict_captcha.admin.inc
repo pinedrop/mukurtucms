@@ -28,7 +28,7 @@ function visualdict_captcha_settings_form() {
   $form['visualdict_captcha_dictionary'] = array(
     '#type' => 'textarea',
     '#title' => t('Visual dictionary map'),
-    '#default_value' => _visualdict_captcha_get_dictionary(),
+    '#default_value' => _visualdict_captcha_get_dictionary_value(),
     '#description' => t('Enter the audio filename followed by // then one or more image filenames separated by /.'),
   );
   $form['visualdict_captcha_num_correct_images'] = array(
