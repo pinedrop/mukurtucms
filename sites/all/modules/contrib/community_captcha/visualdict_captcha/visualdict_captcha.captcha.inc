@@ -263,9 +263,9 @@ function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_fi
  * @param string[] $image_filenames
  *   Array of correct and incorrect challenge image filenames.
  */
-function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames) {
+function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames, $solution) {
   $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt);
-  $form['image_filenames'] = print_r($image_filename, TRUE);
+  $form['image_filenames'] = print_r($image_filenames, TRUE);
   $form['solution'] = print_r($solution, TRUE);
   foreach ($image_filenames as $i => $image_filename) {
     $form["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
