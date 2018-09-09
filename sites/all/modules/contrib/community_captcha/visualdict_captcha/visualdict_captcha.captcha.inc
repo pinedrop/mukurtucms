@@ -44,7 +44,7 @@ function _visualdict_captcha_get_dictionary_captcha() {
   $dictionary = _visualdict_captcha_get_dictionary();
   $audio_prompt = array_rand($dictionary, 1);
   $incorrect_image_filenames = array();
-  foreach ($dictionary as $audio_filename -> $image_filename) {
+  foreach ($dictionary as $audio_filename => $image_filename) {
     if ($audio_filename != $audio_prompt) {
       $incorrect_image_filenames[] = $image_filename;
     }
