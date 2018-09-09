@@ -266,7 +266,7 @@ function _visualdict_captcha_build_audio_prompt() {
   $audio_uri = _visualdict_captcha_get_image_uri_from_filename(_visualdict_captcha_get_audio_prompt());
   return array(
     '#prefix' => '<div class="visualdict-audio-prompt">',
-    '#markup' => '<audio controls autoplay><source src="' .$audio_uri. '" type="audio/mpeg">Your browser does not support audio.</audio>',
+    '#markup' => '<audio controls autoplay><source src="' .file_create_url($audio_uri). '" type="audio/mpeg">Your browser does not support audio.</audio>',
     '#suffix' => '</div>',
   );
 }
