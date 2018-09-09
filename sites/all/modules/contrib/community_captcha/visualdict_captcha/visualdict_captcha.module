@@ -5,7 +5,7 @@
  * Provides a configurable image-recognition CAPTCHA.
  */
 
-define("VISUALDICT_CAPTCHA_CAPTCHA_TYPE", "Visual Dictionary CAPTCHA");
+define("VISUALDICT_CAPTCHA_CAPTCHA_TYPE", "Visual Dictionary");
 
 /**
  * Implements hook_captcha().
