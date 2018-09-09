@@ -42,13 +42,22 @@ function _visualdict_captcha_generate_captcha() {
  */
 function _visualdict_captcha_get_dictionary_captcha() {
   $dictionary = _visualdict_captcha_get_dictionary();
-  $filenames = array_values($dictionary);
-  $annotated_image_filenames = array();
-  foreach ($filenames as $filename) {
-    $annotated_image_filenames[$filename] = 0;
-  }
   $audio_prompt = array_rand($dictionary, 1);
+  $incorrect_image_filenames = array();
+  foreach ($dictionary as $audio_filename -> $image_filename) {
+    if ($audio_filename != $audio_prompt) {
+      $incorrect_image_filenames[] = $image_filename;
+    }
+  }
+  $num_incorrect_images = _visualdict_captcha_get_num_incorrect_images();
+  _visualdict_captcha_remove_nonexistent_image_filenames($incorrect_image_filenames);
+  $incorrect_image_filenames = _visualdict_captcha_sample_image_filenames_randomly($incorrect_image_filenames, $num_incorrect_images);
+
+  $annotated_image_filenames = array();
   $annotated_image_filenames[$dictionary[$audio_prompt]] = 1;
+  foreach ($incorrect_image_filenames as $incorrect_image_filename) {
+    $annotated_image_filenames[$incorrect_image_filename] = 0;
+  }
   _visualdict_captcha_shuffle_annotated_image_filenames($annotated_image_filenames);
   $image_filenames = array_keys($annotated_image_filenames);
   $solution = array_values($annotated_image_filenames);
