@@ -419,7 +419,7 @@ function _visualdict_captcha_get_image_uri_from_filename($image_filename) {
  *   Image-Recognition CAPTCHA images URI.
  */
 function _visualdict_captcha_get_images_uri() {
-  return 'public://visualdict_captcha/';
+  return 'public://community_captcha/visualdict_captcha/';
 }
 
 /**
