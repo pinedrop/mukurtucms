@@ -20,7 +20,7 @@ require_once 'visualdict_captcha.admin.inc';
 function _visualdict_captcha_generate_captcha() {
   list($audio_prompt, $image_filenames, $solution) = _visualdict_captcha_get_dictionary_captcha();
   return array(
-    'form' => _visualdict_captcha_build_challenge_form($audio_prompt, $image_filenames),
+    'form' => _visualdict_captcha_build_challenge_form($audio_prompt, $image_filenames, $solution),
     'solution' => serialize($solution),
     'captcha_validate' => '_visualdict_captcha_validate',
   );
@@ -53,30 +53,6 @@ function _visualdict_captcha_get_dictionary_captcha() {
   $image_filenames = array_keys($annotated_image_filenames);
   $solution = array_values($annotated_image_filenames);
   return array($audio_prompt, $image_filenames, $solution);
-}
-
-/**
- * Gets annotated challenge image filenames.
- *
- * By "annotated", it is meant that each challenge image filename is annotated
- * with whether it is a correct or incorrect image.
- *
- * @return array
- *   An associative array where keys are challenge image filenames, and values
- *   are either 1 or 0. 1 indicates a correct challenge image; 0 indicates an
- *   incorrect challenge image.
- */
-function _visualdict_captcha_get_annotated_dictionary_filenames() {
-  $annotated_image_filenames = array();
-  $correct_image_filenames = _visualdict_captcha_get_correct_challenge_image_filenames();
-  foreach ($correct_image_filenames as $correct_image_filename) {
-    $annotated_image_filenames[$correct_image_filename] = 1;
-  }
-  $incorrect_image_filenames = _visualdict_captcha_get_incorrect_challenge_image_filenames();
-  foreach ($incorrect_image_filenames as $incorrect_image_filename) {
-    $annotated_image_filenames[$incorrect_image_filename] = 0;
-  }
-  return $annotated_image_filenames;
 }
 
 /**
@@ -258,10 +234,10 @@ function _visualdict_captcha_get_image_filenames_from_images_directory() {
  * @return array
  *   Form array for the challenge.
  */
-function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_filenames) {
+function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_filenames, $solution) {
   $form = array();
   $form['#prefix'] = '<div class="visualdict-captcha">';
-  _visualdict_captcha_add_challenge_form_elements($form, $audio_prompt, $image_filenames);
+  _visualdict_captcha_add_challenge_form_elements($form, $audio_prompt, $image_filenames, $solution);
   $form['#suffix'] = '</div>';
   _visualdict_captcha_attach_css_to_challenge_form($form);
   _visualdict_captcha_attach_js_to_challenge_form($form);
@@ -289,6 +265,8 @@ function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_fi
  */
 function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames) {
   $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt);
+  $form['image_filenames'] = print_r($image_filename, TRUE);
+  $form['solution'] = print_r($solution, TRUE);
   foreach ($image_filenames as $i => $image_filename) {
     $form["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
   }
