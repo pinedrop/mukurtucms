@@ -239,7 +239,7 @@ function _visualdict_captcha_build_challenge_form(array $image_filenames) {
  *   Array of correct and incorrect challenge image filenames.
  */
 function _visualdict_captcha_add_challenge_form_elements(array &$form, array $image_filenames) {
-  $form['prompt'] = _visualdict_captcha_build_challenge_prompt();
+  $form['prompt'] = _visualdict_captcha_build_audio_prompt();
   foreach ($image_filenames as $i => $image_filename) {
     $form["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
   }
@@ -256,6 +256,20 @@ function _visualdict_captcha_build_hidden_captcha_response_element() {
   return array('#type' => 'hidden');
 }
 
+/**
+ * Builds audio prompt.
+ *
+ * @return array
+ *   Form element for the challenge prompt.
+ */
+function _visualdict_captcha_build_audio_prompt() {
+  $audio_uri = _visualdict_captcha_get_image_uri_from_filename(_visualdict_captcha_get_audio_prompt());
+  return array(
+    '#prefix' => '<div class="visualdict-audio-prompt">',
+    '#markup' => '<audio controls autoplay><source src="' .$audio_uri. '" type="audio/mpeg">Your browser does not support audio.</audio>',
+    '#suffix' => '</div>',
+  );
+}
 /**
  * Builds challenge prompt.
  *

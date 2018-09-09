@@ -13,6 +13,12 @@
  * @ingroup forms
  */
 function visualdict_captcha_settings_form() {
+  $form['visualdict_captcha_audio_prompt'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Filename of audio prompt'),
+    '#default_value' => _visualdict_captcha_get_audio_prompt(),
+    '#maxlength' => 180,
+  );
   $form['visualdict_captcha_challenge_prompt'] = array(
     '#type' => 'textfield',
     '#title' => t('Challenge prompt'),
@@ -51,6 +57,14 @@ function visualdict_captcha_settings_form() {
 /****************************************************************************/
 /* Settings retrieval functions                                             */
 /****************************************************************************/
+/**
+ * Gets challenge prompt.
+ */
+function _visualdict_captcha_get_audio_prompt() {
+  $default_prompt = t("stingray.mp3");
+  $prompt = variable_get("visualdict_captcha_audio_prompt", $default_prompt);
+  return filter_xss($prompt);
+}
 
 /**
  * Gets challenge prompt.
