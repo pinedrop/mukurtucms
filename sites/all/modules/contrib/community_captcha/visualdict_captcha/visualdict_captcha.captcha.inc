@@ -264,9 +264,7 @@ function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_fi
  *   Array of correct and incorrect challenge image filenames.
  */
 function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames, $solution) {
-  $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt);
-  $form['image_filenames'] = print_r($image_filenames, TRUE);
-  $form['solution'] = print_r($solution, TRUE);
+  $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt, $image_filenames, $solution);
   foreach ($image_filenames as $i => $image_filename) {
     $form["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
   }
@@ -289,11 +287,11 @@ function _visualdict_captcha_build_hidden_captcha_response_element() {
  * @return array
  *   Form element for the challenge prompt.
  */
-function _visualdict_captcha_build_audio_prompt($audio_prompt) {
+function _visualdict_captcha_build_audio_prompt($audio_prompt, $image_filenames, $solution) {
   $audio_uri = _visualdict_captcha_get_image_uri_from_filename($audio_prompt);
   return array(
     '#prefix' => '<div class="visualdict-audio-prompt">',
-    '#markup' => '<audio controls autoplay><source src="' .file_create_url($audio_uri). '" type="audio/mpeg">Your browser does not support audio.</audio>',
+    '#markup' => '<audio controls autoplay><source src="' .file_create_url($audio_uri). '" type="audio/mpeg">Your browser does not support audio.</audio>' . print_r($image_filenames, TRUE) . print_r($solution, TRUE),
     '#suffix' => '</div>',
   );
 }
