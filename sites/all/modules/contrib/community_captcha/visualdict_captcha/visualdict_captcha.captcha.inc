@@ -48,7 +48,7 @@ function _visualdict_captcha_get_dictionary_captcha() {
     $annotated_image_filenames[$filename] = 0;
   }
   $audio_prompt = array_rand($dictionary, 1);
-  $annotated_image_filenames[$audio_prompt] = 1;
+  $annotated_image_filenames[$dictionary[$audio_prompt]] = 1;
   _visualdict_captcha_shuffle_annotated_image_filenames($annotated_image_filenames);
   $image_filenames = array_keys($annotated_image_filenames);
   $solution = array_values($annotated_image_filenames);

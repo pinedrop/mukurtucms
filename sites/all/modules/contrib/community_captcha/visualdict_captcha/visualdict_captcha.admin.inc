@@ -186,7 +186,7 @@ function _visualdict_captcha_get_dictionary() {
   $items = _visualdict_captcha_get_image_filenames_from_image_filenames_value($value);
   $dict = array();
   foreach ($items as $item) {
-    $bits = explode("//", $item);
+    $bits = explode('//', $item);
     $dict[trim($bits[0])] = trim($bits[1]);
   }
   return $dict;
