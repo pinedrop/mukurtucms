@@ -1,3 +1,7 @@
 (function ($) {
-  $('img[usemap]').rwdImageMaps();
+  Drupal.behaviors.responsiveImageMaps = {
+    attach: function(context) {
+      $('img[usemap]').rwdImageMaps();
+    }
+  }
 })(jQuery);
