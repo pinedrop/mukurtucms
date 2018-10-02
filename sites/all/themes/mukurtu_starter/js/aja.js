@@ -1,4 +1,4 @@
 jQuery(document).ready(function($){
-  console.log('aja js');
-  $('area').data('maphilight', {fillColor:'00ff00'});
+  $('area.inactive').data('maphilight', {fillOpacity: 6});
+  $('area.active').data('maphilight', {stroke: true, strokeColor: '000000'});
 });
