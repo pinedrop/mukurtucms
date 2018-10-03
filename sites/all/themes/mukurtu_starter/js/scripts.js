@@ -15,9 +15,10 @@ jQuery(document).ready(function($){
         itemSelector: '.views-row'
     });
 
-    if ( ($.cookie('dh_browse_mode') != 'grid-view')) {
-        $('.view-digital-heritage-grid-list .view-content, .view-collections-grid-list .view-content').masonry('destroy');
-    }
+
+    //if ( ($.cookie('dh_browse_mode') != 'grid-view')) {
+    //    $('.view-digital-heritage-grid-list .view-content, .view-collections-grid-list .view-content').masonry('destroy');
+    //}
 
     // ckedtor tooltip fix
     // The ckeditor hides the original field textarea, which is where the tooltip is attached.
