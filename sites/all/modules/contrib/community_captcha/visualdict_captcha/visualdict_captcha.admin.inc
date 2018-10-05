@@ -13,12 +13,6 @@
  * @ingroup forms
  */
 function visualdict_captcha_settings_form() {
-  $form['visualdict_captcha_audio_prompt'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Filename of audio prompt'),
-    '#default_value' => _visualdict_captcha_get_audio_prompt(),
-    '#maxlength' => 180,
-  );
   $form['visualdict_captcha_challenge_prompt'] = array(
     '#type' => 'textfield',
     '#title' => t('Challenge prompt'),
@@ -45,33 +39,12 @@ function visualdict_captcha_settings_form() {
     '#element_validate' => array('element_validate_integer_positive'),
     '#maxlength' => 2,
   );
-  $form['visualdict_captcha_correct_image_filenames'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Correct image filenames'),
-    '#default_value' => _visualdict_captcha_get_correct_image_filenames_value(),
-    '#description' => t('Enter one filename per line.'),
-  );
-  $form['visualdict_captcha_incorrect_image_filenames'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Incorrect image filenames'),
-    '#default_value' => _visualdict_captcha_get_incorrect_image_filenames_value(),
-    '#description' => t('Enter one filename per line.'),
-  );
   return system_settings_form($form);
 }
 
 /****************************************************************************/
 /* Settings retrieval functions                                             */
 /****************************************************************************/
-/**
- * Gets challenge prompt.
- */
-function _visualdict_captcha_get_audio_prompt() {
-  $default_prompt = t("stingray.mp3");
-  $prompt = variable_get("visualdict_captcha_audio_prompt", $default_prompt);
-  return filter_xss($prompt);
-}
-
 /**
  * Gets challenge prompt.
  */
@@ -82,7 +55,7 @@ function _visualdict_captcha_get_challenge_prompt() {
 }
 
 /**
- * Gets challenge prompt.
+ * Gets dictionary value
  */
 function _visualdict_captcha_get_dictionary_value() {
   $default_prompt = t("");
@@ -104,83 +77,11 @@ function _visualdict_captcha_get_num_incorrect_images() {
   return variable_get("visualdict_captcha_num_incorrect_images", 6);
 }
 
-/**
- * Gets correct image filenames value.
- */
-function _visualdict_captcha_get_correct_image_filenames_value() {
-  $variable = "visualdict_captcha_correct_image_filenames";
-  $default = _visualdict_captcha_get_default_correct_image_filenames_value();
-  return variable_get($variable, $default);
-}
-
-/**
- * Gets incorrect image filenames value.
- */
-function _visualdict_captcha_get_incorrect_image_filenames_value() {
-  $variable = "visualdict_captcha_incorrect_image_filenames";
-  $default = _visualdict_captcha_get_default_incorrect_image_filenames_value();
-  return variable_get($variable, $default);
-}
-
-/**
- * Gets default correct image filenames value.
- *
- * This value indicates which of the example images included with the module
- * are correct images.
- */
-function _visualdict_captcha_get_default_correct_image_filenames_value() {
-  return <<<FILENAMES
-17176164967_c0299b827e_q.jpg
-18687073593_007bafa5f9_q.jpg
-20641855316_3c58f905e5_q.jpg
-20644736879_f769830307_q.jpg
-21144342704_9289950f64_q.jpg
-22424798626_6294a1a79b_q.jpg
-3627117850_6a7b3dfcfc_q.jpg
-8712833016_a7267e477e_q.jpg
-FILENAMES;
-}
-
-/**
- * Gets default incorrect image filenames value.
- *
- * This value indicates which of the example images included with the module
- * are incorrect images.
- */
-function _visualdict_captcha_get_default_incorrect_image_filenames_value() {
-  return <<<FILENAMES
-14271019373_cd90616e56_q.jpg
-14658197878_40363d2258_q.jpg
-16348320424_ae0b32eae8_q.jpg
-17086230399_ffc9eb99ed_q.jpg
-17400161314_1668e84d2f_q.jpg
-17797785119_a3cb910969_q.jpg
-18621319575_ce229967ec_q.jpg
-22142341995_5506618cac_q.jpg
-FILENAMES;
-}
 
 /****************************************************************************/
 /* Convenience functions for interpreting settings                          */
 /****************************************************************************/
 
-/**
- * Gets correct image filenames.
- *
- * @return string[]
- *   Correct image filenames.
- */
-function _visualdict_captcha_get_correct_image_filenames() {
-  $value = _visualdict_captcha_get_correct_image_filenames_value();
-  return _visualdict_captcha_get_image_filenames_from_image_filenames_value($value);
-}
-
-/**
- * Gets correct image filenames.
- *
- * @return string[]
- *   Correct image filenames.
- */
 function _visualdict_captcha_get_dictionary() {
   $value = _visualdict_captcha_get_dictionary_value();
   $items = _visualdict_captcha_get_image_filenames_from_image_filenames_value($value);
@@ -192,16 +93,6 @@ function _visualdict_captcha_get_dictionary() {
   return $dict;
 }
 
-/**
- * Gets incorrect image filenames.
- *
- * @return string[]
- *   Incorrect image filenames.
- */
-function _visualdict_captcha_get_incorrect_image_filenames() {
-  $value = _visualdict_captcha_get_incorrect_image_filenames_value();
-  return _visualdict_captcha_get_image_filenames_from_image_filenames_value($value);
-}
 
 /**
  * Gets image filenames from an image filenames value.

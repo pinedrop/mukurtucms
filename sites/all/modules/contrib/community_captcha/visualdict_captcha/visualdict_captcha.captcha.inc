@@ -65,48 +65,6 @@ function _visualdict_captcha_get_dictionary_captcha() {
 }
 
 /**
- * Gets image filenames and solution for a challenge.
- *
- * The challenge images and their correct responses are shuffled.
- *
- * @return array
- *   An array containing:
- *   - An array of challenge image filenames.
- *   - An array of correct responses representing the solution.
- */
-function _visualdict_captcha_get_challenge_image_filenames_and_solution() {
-  $annotated_image_filenames = _visualdict_captcha_get_annotated_challenge_image_filenames();
-  _visualdict_captcha_shuffle_annotated_image_filenames($annotated_image_filenames);
-  $image_filenames = array_keys($annotated_image_filenames);
-  $solution = array_values($annotated_image_filenames);
-  return array($image_filenames, $solution);
-}
-
-/**
- * Gets annotated challenge image filenames.
- *
- * By "annotated", it is meant that each challenge image filename is annotated
- * with whether it is a correct or incorrect image.
- *
- * @return array
- *   An associative array where keys are challenge image filenames, and values
- *   are either 1 or 0. 1 indicates a correct challenge image; 0 indicates an
- *   incorrect challenge image.
- */
-function _visualdict_captcha_get_annotated_challenge_image_filenames() {
-  $annotated_image_filenames = array();
-  $correct_image_filenames = _visualdict_captcha_get_correct_challenge_image_filenames();
-  foreach ($correct_image_filenames as $correct_image_filename) {
-    $annotated_image_filenames[$correct_image_filename] = 1;
-  }
-  $incorrect_image_filenames = _visualdict_captcha_get_incorrect_challenge_image_filenames();
-  foreach ($incorrect_image_filenames as $incorrect_image_filename) {
-    $annotated_image_filenames[$incorrect_image_filename] = 0;
-  }
-  return $annotated_image_filenames;
-}
-
-/**
  * Shuffles annotated image filenames in place.
  *
  * This ensures the images are rendered in a random order, and therefore their
@@ -123,40 +81,6 @@ function _visualdict_captcha_shuffle_annotated_image_filenames(array &$unshuffle
     $shuffled[$image_filename] = $unshuffled[$image_filename];
   }
   $unshuffled = $shuffled;
-}
-
-/**
- * Gets correct challenge image filenames.
- *
- * These are the filenames of images corresponding to correct responses to the
- * challenge. Which image filenames are returned by this function is random;
- * how many is determined by module settings.
- *
- * @return string[]
- *   Correct challenge image filenames.
- */
-function _visualdict_captcha_get_correct_challenge_image_filenames() {
-  $num_correct_images = _visualdict_captcha_get_num_correct_images();
-  $correct_image_filenames = _visualdict_captcha_get_correct_image_filenames();
-  _visualdict_captcha_remove_nonexistent_image_filenames($correct_image_filenames);
-  return _visualdict_captcha_sample_image_filenames_randomly($correct_image_filenames, $num_correct_images);
-}
-
-/**
- * Gets incorrect challenge image filenames.
- *
- * These are the filenames of images corresponding to incorrect responses to
- * the challenge. Which image filenames are returned by this function is
- * random; how many is determined by module settings.
- *
- * @return string[]
- *   Incorrect challenge image filenames.
- */
-function _visualdict_captcha_get_incorrect_challenge_image_filenames() {
-  $num_incorrect_images = _visualdict_captcha_get_num_incorrect_images();
-  $incorrect_image_filenames = _visualdict_captcha_get_incorrect_image_filenames();
-  _visualdict_captcha_remove_nonexistent_image_filenames($incorrect_image_filenames);
-  return _visualdict_captcha_sample_image_filenames_randomly($incorrect_image_filenames, $num_incorrect_images);
 }
 
 /**
