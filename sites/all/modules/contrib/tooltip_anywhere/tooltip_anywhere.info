@@ -1,0 +1,11 @@
+name = tooltip anywhere
+description = Provides tooltip site wide on page load or with ajax calls.
+package = Tooltip
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2016-12-11
+version = "7.x-1.1+0-dev"
+core = "7.x"
+project = "tooltip_anywhere"
+datestamp = "1481443386"
+

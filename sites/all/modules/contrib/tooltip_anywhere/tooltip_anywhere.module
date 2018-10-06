@@ -1,0 +1,66 @@
+<?php
+/**
+ * @file
+ * Enables tooltip sitewide.
+ */
+
+define('TOOLTIP_ANYWHERE_TOOLTIPSTER_PATH', 'sites/all/libraries/tooltipster');
+
+/**
+ * Initialization of tooltip_anywhere (on each page).
+ */
+function tooltip_anywhere_page_build(&$page) {
+  $scripts = "(function($) {
+    $(document).ready(function() {
+      $('.tooltip').tooltipster();
+    });
+  })(jQuery);";
+  $page['#attached']['js'][] = array(
+    'data' => $scripts,
+    'scope' => 'header',
+    'type' => 'inline',
+  );
+  $page['page_top']['tooltip_anywhere_main_js']['#attached']['js'] = array(
+    drupal_get_path('module', 'tooltip_anywhere') . '/js/tooltip_anywhere.js' => array(
+      'every_page' => TRUE,
+    ),
+  );
+  $page['page_top']['tooltip_anywhere_main_css']['#attached']['css'] = array(
+    TOOLTIP_ANYWHERE_TOOLTIPSTER_PATH . '/dist/css/tooltipster.bundle.min.css' => array(
+      'every_page' => TRUE,
+    ),
+  );
+  $page['page_top']['tooltip_anywhere_library_js']['#attached']['js'] = array(
+    TOOLTIP_ANYWHERE_TOOLTIPSTER_PATH . '/dist/js/tooltipster.bundle.min.js' => array(
+      'every_page' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Get tool tip by ajax or on page load; works in each case.
+ */
+function tooltip_anywhere_initialize($selector, $type = NULL, $content = NULL, $position = NULL, $others = NULL) {
+  if (empty($position)) {
+    $position = "bottom";
+  }
+  if (empty($content)) {
+    $content = t("No content available.");
+  }
+  if (!is_array($others)) {
+    $others = array('theme' => 'tooltipster-default');
+  }
+  if ($type === "id") {
+    $selector = "#" . $selector;
+  }
+  elseif ($type === "class") {
+    $selector = "." . $selector;
+  }
+  $data = array();
+  $data['type'][] = $type;
+  $data['selector'][] = $selector;
+  $data['position'][] = $position;
+  $data['properties'][] = $others;
+  $data['content'][] = $content;
+  drupal_add_js(array('vars' => $data), 'setting');
+}
