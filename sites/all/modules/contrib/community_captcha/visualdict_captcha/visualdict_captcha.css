@@ -1,10 +1,10 @@
 /* Display items left to right, top to bottom, with small separation. */
-.visualdict-captcha-item {
+/* .visualdict-captcha-item {
   float: left;
   border: 4px solid transparent;
   margin: 1px;
   line-height: 0;
-}
+}*/
 
 /* Indicate when an image is selected. */
 .visualdict-captcha-item-image-selected {

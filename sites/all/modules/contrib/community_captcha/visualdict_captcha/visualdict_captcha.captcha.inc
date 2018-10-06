@@ -169,7 +169,7 @@ function _visualdict_captcha_get_image_filenames_from_images_directory() {
  */
 function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_filenames) {
   $form = array();
-  $form['#prefix'] = '<div class="visualdict-captcha">';
+  $form['#prefix'] = '<div class="container-fluid visualdict-captcha">';
   _visualdict_captcha_add_challenge_form_elements($form, $audio_prompt, $image_filenames);
   $form['#suffix'] = '</div>';
   _visualdict_captcha_attach_css_to_challenge_form($form);
@@ -198,10 +198,27 @@ function _visualdict_captcha_build_challenge_form($audio_prompt, array $image_fi
  */
 function _visualdict_captcha_add_challenge_form_elements(array &$form, $audio_prompt, array $image_filenames) {
   $form['prompt'] = _visualdict_captcha_build_audio_prompt($audio_prompt);
+  $form['items'] = _visualdict_captcha_items_container();
   foreach ($image_filenames as $i => $image_filename) {
-    $form["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
+    $form['items']["captcha_item_$i"] = _visualdict_captcha_build_challenge_item($i, $image_filename);
   }
   $form['captcha_response'] = _visualdict_captcha_build_hidden_captcha_response_element();
+}
+
+
+/**
+ * Builds challenge item container.
+ *
+ * @return array
+ *   Form element for challenge item container.
+ */
+function _visualdict_captcha_items_container() {
+  return array(
+    '#type' => 'container',
+    '#attributes' => array(
+      'class' => array('row'),
+    ),
+  );
 }
 
 /**
@@ -223,7 +240,7 @@ function _visualdict_captcha_build_hidden_captcha_response_element() {
 function _visualdict_captcha_build_audio_prompt($audio_prompt) {
   $audio_uri = _visualdict_captcha_get_image_uri_from_filename($audio_prompt);
   return array(
-    '#prefix' => '<div class="visualdict-audio-prompt">',
+    '#prefix' => '<div class="row visualdict-audio-prompt">',
     '#markup' => '<audio controls autoplay><source src="' .file_create_url($audio_uri). '" type="audio/mpeg">Your browser does not support audio.</audio>',
     '#suffix' => '</div>',
   );
@@ -305,7 +322,7 @@ function _visualdict_captcha_build_challenge_item_container() {
   return array(
     '#type' => 'container',
     '#attributes' => array(
-      'class' => array('visualdict-captcha-item'),
+      'class' => array('col-lg-4', 'visualdict-captcha-item'),
     ),
   );
 }
