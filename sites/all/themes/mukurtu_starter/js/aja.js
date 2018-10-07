@@ -10,15 +10,21 @@ jQuery(document).ready(function($){
     functionBefore: function(instance, helper) {
 
       var $origin = $(helper.origin);
+      var query = $origin.attr('data-query');
 
       // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
       if ($origin.data('loaded') !== true) {
 
-        $.get('http://178.128.54.20:8983/solr/ajafiles/select?facet.field=bow_place&facet=on&q=*:*&rows=0&facet.limit=-1&facet.mincount=1', function(data) {
+        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"', function(data) {
 
+          var docs = data.response.docs;
+          var filenames = [];
+          for (var i=0; i<docs.length; i++) {
+            filenames.push(docs[i].filename);
+          }
           // call the 'content' method to update the content of our tooltip with the returned data.
           // note: this content update will trigger an update animation (see the updateAnimation option)
-          instance.content(data);
+          instance.content(filenames.join('<br/>'));
 
           // to remember that the data has been loaded
           $origin.data('loaded', true);
