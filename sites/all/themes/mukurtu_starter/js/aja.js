@@ -4,7 +4,8 @@ jQuery(document).ready(function($){
     side: 'right',
     delay: 200,
     distance: 3,
-    trigger: 'custom',
+    interactive: true
+    /*trigger: 'custom',
     triggerOpen: {
       mouseenter: true,
       touchstart: true
@@ -13,6 +14,6 @@ jQuery(document).ready(function($){
       click: true,
       scroll: true,
       tap: true
-    }
+    }*/
   });
 });
