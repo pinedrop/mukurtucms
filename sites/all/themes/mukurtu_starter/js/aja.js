@@ -26,7 +26,7 @@ jQuery(document).ready(function($){
             var names = data.facet_counts.facet_fields.bow_personal;
             var people = [];
             for (var n=0; n<names.length; n=n+2) {
-              people.push('<span class="label label-info">' + names[n].charAt(0).toUpperCase() + names[0].substr(1) + ' <span class="badge">' + names[n+1] + '</span></span>');
+              people.push(names[n].charAt(0).toUpperCase() + names[n].substr(1) + ' <span class="badge">' + names[n+1] + '</span>');
             }
             if (people.length == 0) people.push('None found');
             var filenames = [];
