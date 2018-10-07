@@ -36,8 +36,8 @@ jQuery(document).ready(function($){
           $origin.data('loaded', true);
         });
       }
-    }
-    /*trigger: 'custom',
+    },
+    trigger: 'custom',
     triggerOpen: {
       mouseenter: true,
       touchstart: true
@@ -46,6 +46,6 @@ jQuery(document).ready(function($){
       click: true,
       scroll: true,
       tap: true
-    }*/
+    }
   });
 });
