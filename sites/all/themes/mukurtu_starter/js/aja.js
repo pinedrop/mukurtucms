@@ -16,7 +16,7 @@ jQuery(document).ready(function($){
       // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
       if ($origin.data('loaded') !== true) {
 
-        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20&facet=true&facet.field=bow_personal&facet.mincount=1&facet.limit=5', function(data) {
+        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=10&facet=true&facet.field=bow_personal&facet.mincount=1&facet.limit=5', function(data) {
 
           var docs = data.response.docs;
           if (docs.length == 0) {
@@ -26,17 +26,17 @@ jQuery(document).ready(function($){
             var names = data.facet_counts.facet_fields.bow_personal;
             var people = [];
             for (var n=0; n<names.length; n=n+2) {
-              people.push(names[n].charAt(0).toUpperCase() + names[n].substr(1) + ' <span class="badge">' + names[n+1] + '</span>');
+              people.push('<li>' + names[n].charAt(0).toUpperCase() + names[n].substr(1) + ' <span class="badge">' + names[n+1] + '</span></li>');
             }
             if (people.length == 0) people.push('None found');
             var filenames = [];
             for (var i = 0; i < docs.length; i++) {
               var path = docs[i].path[0].split('\\').filter(component => component.length > 0).pop().replace(' ', '-');
-              filenames.push('<a target="_blank" href="http://www.anindilyakwa.org.au/ajamurnda/lib/' + path + '/' + docs[i].filename + '">' + docs[i].filename + '</a>');
+              filenames.push('<li><a target="_blank" href="http://www.anindilyakwa.org.au/ajamurnda/lib/' + path + '/' + docs[i].filename + '">' + docs[i].filename + '</a></li>');
             }
             // call the 'content' method to update the content of our tooltip with the returned data.
             // note: this content update will trigger an update animation (see the updateAnimation option)
-            instance.content('<h4>People</h4>' + people.join(' ') + '<h4>Resources</h4>' + filenames.join('<br/>'));
+            instance.content('<h4>People</h4><ul class="aja-people">' + people.join('') + '</ul><h4>Resources</h4><ul class="aja-resources">' + filenames.join('') + '</ul>');
           }
           // to remember that the data has been loaded
           $origin.data('loaded', true);
