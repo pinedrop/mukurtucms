@@ -16,13 +16,19 @@ jQuery(document).ready(function($){
       // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
       if ($origin.data('loaded') !== true) {
 
-        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20', function(data) {
+        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20&facet=true&facet.field=bow_personal&facet.mincount=1&facet.limit=5', function(data) {
 
           var docs = data.response.docs;
           if (docs.length == 0) {
             instance.content('No resources found.');
           }
           else {
+            var names = data.facet_counts.facet_fields.bow_personal;
+            var people = [];
+            for (var n=0; n<names.length; n=n+2) {
+              people.push('<strong>' + names[n] + '</strong>');
+            }
+            if (people.length == 0) people.push('<em>None found</em>');
             var filenames = [];
             for (var i = 0; i < docs.length; i++) {
               var path = docs[i].path[0].split('\\').filter(component => component.length > 0).pop().replace(' ', '-');
@@ -30,7 +36,7 @@ jQuery(document).ready(function($){
             }
             // call the 'content' method to update the content of our tooltip with the returned data.
             // note: this content update will trigger an update animation (see the updateAnimation option)
-            instance.content(filenames.join('<br/>'));
+            instance.content('<h3>People</h3>' + people.join(' ') + '<h3>Resources</h3>' + filenames.join('<br/>'));
           }
           // to remember that the data has been loaded
           $origin.data('loaded', true);

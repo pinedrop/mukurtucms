@@ -10612,3 +10612,17 @@ a:hover {
 }
 
 /* aja additions */
+.tooltipster-content a {
+  color: burlywood;
+  text-decoration: none;
+}
+.tooltipster-content a:hover,
+.tooltipster-content a:focus {
+  color: chocolate;
+  text-decoration: underline;
+}
+.tooltipster-content a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
