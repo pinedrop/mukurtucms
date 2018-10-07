@@ -10631,7 +10631,9 @@ a:hover {
   padding: 0;
   margin: 0;
 }
-.tooltipster-content ul.aja-people li {
+.tooltipster-content ul.aja-people li,
+.tooltipster-content ul.aja-keywords li {
   display: inline;
   padding-right: 10px;
+  font-variant: small-caps;
 }
