@@ -7,6 +7,7 @@ jQuery(document).ready(function($){
     interactive: true,
     contentAsHTML: true,
     content: 'Searching...',
+    updateAnimation: 'fade',
     // 'instance' is basically the tooltip. More details in the "Object-oriented Tooltipster" section.
     functionBefore: function(instance, helper) {
 
