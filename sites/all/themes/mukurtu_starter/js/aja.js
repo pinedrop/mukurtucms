@@ -5,6 +5,7 @@ jQuery(document).ready(function($){
     delay: 200,
     distance: 3,
     interactive: true,
+    contentAsHTML: true,
     content: 'Loading...',
     // 'instance' is basically the tooltip. More details in the "Object-oriented Tooltipster" section.
     functionBefore: function(instance, helper) {
