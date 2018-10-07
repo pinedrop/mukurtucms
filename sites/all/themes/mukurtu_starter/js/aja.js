@@ -44,7 +44,7 @@ jQuery(document).ready(function($){
                 keywords.push('<li>' + bow[n] + '&nbsp;<span class="badge">' + bow[n+1] + '</span></li>');
               }
             }
-            if (keywords.length == 0) keywords.push('<li>None found</li>');
+            if (keywords.length == 0) keywords.push('<li>none</li>');
 
             var filenames = [];
             for (var i = 0; i < docs.length; i++) {
