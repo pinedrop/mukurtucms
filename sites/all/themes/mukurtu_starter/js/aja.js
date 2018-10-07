@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
     distance: 3,
     interactive: true,
     contentAsHTML: true,
-    content: 'Loading...',
+    content: 'Searching...',
     // 'instance' is basically the tooltip. More details in the "Object-oriented Tooltipster" section.
     functionBefore: function(instance, helper) {
 
@@ -19,15 +19,19 @@ jQuery(document).ready(function($){
         $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20', function(data) {
 
           var docs = data.response.docs;
-          var filenames = [];
-          for (var i=0; i<docs.length; i++) {
-            var path = docs[i].path[0].split('\\').filter(component => component.length > 0).pop().replace(' ', '-');
-            filenames.push('<a target="_blank" href="http://www.anindilyakwa.org.au/ajamurnda/lib/' + path + '/' + docs[i].filename + '">' + docs[i].filename + '</a>');
+          if (docs.length == 0) {
+            instance.content('No resources found.');
           }
-          // call the 'content' method to update the content of our tooltip with the returned data.
-          // note: this content update will trigger an update animation (see the updateAnimation option)
-          instance.content(filenames.join('<br/>'));
-
+          else {
+            var filenames = [];
+            for (var i = 0; i < docs.length; i++) {
+              var path = docs[i].path[0].split('\\').filter(component => component.length > 0).pop().replace(' ', '-');
+              filenames.push('<a target="_blank" href="http://www.anindilyakwa.org.au/ajamurnda/lib/' + path + '/' + docs[i].filename + '">' + docs[i].filename + '</a>');
+            }
+            // call the 'content' method to update the content of our tooltip with the returned data.
+            // note: this content update will trigger an update animation (see the updateAnimation option)
+            instance.content(filenames.join('<br/>'));
+          }
           // to remember that the data has been loaded
           $origin.data('loaded', true);
         });
