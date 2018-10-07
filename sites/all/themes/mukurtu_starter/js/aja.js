@@ -21,7 +21,7 @@ jQuery(document).ready(function($){
           var docs = data.response.docs;
           var filenames = [];
           for (var i=0; i<docs.length; i++) {
-            var path = docs[i].path.split('\\').filter(component => component.length > 0).pop();
+            var path = docs[i].path[0].split('\\').filter(component => component.length > 0).pop();
             filenames.push('<a href="http://www.anindilyakwa.org.au/ajamurnda/lib/' + path + '/' + docs[i].filename + '">' + docs[i].filename + '</a>');
           }
           // call the 'content' method to update the content of our tooltip with the returned data.
