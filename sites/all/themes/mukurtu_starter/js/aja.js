@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
                 people.push('<li>' + bow_personal[n] + '&nbsp;<span class="badge">' + bow_personal[n+1] + '</span></li>');
               }
             }
-            if (people.length == 0) people.push('<li>None found</li>');
+            if (people.length == 0) people.push('<li>none</li>');
 
             // keywords facet
             var bow = data.facet_counts.facet_fields.bow;
