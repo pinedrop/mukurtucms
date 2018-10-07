@@ -30,8 +30,8 @@ jQuery(document).ready(function($){
             var people = [];
             for (var n=0; n<bow_personal.length; n=n+2) {
               if (bow_personal[n] != "centre") {
-                var firstCapped = bow_personal[n].split(' ').map(name => name.charAt(0).toUpperCase() + name.substr(1));
-                people.push('<li>' + firstCapped.join(' ') + '&nbsp;<span class="badge">' + bow_personal[n+1] + '</span></li>');
+                // var firstCapped = bow_personal[n].split(' ').map(name => name.charAt(0).toUpperCase() + name.substr(1));
+                people.push('<li>' + bow_personal[n] + '&nbsp;<span class="badge">' + bow_personal[n+1] + '</span></li>');
               }
             }
             if (people.length == 0) people.push('<li>None found</li>');
