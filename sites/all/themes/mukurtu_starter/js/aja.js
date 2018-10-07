@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
             for (var n=0; n<names.length; n=n+2) {
               if (names[n] != "centre") {
                 var firstCapped = names[n].split(' ').map(name => name.charAt(0).toUpperCase() + name.substr(1));
-                people.push('<li>' + firstCapped + '&nbsp;<span class="badge">' + names[n + 1] + '</span></li>');
+                people.push('<li>' + firstCapped.join(' ') + '&nbsp;<span class="badge">' + names[n + 1] + '</span></li>');
               }
             }
             if (people.length == 0) people.push('<li>None found</li>');
