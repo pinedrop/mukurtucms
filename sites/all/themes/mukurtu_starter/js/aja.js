@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-  $('area:not([href])').data('maphilight', {fillOpacity: 0.4});
+  //$('area:not([href])').data('maphilight', {fillOpacity: 0.4});
   $('area').tooltipster({
     side: 'right',
     delay: 200,
@@ -16,7 +16,7 @@ jQuery(document).ready(function($){
       // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
       if ($origin.data('loaded') !== true) {
 
-        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=10&facet=true&facet.field=bow_personal&facet.mincount=1&facet.limit=5', function(data) {
+        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20&facet=true&facet.field=bow_personal&facet.mincount=1&facet.limit=5', function(data) {
 
           var docs = data.response.docs;
           if (docs.length == 0) {
@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
             for (var n=0; n<names.length; n=n+2) {
               people.push('<li>' + names[n].charAt(0).toUpperCase() + names[n].substr(1) + ' <span class="badge">' + names[n+1] + '</span></li>');
             }
-            if (people.length == 0) people.push('None found');
+            if (people.length == 0) people.push('<li>None found</li>');
             var filenames = [];
             for (var i = 0; i < docs.length; i++) {
               var path = docs[i].path[0].split('\\').filter(component => component.length > 0).pop().replace(' ', '-');
