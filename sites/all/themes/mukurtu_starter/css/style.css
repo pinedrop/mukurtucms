@@ -10633,4 +10633,5 @@ a:hover {
 }
 .tooltipster-content ul.aja-people li {
   display: inline;
+  padding-right: 10px;
 }
