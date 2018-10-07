@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
       // we set a variable so the data is only loaded once via Ajax, not every time the tooltip opens
       if ($origin.data('loaded') !== true) {
 
-        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20&facet=true&facet.field=bow_personal&facet.field=bow&facet.mincount=1&f.bow_personal.facet.limit=5&f.bow.facet.limit=7&facet.sort=count', function(data) {
+        $.get('http://178.128.54.20:8983/solr/ajafiles/select?q=bow:"' + query + '"&rows=20&facet=true&facet.field=bow_personal&facet.field=bow&facet.mincount=1&f.bow_personal.facet.limit=5&f.bow.facet.limit=10&facet.sort=count', function(data) {
 
           var docs = data.response.docs;
           if (docs.length == 0) {
