@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the iiif_image_field module.
+ *
+ * @author shaune
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function iiif_image_field_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if ($phase === 'runtime') {
+    $library = libraries_detect('openseadragon');
+
+    $requirements['openseadragon'] = array(
+      'title' => $t('Open Seadragon'),
+    );
+
+    if ($library['installed']) {
+      $requirements['openseadragon']['value'] = $library['version'];
+      $requirements['openseadragon']['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $requirements['openseadragon']['value'] = $library['error'];
+      $requirements['openseadragon']['description'] = $library['error message'];
+      $requirements['openseadragon']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_field_schema().
+ */
+function iiif_image_field_field_schema($field) {
+  $columns = array();
+  $indexes = array();
+
+  switch ($field['type']) {
+    case 'iiif_image_field':
+      $columns = array(
+        'iiif_image_id' => array(
+          'type' => 'varchar',
+          'length' => 512,
+          'default' => '',
+        ),
+        'iiif_image_caption' => array(
+          'type' => 'varchar',
+          'length' => 1024,
+          'default' => '',
+        ),
+        'iiif_image_alt' => array(
+          'type' => 'varchar',
+          'length' => 1024,
+          'default' => '',
+        ),
+        'iiif_image_height' => array(
+          'type' => 'varchar',
+          'length' => 512,
+          'default' => '',
+        ),
+        'iiif_image_width' => array(
+          'type' => 'varchar',
+          'length' => 512,
+          'default' => '',
+        ),
+        'iiif_image_rotation' => array(
+          'type' => 'varchar',
+          'length' => 512,
+          'default' => '',
+        ),
+      );
+
+      $indexes = array();
+      break;
+  }
+
+  return array(
+    'columns' => $columns,
+    'indexes' => $indexes,
+  );
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function iiif_image_field_uninstall() {
+  variable_del('image_server_base');
+  variable_del('image_api_version');
+}

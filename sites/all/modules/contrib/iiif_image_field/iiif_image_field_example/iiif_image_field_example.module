@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * Code for the IIIF Image Field Example feature.
+ */
+
+include_once 'iiif_image_field_example.features.inc';
+
+/**
+ * Implements hook_features_post_restore().
+ */
+function iiif_image_field_example_features_post_restore($op, $items) {
+  // We do this on rebuild rather than enable since the field definitions don't
+  // appear to exist prior to this point.
+  if ($op !== 'rebuild' || !isset($items['iiif_image_field_example']) || (bool) variable_get('iiif_example_node', FALSE)) {
+    return;
+  }
+
+  // Set up IIIF configuration.
+  variable_set('image_api_version', '1.1');
+  variable_set('image_server_base', 'https://images.qdl.qa/iiif/images');
+
+  // Create example node.
+  $node = new stdClass();
+  $node->title = 'Example IIIF Image';
+  $node->type = 'iiif_image';
+  $node->language = LANGUAGE_NONE;
+  $node->uid = 1;
+  $node->status = 1;
+  $node->promote = 1;
+
+  $fields = array(
+    'field_zoomable_image',
+    'field_static_image',
+    'field_linked_image',
+  );
+
+  foreach ($fields as $field) {
+    for ($i = 0; $i < 2; $i++) {
+      $node->{$field}[LANGUAGE_NONE][$i]['iiif_image_id'] = '81055/vdc_100000000884.0x0001e3/IOR_L_PS_20_C260_0095.jp2';
+      $node->{$field}[LANGUAGE_NONE][$i]['iiif_image_caption'] = 'Example caption ' . $i;
+      $node->{$field}[LANGUAGE_NONE][$i]['iiif_image_rotation'] = 0;
+    }
+  }
+
+  node_save($node);
+
+  if (isset($node->nid)) {
+    variable_set('iiif_example_node', $node->nid);
+  }
+  else {
+    watchdog('iiif_image_field_example', 'Error creating example IIIF Image node', array(), WATCHDOG_WARNING);
+  }
+}

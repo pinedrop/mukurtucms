@@ -1,0 +1,18 @@
+name = "IIIF Images Field"
+description = "Expose a field type for embedding images from a IIIF Image Server."
+core = 7.x
+package = Media
+configure = admin/config/media/iiif_image_field
+
+dependencies[] = libraries (>=2.x)
+
+simplytest_dependencies[] = iiif_image_field_example
+
+files[] = iiif_image_field.test
+
+; Information added by Drupal.org packaging script on 2017-06-06
+version = "7.x-1.0-alpha2"
+core = "7.x"
+project = "iiif_image_field"
+datestamp = "1496762946"
+

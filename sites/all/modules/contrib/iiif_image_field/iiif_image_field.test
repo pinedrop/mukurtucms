@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * Tests for iiif_image_field.module.
+ */
+
+/**
+ * Basic tests for IIIF URL generation.
+ */
+class IIIFImageFieldTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'IIIF Image URL',
+      'description' => 'Tests the generation of IIIF Image URLs.',
+      'group' => 'IIIF Image Field',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('iiif_image_field');
+  }
+
+  /**
+   * Check the URL generation function behaves as expected.
+   */
+  function testImageUrlGeneration() {
+    variable_set('image_api_version', '1.1');
+    variable_set('image_server_base', 'http://example.com');
+
+    // Test default options.
+    $default_url = iiif_image_field_image_url('iiif-image-id');
+    $expected_default_url = 'http://example.com/iiif-image-id/full/full/0/native.jpg';
+
+    $this->assertEqual($default_url, $expected_default_url, 'Default IIIF URL matched expected value');
+
+    // Test custom options.
+    $options = array(
+      'region' => '0,0,100,100',
+      'size' => '300,300',
+      'rotation' => 90,
+      'format' => 'png',
+      'quality' => 'grey',
+    );
+
+    $custom_url = iiif_image_field_image_url('iiif-image-id', $options);
+    $expected_custom_url = 'http://example.com/iiif-image-id/0,0,100,100/300,300/90/grey.png';
+
+    $this->assertEqual($custom_url, $expected_custom_url, 'Custom IIIF URL matched expected value');
+
+    // Test IIIF 2.0 conversions.
+    variable_set('image_api_version', '2.0');
+
+    $options = array(
+      'region' => '0,0,100,100',
+      'size' => '300,300',
+      'rotation' => 90,
+      'format' => 'png',
+      'quality' => 'grey',
+    );
+
+    $custom_url_2 = iiif_image_field_image_url('iiif-image-id', $options);
+    $expected_custom_url_2 = 'http://example.com/iiif-image-id/0,0,100,100/300,300/90/gray.png';
+
+    $this->assertEqual($custom_url_2, $expected_custom_url_2, 'Custom IIIF 2.0 URL matched expected value');
+
+    $options = array(
+      'region' => '0,0,100,100',
+      'size' => '300,300',
+      'rotation' => 90,
+      'format' => 'png',
+      'quality' => 'native',
+    );
+
+    $custom_url_3 = iiif_image_field_image_url('iiif-image-id', $options);
+    $expected_custom_url_3 = 'http://example.com/iiif-image-id/0,0,100,100/300,300/90/default.png';
+
+    $this->assertEqual($custom_url_3, $expected_custom_url_3, 'Custom IIIF 2.0 URL matched expected value');
+  }
+
+}

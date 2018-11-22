@@ -1,0 +1,39 @@
+name = IIIF Image Field Example
+description = An example content-type for testing IIIF Images. Will overwrite IIIF image base in settings.
+core = 7.x
+package = IIIF Features
+version = 7.x-1.0
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = iiif_image_field
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[field_base][] = field_linked_image
+features[field_base][] = field_static_image
+features[field_base][] = field_zoomable_image
+features[field_instance][] = node-iiif_image-field_linked_image
+features[field_instance][] = node-iiif_image-field_static_image
+features[field_instance][] = node-iiif_image-field_zoomable_image
+features[node][] = iiif_image
+features[variable][] = comment_anonymous_iiif_image
+features[variable][] = comment_default_mode_iiif_image
+features[variable][] = comment_default_per_page_iiif_image
+features[variable][] = comment_form_location_iiif_image
+features[variable][] = comment_iiif_image
+features[variable][] = comment_preview_iiif_image
+features[variable][] = comment_subject_field_iiif_image
+features[variable][] = field_bundle_settings_node__iiif_image
+features[variable][] = menu_options_iiif_image
+features[variable][] = menu_parent_iiif_image
+features[variable][] = node_options_iiif_image
+features[variable][] = node_preview_iiif_image
+features[variable][] = node_submitted_iiif_image
+features_exclude[field_base][body] = body
+
+; Information added by Drupal.org packaging script on 2017-06-06
+version = "7.x-1.0-alpha2"
+core = "7.x"
+project = "iiif_image_field"
+datestamp = "1496762946"
+

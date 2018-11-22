@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Install file for iiif_image_field.module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function iiif_image_field_example_uninstall() {
+  $example_node = variable_get('iiif_example_node', FALSE);
+
+  // Delete the example node if present.
+  if ($example_node) {
+    variable_del('iiif_example_node');
+    node_delete($example_node);
+
+    $fields = array(
+      'field_zoomable_image',
+      'field_static_image',
+      'field_linked_image',
+    );
+
+    foreach ($fields as $field) {
+      field_delete_field($field);
+    }
+
+    field_purge_batch(100);
+  }
+}
