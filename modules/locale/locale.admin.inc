@@ -1158,6 +1158,7 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
       '#default_value' => '',
     );
   }
+  $form['#attached']['library'][] = array('dnd', 'library');
 
   // Fetch translations and fill in default values in the form.
   $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
