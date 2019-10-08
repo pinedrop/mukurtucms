@@ -1157,7 +1157,7 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
       '#default_value' => '',
     );*/
     $form['translations'][$langcode] = array(
-      '#type' => 'text_format',
+      '#type' => 'textarea',
       '#title' => t($language->name),
       '#rows' => 5,
       '#default_value' => check_plain(wordwrap($source->source, 0)),
