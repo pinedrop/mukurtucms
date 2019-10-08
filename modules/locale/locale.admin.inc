@@ -1150,17 +1150,18 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
   // Approximate the number of rows to use in the default textarea.
   $rows = min(ceil(str_word_count($source->source) / 12), 10);
   foreach ($languages as $langcode => $language) {
-    $form['translations'][$langcode] = array(
+    /*$form['translations'][$langcode] = array(
       '#type' => 'textarea',
       '#title' => t($language->name),
       '#rows' => $rows,
       '#default_value' => '',
-    );
-    $form['translations']['tx'.$langcode] = array(
+    );*/
+    $form['translations'][$langcode] = array(
       '#type' => 'text_format',
       '#title' => t($language->name),
-      '#rows' => $rows,
-      '#default_value' => '',
+      '#rows' => 5,
+      '#default_value' => check_plain(wordwrap($source->source, 0)),
+      '#description' => t('Keep the original text or replace it with a translation. You can add audio by dragging it in from the Scald media library.'),
     );
   }
 
