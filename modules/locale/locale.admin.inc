@@ -1160,7 +1160,8 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
       '#type' => 'textarea',
       '#title' => t($language->name . ': Text'),
       '#rows' => 5,
-      '#default_value' => check_plain(wordwrap($source->source, 0)),
+      '#resizable' => FALSE,
+      '#default_value' => check_plain($source->source),
       '#description' => t('Keep the original text or replace it with a translation. Do not leave this field blank.'),
     );
     $form['translations'][$langcode.'-audio'] = array(
