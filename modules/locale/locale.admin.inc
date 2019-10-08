@@ -1151,7 +1151,8 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
   $rows = min(ceil(str_word_count($source->source) / 12), 10);
   foreach ($languages as $langcode => $language) {
     $form['translations'][$langcode] = array(
-      '#type' => 'textarea',
+      '#type' => 'text_format',
+      '#format' => 'full_html',
       '#title' => t($language->name),
       '#rows' => $rows,
       '#default_value' => '',
