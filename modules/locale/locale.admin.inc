@@ -1157,11 +1157,21 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
       '#default_value' => '',
     );*/
     $form['translations'][$langcode] = array(
+      '#markup' => t($language->name),
+    );
+    $form['translations'][$langcode]['text'] = array(
       '#type' => 'textarea',
-      '#title' => t($language->name),
+      '#title' => t('Text'),
       '#rows' => 5,
       '#default_value' => check_plain(wordwrap($source->source, 0)),
-      '#description' => t('Keep the original text or replace it with a translation. You can add audio by dragging it in from the Scald media library.'),
+      '#description' => t('Keep the original text or replace it with a translation. Do not leave this field empty.'),
+    );
+    $form['translations'][$langcode]['media'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Audio'),
+      '#rows' => 5,
+      '#default_value' => check_plain(wordwrap($source->source, 0)),
+      '#description' => t('Drag an audio atom from the Scald media library to associate it with this translation.'),
     );
   }
 
