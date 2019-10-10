@@ -1,0 +1,10 @@
+name = Locale Audio
+description = "Add locale dependent audio to a site"
+package = Multilingual
+core = 7.x
+
+dependencies[] = locale
+dependencies[] = scald
+
+
+

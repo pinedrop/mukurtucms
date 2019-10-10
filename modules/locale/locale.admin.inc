@@ -1150,30 +1150,13 @@ function locale_translate_edit_form($form, &$form_state, $lid) {
   // Approximate the number of rows to use in the default textarea.
   $rows = min(ceil(str_word_count($source->source) / 12), 10);
   foreach ($languages as $langcode => $language) {
-    /*$form['translations'][$langcode] = array(
+    $form['translations'][$langcode] = array(
       '#type' => 'textarea',
       '#title' => t($language->name),
       '#rows' => $rows,
       '#default_value' => '',
-    );*/
-    $form['translations'][$langcode] = array(
-      '#type' => 'textarea',
-      '#title' => t($language->name . ': Text'),
-      '#rows' => 5,
-      '#resizable' => FALSE,
-      '#default_value' => check_plain($source->source),
-      '#description' => t('Keep the original text or replace it with a translation. Do not leave this field blank.'),
-    );
-    $form['translations'][$langcode.'-audio'] = array(
-      '#type' => 'textfield',
-      '#title' => t($language->name . ': Audio'),
-      '#size' => 120,
-      '#default_value' => '',
-      '#description' => t('Drag an audio atom from the Scald media library to associate it with this translation.'),
     );
   }
-
-  $form['#attached']['library'][] = array('dnd', 'library');
 
   // Fetch translations and fill in default values in the form.
   $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
