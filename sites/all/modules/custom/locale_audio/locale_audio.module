@@ -116,8 +116,11 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
 function locale_audio_player_callback($form, $form_state) {
   dpm($form_state);
   $langcode = $form_state['getTriggeringElement']['#langcode'];
-  return $form_state['values']['scald'][$langcode];
-  //return scald_sas_to_rendered($form_state['values']['scald'][$langcode]);
+  $x = "happy camper ";
+  $x .= $form_state['values']['scald'][$langcode];
+  $x .= scald_sas_to_rendered($x);
+  return $x;
+  //return 
 }
 
 /**
