@@ -76,11 +76,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#resizable' => FALSE,
       '#weight' => $weight,
       '#default_value' => check_plain($source->source),
-      '#suffix' => '<div id="locale-audio-'.$langcode.'"><div class="form-item">'.
-                  '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>'.
-                  '<input data-types="audio" data-dnd-context="sdl_editor_representation"/>'.
-                  '</div></div>',
-      '#description' => t('Keep, modify or translate the original text. Associate an audio file with the text by dragging it into the box.'),
+      '#description' => t('Keep, modify or translate the original text. You can associate an audio file with the text by dragging it into the box below.'),
       '#langcode' => $langcode,
     );
     /*$form['scald'][$langcode] = array(
@@ -96,7 +92,6 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
         'wrapper' => 'locale-audio-translate-'.$langcode,
       ),
     );*/
-    /*
     $form['audio'][$langcode] = array(
       '#weight' => $weight+2,
       '#title' => t($language->name . ': Audio'),
@@ -104,7 +99,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#markup' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>'.
                     '<input data-types="audio" data-dnd-context="sdl_editor_representation"/>',
       '#suffix' => '</div></div>',
-    );*/
+    );
     $weight = $weight + 5;
   }
 
