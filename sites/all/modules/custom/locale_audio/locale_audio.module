@@ -97,6 +97,12 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
         'wrapper' => 'locale-audio-translate-'.$langcode,
       ),
     );*/
+    $form['test'][$langcode] = array(
+      '#weight' => $weight+2,
+      '#prefix' => '<div class="atom_reference_drop_zone">',
+      '#markup' => '<input data-types="audio"/>'
+      '#suffix' => '</div>',
+    );
     $form['audio'][$langcode] = array(
       '#weight' => $weight+1,
       '#prefix' => '<div id="locale-audio-'.$langcode.'">',
@@ -106,6 +112,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   }
 
   $form['#attached']['library'][] = array('dnd', 'library');
+  $form['#attached']['library'][] = array('atom_reference', 'library');
 
   // Fetch translations and fill in default values in the form.
   $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
