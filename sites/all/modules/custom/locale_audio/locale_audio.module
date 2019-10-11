@@ -78,7 +78,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#weight' => $weight,
       '#default_value' => check_plain($source->source),
       '#description' => t('Keep, tweak, or translate the original text. You can drag an audio file here from the Scald library to associate it with your text.'),
-      '#lamgcode' => $langcode,
+      '#langcode' => $langcode,
       '#ajax' => array(
         'callback' => 'locale_audio_scald_callback',
         'wrapper' => 'locale-audio-'.$langcode,
@@ -119,17 +119,15 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
 }
 
 function locale_audio_scald_callback($form, $form_state) {
-  return dprint_r($form_state, TRUE);
-  //$langcode = $form_state['triggering_element']['#langcode'];
-  //$prefix = '<div id="locale-audio-'.$langcode.'">';
-  //$suffix = '</div>';
-  //$sas = $form_state['values']['translations'][$langcode];
-
-  //$scids = scald_included($sas);
-  /*if (count($scids) > 0) {
+  $langcode = $form_state['triggering_element']['#langcode'];
+  $prefix = '<div id="locale-audio-'.$langcode.'">';
+  $suffix = '</div>';
+  $sas = $form_state['values']['translations'][$langcode];
+  $scids = scald_included($sas);
+  if (count($scids) > 0) {
     return $prefix."Scald  id = ".$scids[0]."<br/>".scald_sas_to_rendered($sas).$suffix;
-  }*/
-  //return $prefix.scald_sas_to_rendered($sas).$suffix;
+  }
+  return $prefix.scald_sas_to_rendered($sas).$suffix;
 }
 
 /**
