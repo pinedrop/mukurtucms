@@ -76,12 +76,21 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#default_value' => check_plain($source->source),
       '#description' => t('Keep the original text or replace it with a translation. Do not leave this field blank.'),
     );
-    $form['audio'][$langcode] = array(
+    $form['scald'][$langcode] = array(
       '#type' => 'textfield',
       '#title' => t($language->name . ': Audio'),
       '#size' => 120,
+      '#langcode' => $langcode,
       '#default_value' => '',
       '#description' => t('Drag an audio atom from the Scald media library to associate it with this translation.'),
+      '#ajax' => array(
+        'callback' => 'locale_audio_player_callback',
+        'wrapper' => 'locale-audio-translate-'.$langcode,
+      ),
+    );
+    $form['player'][$langcode] = array(
+      '#prefix' => '<div id="locale-audio-translate-'.$langcode'">',
+      '#suffix' => '</div>',
     );
   }
 
@@ -98,6 +107,11 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   return $form;
 }
 
+function locale_audio_player_callback($form, $form_state) {
+  $langcode = $form_state->getTriggeringElement()['#langcode'];
+  return scald_sas_to_rendered(['values']['scald'][$langcode]);
+}
+
 /**
  * Validate string editing form submissions.
  */
@@ -109,9 +123,6 @@ function locale_audio_edit_form_validate($form, &$form_state) {
       form_set_error('translations', t('The submitted string contains disallowed HTML: %string', array('%string' => $value)));
       watchdog('locale', 'Attempted submission of a translation string with disallowed HTML: %string', array('%string' => $value), WATCHDOG_WARNING);
     }
-  }
-  foreach ($form_state['values']['audio'] as $key => $value) {
-    form_set_error('audio', scald_sas_to_rendered($value));
   }
 }
 
