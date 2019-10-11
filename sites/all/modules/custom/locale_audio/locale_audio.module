@@ -109,7 +109,8 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
 
 function locale_audio_player_callback($form, FormStateInterface $form_state) {
   $langcode = $form_state->getTriggeringElement()['#langcode'];
-  return scald_sas_to_rendered(['values']['scald'][$langcode]);
+  return $langcode;
+  //return scald_sas_to_rendered(['values']['scald'][$langcode]);
 }
 
 /**
