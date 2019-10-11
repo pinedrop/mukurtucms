@@ -67,6 +67,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   unset($languages[($omit)]);
   $form['translations'] = array('#tree' => TRUE);
   $form['audio'] = array('#tree' => TRUE);
+  $form['player'] = array('#tree' => TRUE);
   foreach ($languages as $langcode => $language) {
     $form['translations'][$langcode] = array(
       '#type' => 'textarea',
@@ -108,7 +109,8 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
 }
 
 function locale_audio_player_callback($form, $form_state) {
-  return "super duper";
+  $trigel = $form_state->getTriggeringElement();
+  return $trigel['#langcode'];
   //$langcode = $form_state->getTriggeringElement()['#langcode'];
   //return $langcode;
   //return scald_sas_to_rendered(['values']['scald'][$langcode]);
