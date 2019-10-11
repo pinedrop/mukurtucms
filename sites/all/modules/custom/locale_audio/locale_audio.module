@@ -3,7 +3,7 @@
 function locale_audio_menu_alter(&$items)
 {
   $items['admin/config/regional/translate/edit/%']['page arguments'] = array('locale_audio_edit_form', 5);
-  
+
   /*$items['admin/config/regional/translate/translate'] = array(
     'page callback' => 'locale_audio_seek_screen', // search results and form concatenated
   );*/
@@ -66,15 +66,8 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $omit = $source->textgroup == 'default' ? 'en' : $default->language;
   unset($languages[($omit)]);
   $form['translations'] = array('#tree' => TRUE);
-  // Approximate the number of rows to use in the default textarea.
-  $rows = min(ceil(str_word_count($source->source) / 12), 10);
+  $form['audio'] = array('#tree' => TRUE);
   foreach ($languages as $langcode => $language) {
-    /*$form['translations'][$langcode] = array(
-      '#type' => 'textarea',
-      '#title' => t($language->name),
-      '#rows' => $rows,
-      '#default_value' => '',
-    );*/
     $form['translations'][$langcode] = array(
       '#type' => 'textarea',
       '#title' => t($language->name . ': Text'),
@@ -83,7 +76,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#default_value' => check_plain($source->source),
       '#description' => t('Keep the original text or replace it with a translation. Do not leave this field blank.'),
     );
-    $form['translations'][$langcode.'-audio'] = array(
+    $form['audio'][$langcode] = array(
       '#type' => 'textfield',
       '#title' => t($language->name . ': Audio'),
       '#size' => 120,
@@ -116,6 +109,9 @@ function locale_audio_edit_form_validate($form, &$form_state) {
       form_set_error('translations', t('The submitted string contains disallowed HTML: %string', array('%string' => $value)));
       watchdog('locale', 'Attempted submission of a translation string with disallowed HTML: %string', array('%string' => $value), WATCHDOG_WARNING);
     }
+  }
+  foreach ($form_state['values']['audio'] as $key => $value) {
+    form_set_error('audio', scald_sas_to_rendered($value));
   }
 }
 
