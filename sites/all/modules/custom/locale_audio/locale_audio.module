@@ -89,7 +89,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       ),
     );
     $form['player'][$langcode] = array(
-      '#prefix' => '<div id="locale-audio-translate-'.$langcode'">',
+      '#prefix' => '<div id="locale-audio-translate-'.$langcode.'">',
       '#suffix' => '</div>',
     );
   }
