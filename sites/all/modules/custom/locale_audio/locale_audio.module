@@ -66,8 +66,8 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $omit = $source->textgroup == 'default' ? 'en' : $default->language;
   unset($languages[($omit)]);
   $form['translations'] = array('#tree' => TRUE);
-  $form['scald'] = array('#tree' => TRUE);
-  $form['player'] = array('#tree' => TRUE);
+  //$form['scald'] = array('#tree' => TRUE);
+  $form['audio'] = array('#tree' => TRUE);
   $weight = 5;
   foreach ($languages as $langcode => $language) {
     $form['translations'][$langcode] = array(
@@ -77,9 +77,13 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#resizable' => FALSE,
       '#weight' => $weight,
       '#default_value' => check_plain($source->source),
-      '#description' => t('Keep the original text or replace it with a translation. Do not leave this field blank.'),
+      '#description' => t('Keep, tweak, or translate the original text. You can drag an audio file here from the Scald library to associate it with your text.'),
+      '#ajax' => array(
+        'callback' => 'locale_audio_scald_callback',
+        'wrapper' => 'locale-audio-'.$langcode,
+      ),
     );
-    $form['scald'][$langcode] = array(
+    /*$form['scald'][$langcode] = array(
       '#type' => 'textfield',
       '#title' => t($language->name . ': Audio'),
       '#size' => 120,
@@ -91,10 +95,10 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
         'callback' => 'locale_audio_player_callback',
         'wrapper' => 'locale-audio-translate-'.$langcode,
       ),
-    );
-    $form['player'][$langcode] = array(
-      '#weight' => $weight+2,
-      '#prefix' => '<div id="locale-audio-translate-'.$langcode.'">',
+    );*/
+    $form['audio'][$langcode] = array(
+      '#weight' => $weight+1,
+      '#prefix' => '<div id="locale-audio-'.$langcode.'">',
       '#suffix' => '</div>',
     );
     $weight = $weight + 5;
@@ -113,9 +117,16 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   return $form;
 }
 
-function locale_audio_player_callback($form, $form_state) {
+function locale_audio_scald_callback($form, $form_state) {
   $langcode = $form_state['triggering_element']['#langcode'];
-  return scald_sas_to_rendered($form_state['values']['scald'][$langcode]);
+  $prefix = '<div id="locale-audio-'.$langcode.'">"';
+  $suffix = '</div>';
+  $sas = $form_state['values']['audio'][$langcode];
+  $scids = scald_included($sas);
+  if (count($scids) > 0) {
+    return $prefix."Scald  id = ".$scids[0]."<br/>".scald_sas_to_rendered($sas).$suffix;
+  }
+  return $prefix.$suffix;
 }
 
 /**
