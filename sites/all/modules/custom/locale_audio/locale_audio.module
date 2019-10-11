@@ -100,7 +100,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
     $form['test'][$langcode] = array(
       '#weight' => $weight+2,
       '#prefix' => '<div class="atom_reference_drop_zone">',
-      '#markup' => '<input data-types="audio"/>'
+      '#markup' => '<input data-types="audio"/>',
       '#suffix' => '</div>',
     );
     $form['audio'][$langcode] = array(
