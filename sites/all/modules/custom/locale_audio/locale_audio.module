@@ -107,7 +107,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   return $form;
 }
 
-function locale_audio_player_callback($form, FormStateInterface $form_state) {
+function locale_audio_player_callback($form, $form_state) {
   return "super duper";
   //$langcode = $form_state->getTriggeringElement()['#langcode'];
   //return $langcode;
