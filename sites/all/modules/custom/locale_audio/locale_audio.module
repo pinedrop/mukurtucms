@@ -66,14 +66,16 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $omit = $source->textgroup == 'default' ? 'en' : $default->language;
   unset($languages[($omit)]);
   $form['translations'] = array('#tree' => TRUE);
-  $form['audio'] = array('#tree' => TRUE);
+  $form['scald'] = array('#tree' => TRUE);
   $form['player'] = array('#tree' => TRUE);
+  $weight = 5;
   foreach ($languages as $langcode => $language) {
     $form['translations'][$langcode] = array(
       '#type' => 'textarea',
       '#title' => t($language->name . ': Text'),
       '#rows' => 5,
       '#resizable' => FALSE,
+      '#weight' => $weight,
       '#default_value' => check_plain($source->source),
       '#description' => t('Keep the original text or replace it with a translation. Do not leave this field blank.'),
     );
@@ -81,6 +83,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#type' => 'textfield',
       '#title' => t($language->name . ': Audio'),
       '#size' => 120,
+      '#weight' => $weight+1,
       '#langcode' => $langcode,
       '#default_value' => '',
       '#description' => t('Drag an audio atom from the Scald media library to associate it with this translation.'),
@@ -90,9 +93,11 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       ),
     );
     $form['player'][$langcode] = array(
+      '#weight' => $weight+2,
       '#prefix' => '<div id="locale-audio-translate-'.$langcode.'">',
       '#suffix' => '</div>',
     );
+    $weight = $weight + 5;
   }
 
   $form['#attached']['library'][] = array('dnd', 'library');
