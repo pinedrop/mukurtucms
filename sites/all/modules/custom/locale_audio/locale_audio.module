@@ -156,8 +156,9 @@ function locale_audio_edit_form_submit($form, &$form_state) {
     $translation = db_query("SELECT translation FROM {locales_target} WHERE lid = :lid AND language = :language", array(':lid' => $lid, ':language' => $key))->fetchField();
     if (!empty($value)) {
       $audio = $form_state['values']['audio'][$key];
+      dprint_r($audio);
       if (!empty($audio)) $value .= $audio;
-      
+
       // Only update or insert if we have a value to use.
       if (is_string($translation)) {
         db_update('locales_target')
