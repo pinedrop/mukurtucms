@@ -66,7 +66,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $omit = $source->textgroup == 'default' ? 'en' : $default->language;
   unset($languages[($omit)]);
   $form['translations'] = array('#tree' => TRUE);
-  $form['scald'] = array('#scald' => TRUE);
+  $form['scald'] = array('#tree' => TRUE);
   $form['audio'] = array('#tree' => TRUE);
   $weight = 5;
   foreach ($languages as $langcode => $language) {
@@ -106,7 +106,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#title' => t($language->name . ': Audio'),
       '#prefix' => '<div id="locale-audio-'.$langcode.'"><div class="form-item">',
       '#markup' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>'.
-                    '<input data-types="audio" data-dnd-context="sdl_editor_representation"/>',
+                    '<input id="edit-big-bog" name="big-bog" data-types="audio" data-dnd-context="sdl_editor_representation"/>',
       '#suffix' => '</div></div>',
     );
     $weight = $weight + 5;
