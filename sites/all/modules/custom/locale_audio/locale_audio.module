@@ -156,7 +156,7 @@ function locale_audio_edit_form_submit($form, &$form_state) {
     $translation = db_query("SELECT translation FROM {locales_target} WHERE lid = :lid AND language = :language", array(':lid' => $lid, ':language' => $key))->fetchField();
     if (!empty($value)) {
       $audio = $form_state['values']['audio'][$key];
-      dprint_r($form_state['values']['audio']);
+      print_r($form_state['values']['audio']);
       if (!empty($audio)) $value .= $audio;
 
       // Only update or insert if we have a value to use.
@@ -191,6 +191,7 @@ function locale_audio_edit_form_submit($form, &$form_state) {
     _locale_invalidate_js($key);
   }
 
+  drupal_set_message(dprint_r($form_state['values']['audio'], true));
   drupal_set_message(t('The string has been saved.'));
 
   // Clear locale cache.
