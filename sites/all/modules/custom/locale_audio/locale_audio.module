@@ -66,6 +66,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $omit = $source->textgroup == 'default' ? 'en' : $default->language;
   unset($languages[($omit)]);
   $form['translations'] = array('#tree' => TRUE);
+  $form['scald'] = array('#scald' => TRUE);
   $form['audio'] = array('#tree' => TRUE);
   $weight = 5;
   foreach ($languages as $langcode => $language) {
@@ -92,6 +93,12 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
         'wrapper' => 'locale-audio-translate-'.$langcode,
       ),
     );*/
+    $form['scald'][$langcode] = array(
+      '#weight' => $weight+1,
+      '#title' => t($language->name . ': Scald'),
+      '#type' => 'textfield',
+      '#size' => 120,
+    );
     $form['audio'][$langcode] = array(
       '#weight' => $weight+2,
       '#title' => t($language->name . ': Audio'),
