@@ -105,7 +105,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#weight' => $weight+2,
       '#title' => t($language->name . ': Audio'),
       '#prefix' => '<div id="locale-audio-'.$langcode.'"><div class="form-item">',
-      '#markup' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>'.
+      '#markup' => '<span class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</span>'.
                     '<input id="edit-big-bog" name="big-bog" data-types="audio" data-dnd-context="sdl_editor_representation"/>',
       '#suffix' => '</div></div>',
     );
