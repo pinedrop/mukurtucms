@@ -191,7 +191,7 @@ function locale_audio_edit_form_submit($form, &$form_state) {
     _locale_invalidate_js($key);
   }
 
-  drupal_set_message(dprint_r($form_state['values']['audio'], true));
+  drupal_set_message(dprint_r($form_state['values'], true));
   drupal_set_message(t('The string has been saved.'));
 
   // Clear locale cache.
