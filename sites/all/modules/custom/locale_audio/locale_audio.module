@@ -76,8 +76,8 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#resizable' => FALSE,
       '#weight' => $weight,
       '#default_value' => check_plain($source->source),
-      '#description' => t('Keep, modify or translate the original text. You can associate an audio file with the text by dragging it into the box below.'),
-      '#langcode' => $langcode,
+      '#description' => t('Keep, modify or translate the original text.'),
+      //'#langcode' => $langcode,
     );
     /*$form['scald'][$langcode] = array(
       '#type' => 'textfield',
@@ -98,6 +98,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#type' => 'textfield',
       '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
       '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
+      '#description' => t('You can associate an audio file to be heard alongside the written text.'),
     );
     /*$form['audio'][$langcode] = array(
       '#weight' => $weight+2,
