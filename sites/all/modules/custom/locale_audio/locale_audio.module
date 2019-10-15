@@ -3,23 +3,128 @@
 function locale_audio_menu_alter(&$items)
 {
   $items['admin/config/regional/translate/edit/%']['page arguments'] = array('locale_audio_edit_form', 5);
-
-  /*$items['admin/config/regional/translate/translate'] = array(
-    'page callback' => 'locale_audio_seek_screen', // search results and form concatenated
-  );*/
+  $items['admin/config/regional/translate/translate']['title'] = t('Translate/Audio');
+  $items['admin/config/regional/translate/translate']['page callback'] = 'locale_audio_translate_seek_screen';
+  $items['admin/config/regional/translate/translate']['file'] = 'locale_audio.module';
 }
 
-/*
-function locale_audio_seek_screen() {
+function locale_audio_translate_seek_screen() {
   // Add CSS.
   drupal_add_css(drupal_get_path('module', 'locale') . '/locale.css');
 
   $elements = drupal_get_form('locale_translation_filter_form');
   $output = drupal_render($elements);
-  $output .= _locale_audio_seek();
+  $output .= _locale_audio_translate_seek();
   return $output;
 }
-*/
+
+/**
+ * Perform a string search and display results in a table
+ */
+function _locale_audio_translate_seek() {
+  $output = '';
+
+  // We have at least one criterion to match
+  if (!($query = _locale_translate_seek_query())) {
+    $query = array(
+      'translation' => 'all',
+      'group' => 'all',
+      'language' => 'all',
+      'string' => '',
+    );
+  }
+
+  $sql_query = db_select('locales_source', 's');
+
+  $limit_language = NULL;
+  if ($query['language'] != 'en' && $query['language'] != 'all') {
+    $sql_query->leftJoin('locales_target', 't', "t.lid = s.lid AND t.language = :langcode", array(':langcode' => $query['language']));
+    $limit_language = $query['language'];
+  }
+  else {
+    $sql_query->leftJoin('locales_target', 't', 't.lid = s.lid');
+  }
+
+  $sql_query->fields('s', array('source', 'location', 'context', 'lid', 'textgroup'));
+  $sql_query->fields('t', array('translation', 'language'));
+
+  // Compute LIKE section.
+  switch ($query['translation']) {
+    case 'translated':
+      $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE');
+      $sql_query->orderBy('t.translation', 'DESC');
+      break;
+    case 'untranslated':
+      $sql_query->condition(db_and()
+        ->condition('s.source', '%' . db_like($query['string']) . '%', 'LIKE')
+        ->isNull('t.translation')
+      );
+      $sql_query->orderBy('s.source');
+      break;
+    case 'audio':
+      $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE')
+        ->condition('t.translation', '%' . db_like('span') . '%', 'LIKE')
+      break;
+    case 'silent':
+      $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE')
+        ->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE')
+      break;
+    case 'all' :
+    default:
+      $condition = db_or()
+        ->condition('s.source', '%' . db_like($query['string']) . '%', 'LIKE');
+      if ($query['language'] != 'en') {
+        // Only search in translations if the language is not forced to English.
+        $condition->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE');
+      }
+      $sql_query->condition($condition);
+      break;
+  }
+
+  // Add a condition on the text group.
+  if (!empty($query['group']) && $query['group'] != 'all') {
+    $sql_query->condition('s.textgroup', $query['group']);
+  }
+
+  $sql_query = $sql_query->extend('PagerDefault')->limit(50);
+  $locales = $sql_query->execute();
+
+  $groups = module_invoke_all('locale', 'groups');
+  $header = array(t('Text group'), t('String'), t('Context'), ($limit_language) ? t('Language') : t('Languages'), array('data' => t('Operations'), 'colspan' => '2'));
+
+  $strings = array();
+  foreach ($locales as $locale) {
+    if (!isset($strings[$locale->lid])) {
+      $strings[$locale->lid] = array(
+        'group' => $locale->textgroup,
+        'languages' => array(),
+        'location' => $locale->location,
+        'source' => $locale->source,
+        'context' => $locale->context,
+      );
+    }
+    if (isset($locale->language)) {
+      $strings[$locale->lid]['languages'][$locale->language] = $locale->translation;
+    }
+  }
+
+  $rows = array();
+  foreach ($strings as $lid => $string) {
+    $rows[] = array(
+      $groups[$string['group']],
+      array('data' => check_plain(truncate_utf8($string['source'], 150, FALSE, TRUE)) . '<br /><small>' . $string['location'] . '</small>'),
+      $string['context'],
+      array('data' => _locale_translate_language_list($string, $limit_language), 'align' => 'center'),
+      array('data' => l(t('edit'), "admin/config/regional/translate/edit/$lid", array('query' => drupal_get_destination())), 'class' => array('nowrap')),
+      array('data' => l(t('delete'), "admin/config/regional/translate/delete/$lid", array('query' => drupal_get_destination())), 'class' => array('nowrap')),
+    );
+  }
+
+  $output .= theme('table', array('header' => $header, 'rows' => $rows, 'empty' => t('No strings available.')));
+  $output .= theme('pager');
+
+  return $output;
+}
 
 /**
  * User interface for string editing.
@@ -189,64 +294,20 @@ function locale_audio_form_locale_translation_filter_form_alter(&$form, &$form_s
     'translated' => t('Only translated strings'),
     'untranslated' => t('Only untranslated strings'),
     'audio' => t('Strings with audio'),
-    'noaudio' => t('Strings without audio'),
+    'silent' => t('Strings without audio'),
   );
   $form['filters']['status']['translation']['#options'] = $options;
 }
 
+/**
+ * String search screen.
+ */
+function locale_translate_seek_screen() {
+  // Add CSS.
+  drupal_add_css(drupal_get_path('module', 'locale') . '/locale.css');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  $elements = drupal_get_form('locale_translation_filter_form');
+  $output = drupal_render($elements);
+  $output .= _locale_translate_seek();
+  return $output;
+}
