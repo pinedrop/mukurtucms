@@ -77,21 +77,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#weight' => $weight,
       '#default_value' => check_plain($source->source),
       '#description' => t('Keep, modify or translate the original text.'),
-      //'#langcode' => $langcode,
     );
-    /*$form['scald'][$langcode] = array(
-      '#type' => 'textfield',
-      '#title' => t($language->name . ': Audio'),
-      '#size' => 120,
-      '#weight' => $weight+1,
-      '#langcode' => $langcode,
-      '#default_value' => '',
-      '#description' => t('Drag an audio atom from the Scald media library to associate it with this translation.'),
-      '#ajax' => array(
-        'callback' => 'locale_audio_player_callback',
-        'wrapper' => 'locale-audio-translate-'.$langcode,
-      ),
-    );*/
     $form['audio'][$langcode] = array(
       '#weight' => $weight+1,
       '#title' => t($language->name . ': Audio'),
@@ -100,14 +86,6 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
       '#description' => t('You can associate an audio file to be heard alongside the written text.'),
     );
-    /*$form['audio'][$langcode] = array(
-      '#weight' => $weight+2,
-      '#title' => t($language->name . ': Audio'),
-      '#prefix' => '<div id="locale-audio-'.$langcode.'"><div class="form-item">',
-      '#markup' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>'.
-                    '<input data-types="audio" data-dnd-context="sdl_editor_representation"/>',
-      '#suffix' => '</div></div>',
-    );*/
     $weight = $weight + 5;
   }
 
@@ -124,20 +102,6 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save translations'));
   return $form;
 }
-
-/*
-function locale_audio_scald_callback($form, $form_state) {
-  $langcode = $form_state['triggering_element']['#langcode'];
-  $prefix = '<div id="locale-audio-'.$langcode.'">';
-  $suffix = '</div>';
-  $sas = $form_state['values']['translations'][$langcode];
-  $scids = scald_included($sas);
-  if (count($scids) > 0) {
-    return $prefix."Scald  id = ".$scids[0]."<br/>".scald_sas_to_rendered($sas).$suffix;
-  }
-  return $prefix.scald_sas_to_rendered($sas).$suffix;
-}
-*/
 
 /**
  * Validate string editing form submissions.
@@ -164,8 +128,10 @@ function locale_audio_edit_form_submit($form, &$form_state) {
     $translation = db_query("SELECT translation FROM {locales_target} WHERE lid = :lid AND language = :language", array(':lid' => $lid, ':language' => $key))->fetchField();
     if (!empty($value)) {
       $audio = $form_state['values']['audio'][$key];
-      print_r($form_state['values']['audio']);
-      if (!empty($audio)) $value .= $audio;
+
+      if (!empty($audio)) {
+        $value .= '<span data-locale-audio="' .$audio. '">' .$value. '</span>';
+      }
 
       // Only update or insert if we have a value to use.
       if (is_string($translation)) {
@@ -199,7 +165,6 @@ function locale_audio_edit_form_submit($form, &$form_state) {
     _locale_invalidate_js($key);
   }
 
-  drupal_set_message(dprint_r($form_state['values'], true));
   drupal_set_message(t('The string has been saved.'));
 
   // Clear locale cache.
