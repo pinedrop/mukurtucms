@@ -96,7 +96,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
   foreach ($result as $translation) {
     preg_match('/^<span data-locale-audio="(\d+)">(.*)</span>$/', $translation->translation, $matches, PREG_OFFSET_CAPTURE);
-    if (size($matches) > 0) {
+    if (count($matches) > 0) {
       $scid = $matches[0][0];
       $form['translations'][$translation->language]['#default_value'] = $matches[0][1];
     }
