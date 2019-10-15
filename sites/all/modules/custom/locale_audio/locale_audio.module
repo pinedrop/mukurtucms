@@ -3,10 +3,8 @@
 function locale_audio_menu_alter(&$items)
 {
   $items['admin/config/regional/translate/edit/%']['page arguments'] = array('locale_audio_edit_form', 5);
-
   $items['admin/config/regional/translate/translate']['title'] = t('Translate/Audio');
   $items['admin/config/regional/translate/translate']['page callback'] = 'locale_audio_translate_seek_screen';
-  //$items['admin/config/regional/translate/translate']['file'] = NULL;
 }
 
 function locale_audio_translate_seek_screen() {
@@ -14,16 +12,15 @@ function locale_audio_translate_seek_screen() {
   drupal_add_css(drupal_get_path('module', 'locale') . '/locale.css');
 
   $elements = drupal_get_form('locale_translation_filter_form');
-  dsm($elements);
   $output = drupal_render($elements);
-  $output .= locale_audio_translate_seek();
+  $output .= _locale_audio_translate_seek();
   return $output;
 }
 
 /**
  * Perform a string search and display results in a table
  */
-function locale_audio_translate_seek() {
+function _locale_audio_translate_seek() {
   $output = '';
 
   // We have at least one criterion to match
