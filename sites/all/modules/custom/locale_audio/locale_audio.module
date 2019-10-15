@@ -13,6 +13,7 @@ function locale_audio_translate_seek_screen() {
   drupal_add_css(drupal_get_path('module', 'locale') . '/locale.css');
 
   $elements = drupal_get_form('locale_translation_filter_form');
+  dsm($elements);
   $output = drupal_render($elements);
   $output .= _locale_audio_translate_seek();
   return $output;
