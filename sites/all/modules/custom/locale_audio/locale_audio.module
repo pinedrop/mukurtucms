@@ -71,7 +71,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   foreach ($languages as $langcode => $language) {
     $form['translations'][$langcode] = array(
       '#type' => 'textarea',
-      '#title' => t($language->name),
+      '#title' => t($language->name . ': Text'),
       '#rows' => 5,
       '#resizable' => FALSE,
       '#weight' => $weight,
@@ -182,3 +182,71 @@ function locale_audio_edit_form_submit($form, &$form_state) {
   $form_state['redirect'] = 'admin/config/regional/translate/translate';
   return;
 }
+
+function locale_audio_locale_translation_filter_form_alter(&$form, &$form_state, $form_id) {
+  $options = array(
+    'all' => t('All strings'),
+    'translated' => t('Only translated strings'),
+    'untranslated' => t('Only untranslated strings'),
+    'audio' => t('Strings with audio'),
+    'noaudio' => t('Strings without audio'),
+  );
+  $form['filters']['status']['translation']['#options'] = $options;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
