@@ -183,15 +183,17 @@ function locale_audio_edit_form_submit($form, &$form_state) {
   return;
 }
 
-function locale_audio_locale_translation_filter_form_alter(&$form, &$form_state, $form_id) {
-  $options = array(
+function locale_audio_form_alter(&$form, &$form_state, $form_id) {
+  dsm($form);
+  dsm($form_id);
+  /*$options = array(
     'all' => t('All strings'),
     'translated' => t('Only translated strings'),
     'untranslated' => t('Only untranslated strings'),
     'audio' => t('Strings with audio'),
     'noaudio' => t('Strings without audio'),
   );
-  $form['filters']['status']['translation']['#options'] = $options;
+  $form['filters']['status']['translation']['#options'] = $options;*/
 }
 
 
