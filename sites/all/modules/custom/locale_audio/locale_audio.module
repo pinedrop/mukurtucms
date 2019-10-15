@@ -102,7 +102,7 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
       $form['translations'][$translation->language]['#default_value'] = $matches[2];
     }
     else {
-      $form['translations'][$translation->language]['#default_value'] = 'bogdog ' .$translation->translation;
+      $form['translations'][$translation->language]['#default_value'] = dprint_r($matches, TRUE) .$translation->translation;
     }
   }
 
