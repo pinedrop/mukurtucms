@@ -95,13 +95,13 @@ function locale_audio_edit_form($form, &$form_state, $lid) {
   // Fetch translations and fill in default values in the form.
   $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
   foreach ($result as $translation) {
-    preg_match('/^<span data-locale-audio="(\d+)">(.*)</span>$/', $translation->translation, $matchees);
+    preg_match('/<span data-locale-audio="(\d+)">(.*)</span>/', $translation->translation, $matchees);
     if (count($matches) > 0) {
       $scid = $matches[1];
       $form['translations'][$translation->language]['#default_value'] = $matches[2];
     }
     else {
-      $form['translations'][$translation->language]['#default_value'] = $translation->translation;
+      $form['translations'][$translation->language]['#default_value'] = 'bogdog ' .$translation->translation;
     }
   }
 
