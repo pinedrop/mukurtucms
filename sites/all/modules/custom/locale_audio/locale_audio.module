@@ -298,16 +298,3 @@ function locale_audio_form_locale_translation_filter_form_alter(&$form, &$form_s
   );
   $form['filters']['status']['translation']['#options'] = $options;
 }
-
-/**
- * String search screen.
- */
-function locale_translate_seek_screen() {
-  // Add CSS.
-  drupal_add_css(drupal_get_path('module', 'locale') . '/locale.css');
-
-  $elements = drupal_get_form('locale_translation_filter_form');
-  $output = drupal_render($elements);
-  $output .= _locale_translate_seek();
-  return $output;
-}
