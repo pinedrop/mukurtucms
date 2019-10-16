@@ -50,16 +50,22 @@ function _locale_audio_translate_seek() {
   // Compute LIKE section.
   switch ($query['translation']) {
     case 'audio':
-      if (!empty($query['string'])) {
-        $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE');
+      if (empty($query['string'])) {
+        $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'LIKE');
       }
-      $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'LIKE');
+      else {
+        $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE')
+          ->condition('t.translation', '%' . db_like('span') . '%', 'LIKE');
+      }
       break;
     case 'translated':
-      if (!empty($query['string'])) {
-        $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE');
+      if (empty($query['string'])) {
+        $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE');
       }
-      $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE');
+      else {
+        $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE')
+          ->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE');
+      }
       $sql_query->orderBy('t.translation', 'DESC');
       break;
     case 'untranslated':
