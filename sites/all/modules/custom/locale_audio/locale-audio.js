@@ -3,8 +3,8 @@
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
       console.log('entered attach');
-      $(".data-locale-audio").each(function() {
-        console.log('found one!')
+      $("span").each(function() {
+        console.log($(this).text());
       });
       $("div").each(function() {
         console.log('found div!')
