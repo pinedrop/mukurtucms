@@ -7,7 +7,7 @@ dependencies[] = locale
 dependencies[] = scald
 
 scripts[] = locale-audio.js
-css[] = locale-audio.css
+stylesheets[all][] = locale-audio.css
 
 
 
