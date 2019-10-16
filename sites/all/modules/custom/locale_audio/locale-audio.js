@@ -1,9 +1,11 @@
 (function ($) {
 
   Drupal.behaviors.localeAudio = {
+    console.log('entered behavior');
     attach: function(context, settings) {
+      console.log('entered attach');
       $("span.data-locale-audio").each(function() {
-        alert('found one!')
+        console.log('found one!')
       });
     }
   };
