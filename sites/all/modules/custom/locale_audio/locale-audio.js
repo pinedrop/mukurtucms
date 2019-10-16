@@ -2,8 +2,8 @@
 
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
-      $("span[data-locale-audio]").each(function() {
-        console.log('found one!')
+      $("i.laud").each(function() {
+        var id = $(this).attr('data-laud');
       });
     }
   };
