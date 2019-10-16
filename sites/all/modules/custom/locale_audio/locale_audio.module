@@ -60,7 +60,8 @@ function _locale_audio_translate_seek() {
       break;
     case 'translated':
       if (empty($query['string'])) {
-        $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE');
+        $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE')
+          ->isNotNull('t.translation');
       }
       else {
         $sql_query->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE')
