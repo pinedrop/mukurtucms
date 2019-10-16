@@ -54,8 +54,7 @@ function _locale_audio_translate_seek() {
         ->condition('t.translation', '%' . db_like('span') . '%', 'LIKE');
       break;
     case 'translated':
-      $sql_query->condition(db_and()->condition('t.translation', '%' . db_like($query['string']) . '%', 'LIKE')
-        ->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE'));
+      $sql_query->condition('t.translation', '%' . db_like('span') . '%', 'NOT LIKE');
       $sql_query->orderBy('t.translation', 'DESC');
       break;
     case 'untranslated':
