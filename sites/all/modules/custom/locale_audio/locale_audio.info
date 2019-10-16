@@ -6,5 +6,7 @@ core = 7.x
 dependencies[] = locale
 dependencies[] = scald
 
+scripts[] = locale-audio.js
+
 
 
