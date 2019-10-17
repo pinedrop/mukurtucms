@@ -8,7 +8,8 @@
       $('span.locale-audio', context).once('locale-audio', function() {
         $(this).click(function() {
           var $sid = $('[data-locale-audio]', this).attr('data-locale-audio');
-          $('#locale-audio-player').load('/locale_audio/atom/'.$sid);
+          alert($sid);
+          $('#locale-audio-player').load('locale_audio/atom/'.$sid);
         });
       });
     }
