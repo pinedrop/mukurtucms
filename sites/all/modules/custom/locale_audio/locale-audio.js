@@ -9,6 +9,9 @@
         $(this).click(function() {
           var $sid = $('[data-locale-audio]', this).attr('data-locale-audio');
           alert($sid);
+          if (!$('#locale-audio-player').length) {
+            alert('not there');
+          }
           $('#locale-audio-player').load('/locale_audio/atom/'.$sid, function() {
             alert('did it');
           });
