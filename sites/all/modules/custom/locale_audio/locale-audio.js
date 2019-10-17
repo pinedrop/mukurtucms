@@ -9,6 +9,6 @@
     }
   };
 
-  $("body").append('<div id-"locale-audio-player">Bingo bongo</div>');
+  $("body").append('<div id="locale-audio-player">Bingo bongo</div>');
 
 })(jQuery);
