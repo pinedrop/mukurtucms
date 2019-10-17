@@ -18,7 +18,9 @@
           } else {
             $('#locale-audio-player').load('/locale_audio/atom/' + $next, function () {
               $('#locale-audio-player').find('audio')[0].play();
-              console.log($icon);
+              $icon[0].classList.remove('fa-podcast');
+              $icon[0].classList.remove('fa-lg');
+              $icon[0].classList.add('fa-circle-notch');
               $icon[0].classList.add('fa-spin');
             });
           }
