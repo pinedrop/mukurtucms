@@ -8,11 +8,12 @@
       $('span.locale-audio', context).once('locale-audio', function() {
         $(this).click(function() {
           var $icon = $('[data-locale-audio]', this);
-          var $sid = $icon.attr('data-locale-audio');
-          alert($sid);
-          alert($('#locale-audio-player > div').attr('data-atom-id'));
-          if ($('#locale-audio-player > div').attr('data-atom-id') == $sid) {
-            $('#locale-audio-player').find('audio')[0].stop().play();
+          var $next = $icon.attr('data-locale-audio');
+          var $last = $('#locale-audio-player > div').attr('data-atom-id');
+          if ($next == $last) {
+            var aud = $('#locale-audio-player').find('audio')[0];
+            aud.pause().currentTime = 0.0;
+            aud.play();
           } else {
             $('#locale-audio-player').load('/locale_audio/atom/' + $sid, function () {
               $('#locale-audio-player').find('audio')[0].play();
