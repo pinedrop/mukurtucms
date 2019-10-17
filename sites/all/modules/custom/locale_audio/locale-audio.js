@@ -9,6 +9,13 @@
     }
   };
 
+  if ($("body").length) {
+    alert('body');
+  }
+  else {
+    alert('no body');
+  }
+  
   $("body").append('<div id="locale-audio-player">Bingo bongo</div>');
 
 })(jQuery);
