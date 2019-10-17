@@ -9,6 +9,8 @@
         $(this).click(function() {
           var $icon = $('[data-locale-audio]', this);
           var $sid = $icon.attr('data-locale-audio');
+          alert($sid);
+          alert($('#locale-audio-player > div').attr('data-atom-id'));
           if ($('#locale-audio-player > div').attr('data-atom-id') == $sid) {
             $('#locale-audio-player').find('audio')[0].stop().play();
           } else {
