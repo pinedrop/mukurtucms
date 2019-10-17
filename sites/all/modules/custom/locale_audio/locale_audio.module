@@ -1,5 +1,24 @@
 <?php
 
+function locale_audio_menu() {
+  $items['locale_audio/atom/%'] = array(
+    'page callback' => 'locale_audio_atom_ajax', // Render HTML.
+    'page arguments' => array(2),
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('access content'),
+    'delivery callback' => 'locale_audio_atom_ajax_callback',  // Magic goes here.
+  );
+  return $items;
+}
+
+function locale_audio_atom_ajax($sid) {
+  return scald_render($sid, 'sdl_editor_representation');
+}
+
+function locale_audio_atom_ajax_callback($result) {
+  print $result;
+}
+
 function locale_audio_menu_alter(&$items)
 {
   $items['admin/config/regional/translate/edit/%']['page arguments'] = array('locale_audio_edit_form', 5);
