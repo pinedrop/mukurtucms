@@ -11,13 +11,16 @@
           var next = $icon.attr('data-locale-audio');
           var last = $('#locale-audio-player > div').attr('data-atom-id');
           var $aud = $('#locale-audio-player').find('audio');
-          if (last) {
-            $aud[0].pause();
-          }
           if (next == last) {
+            $aud[0].pause();
             $aud[0].currentTime = 0.0;
             $aud[0].play();
-          } else {
+          }
+          else {
+            if (last) {
+              $aud[0].pause();
+              $('[data-locale-audio='+last+']')[0].classList.remove('fa-spin');
+            }
             $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
               var aud = $('#locale-audio-player').find('audio')[0];
               aud.onplay = function() {
