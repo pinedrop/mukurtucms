@@ -9,7 +9,6 @@
         $(this).click(function() {
           var $icon = $('[data-locale-audio]', this);
           var $sid = $icon.attr('data-locale-audio');
-          if (!)
           $('#locale-audio-player').load('/locale_audio/atom/'+$sid, function() {
             $('#locale-audio-player').find('audio')[0].play();
             $icon.addClass('fa-spin');
