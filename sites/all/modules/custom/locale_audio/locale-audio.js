@@ -2,7 +2,7 @@
 
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
-      $("[data-laud]").click(function() {
+      $("span[locale-audio]").click(function() {
         alert('clicked');
       });
     }
