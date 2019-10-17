@@ -22,11 +22,10 @@
             $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
               var aud = $('#locale-audio-player').find('audio')[0];
               aud.onended = function() {
-                alert('ended');
-                $icon[0].classList.remove('fa-spin');
+                $('[data-locale-audio='+next+']')[0].classList.remove('fa-spin');
               };
               aud.play();
-              $icon[0].classList.add('fa-spin');
+              $('[data-locale-audio='+next+']')[0].classList.add('fa-spin');
             });
           }
         });
