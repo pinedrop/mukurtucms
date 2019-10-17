@@ -13,7 +13,6 @@
           if (last) {
             $('[data-locale-audio='+last+']')[0].classList.remove('fa-spin');
           }
-          
           if (next == last) {
             var aud = $('#locale-audio-player').find('audio')[0];
             aud.pause();
@@ -23,6 +22,7 @@
             $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
               var aud = $('#locale-audio-player').find('audio')[0];
               aud.onended = function() {
+                alert('ended');
                 $icon[0].classList.remove('fa-spin');
               };
               aud.play();
