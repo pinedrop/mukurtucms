@@ -9,7 +9,9 @@
         $(this).click(function() {
           var $sid = $('[data-locale-audio]', this).attr('data-locale-audio');
           alert($sid);
-          $('#locale-audio-player').load('locale_audio/atom/'.$sid);
+          $('#locale-audio-player').load('/locale_audio/atom/'.$sid, function() {
+            alert('did it');
+          });
         });
       });
     }
