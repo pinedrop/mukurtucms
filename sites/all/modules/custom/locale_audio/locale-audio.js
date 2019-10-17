@@ -11,7 +11,7 @@
           var $sid = $icon.attr('data-locale-audio');
           $('#locale-audio-player').load('/locale_audio/atom/'+$sid, function() {
             console.log('success');
-            $('#locale-audio-player').find('audio').get().play();
+            $('#locale-audio-player').find('audio')[0].play();
             $icon.addClass('fa-spin');
           });
         });
