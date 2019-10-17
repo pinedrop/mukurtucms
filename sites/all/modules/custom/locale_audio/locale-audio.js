@@ -12,7 +12,8 @@
           var $last = $('#locale-audio-player > div').attr('data-atom-id');
           if ($next == $last) {
             var aud = $('#locale-audio-player').find('audio')[0];
-            aud.pause().currentTime = 0.0;
+            aud.pause();
+            aud.currentTime = 0.0;
             aud.play();
           } else {
             $('#locale-audio-player').load('/locale_audio/atom/' + $next, function () {
