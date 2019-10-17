@@ -9,10 +9,14 @@
         $(this).click(function() {
           var $icon = $('[data-locale-audio]', this);
           var $sid = $icon.attr('data-locale-audio');
-          $('#locale-audio-player').load('/locale_audio/atom/'+$sid, function() {
-            $('#locale-audio-player').find('audio')[0].play();
-            $icon.addClass('fa-spin');
-          });
+          if ($('#locale-audio-player > div').attr('data-atom-id') == $sid) {
+            $('#locale-audio-player').find('audio')[0].stop().play();
+          } else {
+            $('#locale-audio-player').load('/locale_audio/atom/' + $sid, function () {
+              $('#locale-audio-player').find('audio')[0].play();
+              $icon.addClass('fa-spin');
+            });
+          }
         });
       });
     }
