@@ -11,8 +11,9 @@
           var next = $icon.attr('data-locale-audio');
           var last = $('#locale-audio-player > div').attr('data-atom-id');
           if (last) {
-            $('[data-locale-audio='+last)[0].classList.remove('fa-spin');
+            $('[data-locale-audio='+last+']')[0].classList.remove('fa-spin');
           }
+          
           if (next == last) {
             var aud = $('#locale-audio-player').find('audio')[0];
             aud.pause();
