@@ -257,7 +257,7 @@ function locale_audio_edit_form_submit($form, &$form_state) {
       $audio = $form_state['values']['audio'][$key];
 
       if (!empty($audio)) {
-        $value = '<span class="locale-audio"><i class="fas fa-asterisk" data-locale-audio="' .$audio. '"></i></span> '.$value;
+        $value = '<span class="locale-audio"><i class="fas fa-lg fa-asterisk" data-locale-audio="' .$audio. '"></i></span> '.$value;
       }
 
       // Only update or insert if we have a value to use.
