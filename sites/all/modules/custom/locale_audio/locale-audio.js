@@ -19,7 +19,7 @@
             $('#locale-audio-player').load('/locale_audio/atom/' + $next, function () {
               $('#locale-audio-player').find('audio')[0].play();
               console.log($icon);
-              $icon.addClass('fa-spin');
+              $icon[0].classList.add('fa-spin');
             });
           }
         });

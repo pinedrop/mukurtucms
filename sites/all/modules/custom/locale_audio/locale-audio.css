@@ -1,3 +1,6 @@
 span.locale-audio {
   color: forestgreen;
 }
+#locale-audio-player {
+  display: none;
+}
