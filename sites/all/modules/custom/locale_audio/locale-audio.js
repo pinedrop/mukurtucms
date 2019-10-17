@@ -4,7 +4,7 @@
     attach: function(context, settings) {
       $("span.locale-audio").click(function() {
         var $sid = $('[data-locale-audio]', this).attr('data-locale-audio');
-        $('#locale-audio-player').load()
+        $('#locale-audio-player').load('/locale_audio/atom/'.$sid);
       });
     }
   };
