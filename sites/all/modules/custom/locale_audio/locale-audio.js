@@ -7,8 +7,13 @@
       }
       $('span.locale-audio', context).once('locale-audio', function() {
         $(this).click(function() {
-          var $sid = $('[data-locale-audio]', this).attr('data-locale-audio');
-          $('#locale-audio-player').load('/locale_audio/atom/'+$sid);
+          var $icon = $('[data-locale-audio]', this);
+          var $sid = $icon.attr('data-locale-audio');
+          $('#locale-audio-player').load('/locale_audio/atom/'+$sid, function() {
+            console.log('success');
+            $('#locale-audio-player').find('audio').get().play();
+            $icon.addClass('fa-spin');
+          });
         });
       });
     }
