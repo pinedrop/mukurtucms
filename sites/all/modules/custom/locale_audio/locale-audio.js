@@ -15,7 +15,7 @@
             aud.pause().currentTime = 0.0;
             aud.play();
           } else {
-            $('#locale-audio-player').load('/locale_audio/atom/' + $sid, function () {
+            $('#locale-audio-player').load('/locale_audio/atom/' + $next, function () {
               $('#locale-audio-player').find('audio')[0].play();
               $icon.addClass('fa-spin');
             });
