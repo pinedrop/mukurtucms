@@ -6,8 +6,7 @@
         $("body").append('<div id="locale-audio-player"></div>');
       }
       $('span.locale-audio', context).once('locale-audio', function() {
-        $(this).click(function(e) {
-          e.stopPropagation();
+        $(this).click(function() {
           var $icon = $('[data-locale-audio]', this);
           var next = $icon.attr('data-locale-audio');
           var last = $('#locale-audio-player > div').attr('data-atom-id');
@@ -33,6 +32,7 @@
               aud.play();
             });
           }
+          return false; //stop jquery bubbling
         });
       });
     }
