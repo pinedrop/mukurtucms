@@ -257,7 +257,7 @@ function locale_audio_edit_form_submit($form, &$form_state) {
       $audio = $form_state['values']['audio'][$key];
 
       if (!empty($audio)) {
-        $value = json_decode('"\uFFF9"').$value.json_decode('"\uFFFA"')."yaya".json_decode('"\uFFFB"');
+        $value = json_decode('"\uFFF9"').$value.json_decode('"\uFFFA"').json_decode('"\uFFFB"');
         //$value = json_decode('"\u0F53"').$value;
         //$value = '<span class="locale-audio"><i class="fas fa-lg fa-asterisk" data-locale-audio="' .$audio. '"></i></span> '.$value;
       }
