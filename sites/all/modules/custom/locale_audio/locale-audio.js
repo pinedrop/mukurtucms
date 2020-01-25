@@ -5,10 +5,9 @@
       if (!$('#locale-audio-player').length) {
         $("body").append('<div id="locale-audio-player"></div>');
       }
-      $(':text').each(function() {
-        if ($(this).charAt(0) === '\uFFF9') {
-          alert('found one!');
-        }
+      findAndReplaceDOMText(document.getElementById('body'), {
+        find: /heritage/,
+        wrap: 'strong'
       });
       $('span.locale-audio', context).once('locale-audio', function() {
         $(this).click(function() {
