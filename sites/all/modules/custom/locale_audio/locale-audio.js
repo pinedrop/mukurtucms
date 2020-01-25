@@ -6,11 +6,11 @@
         $("body").append('<div id="locale-audio-player">Greetings <span>my friend</span> you are a great friend</div>');
       }
       findAndReplaceDOMText(document.getElementById('homebox-block-mukurtu_splash_manage_community'), {
-        find: /Communities/,
+        find: /Communities/g,
         wrap: 'strong'
       });
       findAndReplaceDOMText(document.getElementById('locale-audio-player'), {
-        find: /friend/,
+        find: /friend/g,
         wrap: 'strong'
       });
       $('span.locale-audio', context).once('locale-audio', function() {
