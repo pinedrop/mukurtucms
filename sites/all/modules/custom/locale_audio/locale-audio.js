@@ -5,6 +5,10 @@
       if (!$('#locale-audio-player').length) {
         $("body").append('<div id="locale-audio-player">Greetings my friend</div>');
       }
+      findAndReplaceDOMText(document.getElementById('homebox-block-mukurtu_splash_manage_community'), {
+        find: /Communities/,
+        wrap: 'strong'
+      });
       findAndReplaceDOMText(document.getElementById('locale-audio-player'), {
         find: /friend/,
         wrap: 'strong'
