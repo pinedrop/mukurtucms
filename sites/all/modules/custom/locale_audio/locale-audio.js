@@ -5,7 +5,7 @@
       if (!$('#locale-audio-player').length) {
         $("body").append('<div id="locale-audio-player"></div>');
       }
-      findAndReplaceDOMText(document.body, {
+      findAndReplaceDOMText(document.getElementById('block-system-main'), {
         find: /heritage/,
         wrap: 'strong'
       });
