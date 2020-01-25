@@ -5,5 +5,5 @@ svg.locale-audio:hover {
   cursor: hand;
 }
 #locale-audio-player {
-  display: none;
+  display: block;
 }

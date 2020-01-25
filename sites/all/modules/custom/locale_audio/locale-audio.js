@@ -3,10 +3,10 @@
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
       if (!$('#locale-audio-player').length) {
-        $("body").append('<div id="locale-audio-player"></div>');
+        $("body").append('<div id="locale-audio-player">Greetings my friend</div>');
       }
-      findAndReplaceDOMText(document.getElementById('block-system-main'), {
-        find: /heritage/,
+      findAndReplaceDOMText(document.getElementById('locale-audio-player'), {
+        find: /friend/,
         wrap: 'strong'
       });
       $('span.locale-audio', context).once('locale-audio', function() {
