@@ -9,7 +9,7 @@
         find: /\uFFF9(.*)\uFFFA(.*)\uFFFB/g,
         replace: function(portion, match) {
           console.log(match);
-          return '[[' + portion.index + ']]';
+          return portion.index;
         }
         //replace: "<span class='locale-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='$2'></i></span> $1"
       });
