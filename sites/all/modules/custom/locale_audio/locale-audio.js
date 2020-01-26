@@ -6,7 +6,7 @@
         $("body").append('<div id="locale-audio-player">Greetings <span>my friend</span> you are a great friend</div>');
       }
       findAndReplaceDOMText(document.body, {
-        find: /\uFFF9(.*)\uFFFA(.*)\uFFFB/g,
+        find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
         replace: function(portion, match) {
           console.log("portion:");
           console.log(portion);
