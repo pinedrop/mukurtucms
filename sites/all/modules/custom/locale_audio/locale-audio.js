@@ -3,11 +3,14 @@
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
       if (!$('#locale-audio-player').length) {
-        $("body").append('<div id="locale-audio-player">Greetings <span>my friend</span> you are a great friend</div>');
+        $("body").append('<div id="locale-audio-player"></div>');
       }
       findAndReplaceDOMText(document.body, {
         find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
+        wrap: "span",
+        wrapClass: "locale-audio",
         replace: function(portion, match) {
+          return  "<i class='fas fa-lg fa-asterisk' data-locale-audio='" + match(2) + '"></i></span> " + match(1);
           console.log("portion:");
           console.log(portion);
           console.log("match");
@@ -15,14 +18,6 @@
           return portion.index;
         }
         //replace: "<span class='locale-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='$2'></i></span> $1"
-      });
-      findAndReplaceDOMText(document.body, {
-        find: /dashboard/g,
-        wrap: 'strong'
-      });
-      findAndReplaceDOMText(document.getElementById('locale-audio-player'), {
-        find: /friend/g,
-        wrap: 'strong'
       });
       $('span.locale-audio', context).once('locale-audio', function() {
         $(this).click(function() {
