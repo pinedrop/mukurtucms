@@ -8,7 +8,7 @@
       findAndReplaceDOMText(document.body, {
         find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
         replace: function(portion, match) {
-          var wrap = $("<span><span class='local-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='" + match[2] + "'></i></span> " + match[1]) + "</span>";
+          var wrap = $("<span><span class='locale-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='" + match[2] + "'></i></span> " + match[1] + "</span>");
           return wrap[0];
         }
         //replace: "<span class='locale-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='$2'></i></span> $1"
