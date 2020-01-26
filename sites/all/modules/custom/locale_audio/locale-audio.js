@@ -7,7 +7,11 @@
       }
       findAndReplaceDOMText(document.body, {
         find: /\uFFF9(.*)\uFFFA(.*)\uFFFB/g,
-        replace: "<span class='locale-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='$2'></i></span> $1"
+        replace: function(portion, match) {
+          console.log(match);
+          return '[[' + portion.index + ']]';
+        }
+        //replace: "<span class='locale-audio'><i class='fas fa-lg fa-asterisk' data-locale-audio='$2'></i></span> $1"
       });
       findAndReplaceDOMText(document.body, {
         find: /dashboard/g,
