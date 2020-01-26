@@ -8,6 +8,9 @@
       findAndReplaceDOMText(document.body, {
         find: /\uFFF9(.*)\uFFFA(.*)\uFFFB/g,
         replace: function(portion, match) {
+          console.log("portion:");
+          console.log(portion);
+          console.log("match");
           console.log(match);
           return portion.index;
         }
