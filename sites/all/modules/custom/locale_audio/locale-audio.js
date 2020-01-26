@@ -10,7 +10,7 @@
         wrap: "span",
         wrapClass: "locale-audio",
         replace: function(portion, match) {
-          return  "<i class='fas fa-lg fa-asterisk' data-locale-audio='" + match(2) + '"></i></span> " + match(1);
+          return  "<i class='fas fa-lg fa-asterisk' data-locale-audio='" + match(2) + "'></i></span> " + match(1);
           console.log("portion:");
           console.log(portion);
           console.log("match");
