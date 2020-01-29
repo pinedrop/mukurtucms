@@ -3,10 +3,10 @@
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
       console.log(context);
-      if (!$('#locale-audio-player').length) {
+      if (context == document) {
         $("body").append('<div id="locale-audio-player"></div>');
       }
-      $('html', context).once('locale-audio', function() {
+      $(context).children().once('locale-audio', function() {
         findAndReplaceDOMText(this, {
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
