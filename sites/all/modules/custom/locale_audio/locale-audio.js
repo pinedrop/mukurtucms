@@ -6,7 +6,7 @@
       if (!$('#locale-audio-player').length) {
         $("body").append('<div id="locale-audio-player"></div>');
       }
-      $(context).once('locale-audio', function() {
+      $('html', context).once('locale-audio', function() {
         findAndReplaceDOMText(this, {
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
