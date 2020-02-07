@@ -1,6 +1,16 @@
 <?php
 
 function locale_audio_menu() {
+    $items = array();
+
+    $items['admin/config/locale-audio'] = array(
+      'title' => 'Locale Audio',
+      'description' => 'Administer Locale Audio',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('locale_audio_admin'),
+      'access arguments' => array('administer locale audio'),
+      'file' => 'locale_audio.admin.inc',
+    );
   $items['locale_audio/atom/%'] = array(
     'page callback' => 'locale_audio_atom_ajax', // Render HTML.
     'page arguments' => array(2),
@@ -8,6 +18,7 @@ function locale_audio_menu() {
     'access arguments' => array('access content'),
     'delivery callback' => 'locale_audio_atom_ajax_callback',  // Magic goes here.
   );
+
   return $items;
 }
 
