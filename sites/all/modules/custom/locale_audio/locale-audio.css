@@ -1,5 +1,9 @@
 span.locale-audio {
   color: forestgreen;
+  border-right: 1px;
+}
+span.locale-audio::after {
+
 }
 svg.locale-audio:hover {
   cursor: hand;
