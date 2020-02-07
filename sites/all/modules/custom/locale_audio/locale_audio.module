@@ -1,6 +1,6 @@
 <?php
 
-function locale_audio_boot() {
+function locale_audio_init() {
   static $done;
 
   // Prevent this function from running twice;
