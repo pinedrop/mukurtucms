@@ -1,9 +1,21 @@
 <?php
 
+function locale_audio_boot() {
+  static $done;
+
+  // Prevent this function from running twice;
+  if (!isset($done)) {
+    $done = TRUE;
+    drupal_add_js(array('locale_audio') => array(
+      'playIcon' => variable_get('locale_audio_play', 'fa-volume-up'),
+      'playingIcon' => variable_get('locale_audio_playing', 'fa-pause-circle'),
+    );
+  }
+}
 function locale_audio_menu() {
     $items = array();
 
-    $items['admin/config/locale-audio'] = array(
+    $items['admin/config/regional/locale-audio'] = array(
       'title' => 'Locale Audio',
       'description' => 'Administer Locale Audio',
       'page callback' => 'drupal_get_form',

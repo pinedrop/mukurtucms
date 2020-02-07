@@ -20,7 +20,7 @@ function locale_audio_admin()
     '#title' => t('Audio is playing icon'),
     '#type' => 'textfield',
     '#default_value' => variable_get('locale_audio_playing', 'fa-pause-circle'),
-    '#description' => t('Enter the FontAwesome class for the icon that may be displayed when the audio connected to some text is played.'),
+    '#description' => t('Enter the FontAwesome class for the icon that may be displayed when the audio connected to some text is playing.'),
     '#required' => TRUE,
   );
   return system_settings_form($form);
