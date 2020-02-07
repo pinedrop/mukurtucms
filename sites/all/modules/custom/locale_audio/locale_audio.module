@@ -6,10 +6,10 @@ function locale_audio_boot() {
   // Prevent this function from running twice;
   if (!isset($done)) {
     $done = TRUE;
-    drupal_add_js(array('locale_audio') => array(
+    drupal_add_js(array('locale_audio' => array(
       'playIcon' => variable_get('locale_audio_play', 'fa-volume-up'),
       'playingIcon' => variable_get('locale_audio_playing', 'fa-pause-circle'),
-    );
+    )), array('type' => 'setting'));
   }
 }
 function locale_audio_menu() {
