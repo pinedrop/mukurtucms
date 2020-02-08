@@ -12,7 +12,7 @@ function locale_audio_admin()
   $form['locale_audio_icon_settings']['locale_audio_i_play'] = array(
     '#title' => t('Play audio icon'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('locale_audio_i_play_', 'fa-volume-up'),
+    '#default_value' => variable_get('locale_audio_i_play', 'fa-volume-up'),
     '#description' => t('Enter the FontAwesome class for the icon used to indicate that there is audio connected to some text. Clicking on this icon will play the audio.'),
     '#required' => TRUE,
   );
