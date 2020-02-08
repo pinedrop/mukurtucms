@@ -11,7 +11,7 @@
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
             console.log(match);
-            var wrap = $("<span><span class='locale-audio'><i class='fas fa-lg fa-volume-up' data-locale-audio='" + match[2] + "'></i></span> " + match[1] + "</span>");
+            var wrap = $("<span><span class='locale-audio'><i class='fas fa-lg " + Drupal.settings.locale_audio.playIcon + "' data-locale-audio='" + match[2] + "'></i></span> " + match[1] + "</span>");
             return wrap[0];
           }
         });
@@ -33,10 +33,14 @@
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
                 aud.onplay = function () {
-                  $('[data-locale-audio=' + next + ']')[0].classList.add('fa-spin');
+                  var el = $('[data-locale-audio=' + next + ']')[0];
+                  el.classList.remove(Drupal.settings.locale_audio.playIcon);
+                  el.classList.add(Drupal.settings.locale_audio.playingIcon);
                 };
                 aud.onended = function () {
-                  $('[data-locale-audio=' + next + ']')[0].classList.remove('fa-spin');
+                  var el = $('[data-locale-audio=' + next + ']')[0];
+                  el.classList.remove(Drupal.settings.locale_audio.playingIcon);
+                  el.classList.add(Drupal.settings.locale_audio.playIcon);
                 };
                 aud.play();
               });
