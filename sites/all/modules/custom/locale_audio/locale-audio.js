@@ -30,7 +30,7 @@
                 $aud[0].pause();
                 var el = $('[data-locale-audio=' + last + ']')[0];
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
-                el.classList.add('fa=' + Drupal.settings.locale_audio.iPlay);
+                el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
