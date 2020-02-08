@@ -7,8 +7,8 @@ function locale_audio_init() {
   if (!isset($done)) {
     $done = TRUE;
     drupal_add_js(array('locale_audio' => array(
-      'iPlay' => variable_get('locale_audio_i_play', 'fa-volume-up'),
-      'iPlaying' => variable_get('locale_audio_i_playing', 'fa-pause-circle'),
+      'iPlay' => variable_get('locale_audio_i_play', 'volume-up'),
+      'iPlaying' => variable_get('locale_audio_i_playing', 'pause-circle'),
     )), array('type' => 'setting'));
   }
 }

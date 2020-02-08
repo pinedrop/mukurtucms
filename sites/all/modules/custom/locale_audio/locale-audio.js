@@ -11,7 +11,7 @@
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
             console.log(match);
-            var wrap = $("<span><span class='locale-audio'><i class='fas fa-lg " + Drupal.settings.locale_audio.iPlay + "' data-locale-audio='" + match[2] + "'></i></span> " + match[1] + "</span>");
+            var wrap = $("<span><span class='locale-audio'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "' data-locale-audio='" + match[2] + "'></i></span> " + match[1] + "</span>");
             return wrap[0];
           }
         });
@@ -28,19 +28,21 @@
             } else {
               if (last) {
                 $aud[0].pause();
-                $('[data-locale-audio=' + last + ']')[0].classList.remove('fa-spin');
+                var el = $('[data-locale-audio=' + last + ']')[0];
+                el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
+                el.classList.add('fa=' + Drupal.settings.locale_audio.iPlay);
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
                 aud.onplay = function () {
                   var el = $('[data-locale-audio=' + next + ']')[0];
-                  el.classList.remove(Drupal.settings.locale_audio.iPlay);
-                  el.classList.add(Drupal.settings.locale_audio.iPlaying);
+                  el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
+                  el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
                 };
                 aud.onended = function () {
                   var el = $('[data-locale-audio=' + next + ']')[0];
-                  el.classList.remove(Drupal.settings.locale_audio.iPlaying);
-                  el.classList.add(Drupal.settings.locale_audio.iPlay);
+                  el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
+                  el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 };
                 aud.play();
               });

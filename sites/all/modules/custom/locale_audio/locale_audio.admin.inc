@@ -12,14 +12,14 @@ function locale_audio_admin()
   $form['locale_audio_icon_settings']['locale_audio_i_play'] = array(
     '#title' => t('Play audio icon'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('locale_audio_i_play', 'fa-volume-up'),
+    '#default_value' => variable_get('locale_audio_i_play', 'volume-up'),
     '#description' => t('Enter the FontAwesome class for the icon used to indicate that there is audio connected to some text. Clicking on this icon will play the audio.'),
     '#required' => TRUE,
   );
   $form['locale_audio_icon_settings']['locale_audio_i_playing'] = array(
     '#title' => t('Audio is playing icon'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('locale_audio_i_playing', 'fa-pause-circle'),
+    '#default_value' => variable_get('locale_audio_i_playing', 'pause-circle'),
     '#description' => t('Enter the FontAwesome class for the icon that may be displayed when the audio connected to some text is playing.'),
     '#required' => TRUE,
   );
