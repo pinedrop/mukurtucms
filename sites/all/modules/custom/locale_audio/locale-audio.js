@@ -11,7 +11,7 @@
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
             console.log(match);
-            var wrap = $("<span data-locale-audio='" + match[2] + "'><span class='locale-audio-icon'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "'></i></span> <span class='locale-audio-text'>" + match[1] + "</span></span>");
+            var wrap = $("<span data-locale-audio='" + match[2] + "'><span class='locale-audio-icon'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "'></i></span> " + match[1] + "</span>");
             return wrap[0];
           }
         });
@@ -28,21 +28,27 @@
             } else {
               if (last) {
                 $aud[0].pause();
-                var el = $('[data-locale-audio=' + last + '] svg[data-icon]')[0];
+                var $loc = $('[data-locale-audio=' + last + ']');
+                var el = $loc.find('svg[data-icon]')[0];
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
+                $loc.removeClass('playing');
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
                 aud.onplay = function () {
-                  var el = $('[data-locale-audio=' + next + '] svg[data-icon]')[0];
+                  var $loc = $('[data-locale-audio=' + next + ']');
+                  var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
+                  $loc.addClass('playing');
                 };
                 aud.onended = function () {
-                  var el = $('[data-locale-audio=' + next + '] svg[data-icon]')[0];
+                  var $loc = $('[data-locale-audio=' + next + ']');
+                  var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
+                  $loc.removeClass('playing');
                 };
                 aud.play();
               });
