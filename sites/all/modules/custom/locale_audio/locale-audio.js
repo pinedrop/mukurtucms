@@ -16,9 +16,9 @@
           }
         });
         $('span[data-locale-audio]', this).once('locale-audio', function () {
-          $('span.locale-audio-text', this).click(function () {
+          $('span.locale-audio-icon', this).click(function () {
             var $icon = $('i.fas', this);
-            var next = $(this).attr('data-locale-audio');
+            var next = $(this).parent().attr('data-locale-audio');
             var last = $('#locale-audio-player > div').attr('data-atom-id');
             var $aud = $('#locale-audio-player').find('audio');
             if (next == last) {
