@@ -28,19 +28,19 @@
             } else {
               if (last) {
                 $aud[0].pause();
-                var el = $('[data-locale-audio=' + last + '] svg.data-icon')[0];
+                var el = $('[data-locale-audio=' + last + ']').find('svg.data-icon')[0];
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
                 aud.onplay = function () {
-                  var el = $('[data-locale-audio=' + next + '] svg.data-icon')[0];
+                  var el = $('[data-locale-audio=' + next + ']').find('svg.data-icon')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
                 };
                 aud.onended = function () {
-                  var el = $('[data-locale-audio=' + next + '] svg.data-icon')[0];
+                  var el = $('[data-locale-audio=' + next + ']').find('svg.data-icon')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 };
