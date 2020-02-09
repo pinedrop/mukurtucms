@@ -11,14 +11,14 @@
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
             console.log(match);
-            var wrap = $("<span><span class='locale-audio'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "' data-locale-audio='" + match[2] + "'></i></span> " + match[1] + "</span>");
+            var wrap = $("<span data-locale-audio='\" + match[2] + \"'><span class='locale-audio-icon'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "'></i></span> <span class='locale-audio-text'>" + match[1] + "</span></span>");
             return wrap[0];
           }
         });
-        $('span.locale-audio', this).once('locale-audio', function () {
-          $(this).click(function () {
-            var $icon = $('[data-locale-audio]', this);
-            var next = $icon.attr('data-locale-audio');
+        $('span[data-locale-audio]', this).once('locale-audio', function () {
+          $('span.locale-audio-text', this).click(function () {
+            var $icon = $('i.fas', this);
+            var next = $(this).attr('data-locale-audio');
             var last = $('#locale-audio-player > div').attr('data-atom-id');
             var $aud = $('#locale-audio-player').find('audio');
             if (next == last) {
