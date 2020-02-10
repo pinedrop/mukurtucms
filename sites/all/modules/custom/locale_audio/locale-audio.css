@@ -1,8 +1,9 @@
 span.locale-audio {
   color: forestgreen;
 }
-span.locale-audio-text {
+div.locale-audio-text {
   position: relative;
+  display: inline;
 }
 svg.locale-audio:hover {
   cursor: hand;
