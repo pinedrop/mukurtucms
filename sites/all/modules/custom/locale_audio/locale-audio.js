@@ -41,8 +41,10 @@
                 aud.onloadedmetadata = function() {
                   $loc.find('.locale-audio-text').markerAnimation({
                     font_weight: null,
-                    duration: aud.duration.toString() + 's'
-                  });
+                    duration: aud.duration.toString() + 's',
+                    stripe:false,
+                    stripe_thickness: 2
+                });
                 };
                 aud.onplay = function () {
                   var el = $loc.find('svg[data-icon]')[0];
