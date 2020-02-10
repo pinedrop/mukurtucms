@@ -43,11 +43,14 @@
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
                 var $loc = $('[data-locale-audio=' + next + ']');
+                var loaded = false;
 
                 aud.onloadedmetadata = function() {
+                  loaded = true;
                   highlighter($loc.find('.locale-audio-text'), aud.duration);
                 };
                 aud.onplay = function () {
+                  if (loaded) highlighter($loc.find('.locale-audio-text'), aud.duration);
                   var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
@@ -58,7 +61,6 @@
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                   $loc.removeClass('playing');
-                  $loc.find('.locale-audio-text').attr('style')
                 };
                 aud.play();
               });
