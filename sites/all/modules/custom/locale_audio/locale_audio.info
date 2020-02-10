@@ -9,7 +9,7 @@ dependencies[] = scald
 scripts[] = locale-audio.js
 scripts[] = findAndReplaceDOMText.js
 scripts[] = lumin.min.js
-scripts[] = jquery.marker-animation/src/index.js
+scripts[] = progressiveHighlight.js
 stylesheets[all][] = locale-audio.css
 
 
