@@ -36,7 +36,11 @@
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
+                aud.onloadedmetadata = function() {
+                  console.log(aud.duration);
+                };
                 aud.onplay = function () {
+                  console.log('play');
                   var $loc = $('[data-locale-audio=' + next + ']');
                   var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
