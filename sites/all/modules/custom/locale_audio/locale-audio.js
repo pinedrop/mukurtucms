@@ -11,7 +11,7 @@
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
             console.log(match);
-            var wrap = $("<span data-locale-audio='" + match[2] + "'><span class='locale-audio-icon'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "'></i></span> " + match[1] + "</span>");
+            var wrap = $("<span data-locale-audio='" + match[2] + "'><span class='locale-audio-icon'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "'></i></span> <span class='locale-audio-text'>" + match[1] + "</span></span>");
             return wrap[0];
           }
         });
@@ -42,7 +42,7 @@
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
                   $loc.addClass('playing');
-                  const luminator = lumin($loc[0]);
+                  const luminator = lumin($loc.find('.locale-audio-text')[0]);
                   luminator.start(5000); // 5000ms to highlight
                 };
                 aud.onended = function () {

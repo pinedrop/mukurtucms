@@ -1,13 +1,16 @@
 span.locale-audio {
   color: forestgreen;
 }
+span.locale-audio-text {
+  position: relative;
+}
 svg.locale-audio:hover {
   cursor: hand;
 }
 #locale-audio-player {
   display: none;
 }
-span[data-locale-audio].playing {
+/* span[data-locale-audio].playing {
   animation:blinkingText 1.2s infinite;
 }
 @keyframes blinkingText{
@@ -16,4 +19,4 @@ span[data-locale-audio].playing {
   60%{    color: transparent; }
   99%{    color:transparent;  }
   100%{   color: #000;    }
-}
+} */
