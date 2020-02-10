@@ -41,9 +41,7 @@
                 aud.onloadedmetadata = function() {
                   $loc.find('.locale-audio-text').markerAnimation({
                     font_weight: null,
-                    duration: aud.duration.toString() + 's',
-                    stripe:false,
-                    stripe_thickness: 2
+                    duration: aud.duration.toString() + 's'
                 });
                 };
                 aud.onplay = function () {
@@ -57,6 +55,7 @@
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                   $loc.removeClass('playing');
+                  $loc.find('.locale-audio-text').markerAnimation('destroy');
                 };
                 aud.play();
               });
