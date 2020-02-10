@@ -1,9 +1,5 @@
-span.locale-audio {
+span.locale-audio-icon {
   color: forestgreen;
-}
-div.locale-audio-text {
-  position: relative;
-  display: inline;
 }
 svg.locale-audio:hover {
   cursor: hand;
