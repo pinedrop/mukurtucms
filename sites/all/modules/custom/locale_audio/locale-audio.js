@@ -37,7 +37,6 @@
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
                 var $loc = $('[data-locale-audio=' + next + ']');
-                var el = $loc.find('svg[data-icon]')[0];
 
                 aud.onloadedmetadata = function() {
                   $loc.find('.locale-audio-text').markerAnimation({
@@ -46,11 +45,13 @@
                   });
                 };
                 aud.onplay = function () {
+                  var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
                   $loc.addClass('playing');
                 };
                 aud.onended = function () {
+                  var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                   $loc.removeClass('playing');
