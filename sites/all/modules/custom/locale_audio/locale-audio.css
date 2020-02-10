@@ -7,13 +7,3 @@ svg.locale-audio:hover {
 #locale-audio-player {
   display: none;
 }
-/* span[data-locale-audio].playing {
-  animation:blinkingText 1.2s infinite;
-}
-@keyframes blinkingText{
-  0%{     color: #000;    }
-  49%{    color: #000; }
-  60%{    color: transparent; }
-  99%{    color:transparent;  }
-  100%{   color: #000;    }
-} */
