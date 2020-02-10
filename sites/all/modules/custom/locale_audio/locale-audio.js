@@ -2,7 +2,13 @@
 
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
-      console.log(context);
+      highlighter = function($l, t) {
+        $l.markerAnimation({
+          font_weight: null,
+          duration: t.toString() + 's'
+        });
+      };
+
       if (context == document) {
         $("body").append('<div id="locale-audio-player"></div>');
       }
@@ -39,10 +45,7 @@
                 var $loc = $('[data-locale-audio=' + next + ']');
 
                 aud.onloadedmetadata = function() {
-                  $loc.find('.locale-audio-text').markerAnimation({
-                    font_weight: null,
-                    duration: aud.duration.toString() + 's'
-                });
+                  highlighter($loc.find('.locale-audio-text'), aud.duration);
                 };
                 aud.onplay = function () {
                   var el = $loc.find('svg[data-icon]')[0];
@@ -55,9 +58,7 @@
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                   $loc.removeClass('playing');
-                  setTimeout(function() {
-                    $loc.find('.locale-audio-text').markerAnimation('destroy');
-                  }, 3000);
+                  $loc.find('.locale-audio-text').attr('style')
                 };
                 aud.play();
               });
