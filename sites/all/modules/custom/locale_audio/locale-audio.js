@@ -42,8 +42,9 @@
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
                   $loc.addClass('playing');
-                  const luminator = lumin($loc.find('.locale-audio-text')[0]);
-                  luminator.start(5000); // 5000ms to highlight
+                  $loc.find('.locale-audio-text').markerAnimation();
+                  //const luminator = lumin($loc.find('.locale-audio-text')[0]);
+                  //luminator.start(5000); // 5000ms to highlight
                 };
                 aud.onended = function () {
                   var $loc = $('[data-locale-audio=' + next + ']');
