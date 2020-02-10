@@ -44,7 +44,7 @@
                   $loc.addClass('playing');
                   $loc.find('.locale-audio-text').markerAnimation({
                     font_weight: null,
-                    repeat: true
+                    duration: '5.23s'
                   });
                   //const luminator = lumin($loc.find('.locale-audio-text')[0]);
                   //luminator.start(5000); // 5000ms to highlight
