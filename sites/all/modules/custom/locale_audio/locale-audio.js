@@ -39,6 +39,7 @@
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 $loc.removeClass('playing');
+                $loc.find('.locale-audio-text').markerAnimation('destroy');
               }
             } else {
               if (last) {
@@ -48,7 +49,6 @@
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 $loc.removeClass('playing');
-                $loc.find('.locale-audio-text').markerAnimation('destroy');
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
