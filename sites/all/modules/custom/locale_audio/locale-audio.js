@@ -23,17 +23,18 @@
         $('span[data-locale-audio]', this).once('locale-audio', function () {
           $('span.locale-audio-icon', this).click(function () {
             var $icon = $('i.fas', this);
-            var $aud = $('#locale-audio-player').find('audio');
-            if (!$aud[0].paused) {
-              $aud[0].pause();
-            }
             var next = $(this).parent().attr('data-locale-audio');
             var last = $('#locale-audio-player > div').attr('data-atom-id');
+            var $aud = $('#locale-audio-player').find('audio');
 
             if (next == last) {
-              $aud[0].pause();
-              $aud[0].currentTime = 0.0;
-              $aud[0].play();
+              if ($aud[0].paused) {
+                $aud[0].play();
+              }
+              else {
+                $aud[0].pause();
+                $aud[0].currentTime = 0.0;
+              }
             } else {
               if (last) {
                 $aud[0].pause();
