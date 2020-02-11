@@ -42,13 +42,14 @@
                 $loc.find('.locale-audio-text').markerAnimation('destroy');
               }
             } else {
-              if (last) {
+              if (last && !$aud[0].paused) {
                 $aud[0].pause();
                 var $loc = $('[data-locale-audio=' + last + ']');
                 var el = $loc.find('svg[data-icon]')[0];
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 $loc.removeClass('playing');
+                $loc.find('.locale-audio-text').markerAnimation('destroy');
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
