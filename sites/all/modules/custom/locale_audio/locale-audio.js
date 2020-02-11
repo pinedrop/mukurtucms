@@ -2,7 +2,7 @@
 
   Drupal.behaviors.localeAudio = {
     attach: function(context, settings) {
-      highlighter = function($l, t) {
+      highlight = function($l, t) {
         $l.markerAnimation({
           font_weight: null,
           duration: t.toString() + 's'
@@ -34,6 +34,11 @@
               else {
                 $aud[0].pause();
                 $aud[0].currentTime = 0.0;
+                var $loc = $('[data-locale-audio=' + last + ']');
+                var el = $loc.find('svg[data-icon]')[0];
+                el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
+                el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
+                $loc.removeClass('playing');
               }
             } else {
               if (last) {
@@ -43,6 +48,7 @@
                 el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 $loc.removeClass('playing');
+                $loc.find('.locale-audio-text').markerAnimation('destroy');
               }
               $('#locale-audio-player').load('/locale_audio/atom/' + next, function () {
                 var aud = $('#locale-audio-player').find('audio')[0];
@@ -51,10 +57,10 @@
 
                 aud.onloadedmetadata = function() {
                   loaded = true;
-                  highlighter($loc.find('.locale-audio-text'), aud.duration);
+                  highlight($loc.find('.locale-audio-text'), aud.duration);
                 };
                 aud.onplay = function () {
-                  if (loaded) highlighter($loc.find('.locale-audio-text'), aud.duration);
+                  if (loaded) highlight($loc.find('.locale-audio-text'), aud.duration);
                   var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iStop);
