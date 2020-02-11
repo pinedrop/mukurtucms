@@ -16,7 +16,6 @@
         findAndReplaceDOMText(this, {
           find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
           replace: function (portion, match) {
-            console.log(match);
             var wrap = $("<span data-locale-audio='" + match[2] + "'><span class='locale-audio-icon'><i class='fas fa-lg fa-" + Drupal.settings.locale_audio.iPlay + "'></i></span> <span class='locale-audio-text'>" + match[1] + "</span></span>");
             return wrap[0];
           }
@@ -36,7 +35,7 @@
                 $aud[0].pause();
                 var $loc = $('[data-locale-audio=' + last + ']');
                 var el = $loc.find('svg[data-icon]')[0];
-                el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
+                el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
                 el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                 $loc.removeClass('playing');
               }
@@ -53,12 +52,12 @@
                   if (loaded) highlighter($loc.find('.locale-audio-text'), aud.duration);
                   var el = $loc.find('svg[data-icon]')[0];
                   el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlay);
-                  el.classList.add('fa-' + Drupal.settings.locale_audio.iPlaying);
+                  el.classList.add('fa-' + Drupal.settings.locale_audio.iStop);
                   $loc.addClass('playing');
                 };
                 aud.onended = function () {
                   var el = $loc.find('svg[data-icon]')[0];
-                  el.classList.remove('fa-' + Drupal.settings.locale_audio.iPlaying);
+                  el.classList.remove('fa-' + Drupal.settings.locale_audio.iStop);
                   el.classList.add('fa-' + Drupal.settings.locale_audio.iPlay);
                   $loc.removeClass('playing');
                 };
