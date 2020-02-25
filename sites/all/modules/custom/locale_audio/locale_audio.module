@@ -355,21 +355,30 @@ function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_
 
 function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, &$form_state, $form_id) {
   $lid = $form['lid']['#value'];
+  // Fetch source string, if possible.
+  $source = db_query('SELECT source, context, textgroup, location FROM {locales_source} WHERE lid = :lid', array(':lid' => $lid))->fetchObject();
+  if (!$source) {
+    drupal_set_message(t('String not found.'), 'error');
+    drupal_goto('admin/config/regional/translate/translate');
+  }
+
   $form['audio'] = array('#tree' => TRUE);
   $weight = 5;
   foreach ($form['translations'] as $langcode => $form_array) {
+    $form['translations'][$langcode]['#title'] = t($language->name).': '.t('Text');
+    $form['translations'][$langcode]['#default_value'] = check_plain($source->source);
     $form['translations'][$langcode]['#weight'] = $weight;
     $form['audio'][$langcode] = array(
       '#weight' => $weight+1,
-      '#title' => t($language->name . ': Audio'),
+      '#title' => t($language->name).': '.t('Audio'),
       '#type' => 'textfield',
       '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
       '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
-      '#description' => t('The audio in this box will be heard by users alongside the translated text if the site language is <strong>@lang</strong>.', array('@lang' => t($language->name))),
+      '#description' => t('The audio in this box will be heard by users alongside the translated text for this language.'),
     );
     $weight = $weight + 5;
   }
-
+  
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');
 }
