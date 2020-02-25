@@ -365,12 +365,13 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
   $form['audio'] = array('#tree' => TRUE);
   $weight = 5;
   foreach ($form['translations'] as $langcode => $form_array) {
-    $form['translations'][$langcode]['#title'] = t($language->name).': '.t('Text');
+    $language = $form['translations'][$langcode]['#title'];
+    $form['translations'][$langcode]['#title'] = $language.' - '.t('Text');
     $form['translations'][$langcode]['#default_value'] = check_plain($source->source);
     $form['translations'][$langcode]['#weight'] = $weight;
     $form['audio'][$langcode] = array(
       '#weight' => $weight+1,
-      '#title' => t($language->name).': '.t('Audio'),
+      '#title' => $language.' - '.t('Audio'),
       '#type' => 'textfield',
       '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
       '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
@@ -378,7 +379,7 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
     );
     $weight = $weight + 5;
   }
-  
+
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');
 }
