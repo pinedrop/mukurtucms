@@ -354,21 +354,10 @@ function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_
 }
 
 function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, &$form_state, $form_id) {
-  $source = db_query('SELECT source, context, textgroup, location FROM {locales_source} WHERE lid = :lid', array(':lid' => $lid))->fetchObject();
-  if (!$source) {
-    drupal_set_message(t('String not found.'), 'error');
-    drupal_goto('admin/config/regional/translate/translate');
-  }
-  // Include default form controls with empty values for all languages.
-  // This ensures that the languages are always in the same order in forms.
-  $languages = language_list();
-
-  // We don't need the default language value, that value is in $source.
-  $omit = $source->textgroup == 'default' ? 'en' : i18n_string_source_language();
-  unset($languages[($omit)]);
+  $lid = $form['lid']['#value'];
   $form['audio'] = array('#tree' => TRUE);
   $weight = 5;
-  foreach ($languages as $langcode => $language) {
+  foreach ($form['translations'] as $langcode => $form_array) {
     $form['translations'][$langcode]['#weight'] = $weight;
     $form['audio'][$langcode] = array(
       '#weight' => $weight+1,
