@@ -342,3 +342,13 @@ function locale_audio_form_locale_translation_filter_form_alter(&$form, &$form_s
   $form['filters']['status']['translation']['#options'] = $options;
   $form['filters']['status']['translation']['#empty_option'] = $options['all'];
 }
+
+function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_state, $form_id) {
+  $form['audio'] = array(
+    '#title' => t('Audio'),
+    '#type' => 'textfield',
+    '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
+    '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
+    '#description' => t('The audio in this box will be heard by users alongside the translated text.'),
+  );
+}
