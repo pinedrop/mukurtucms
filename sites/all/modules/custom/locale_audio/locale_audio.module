@@ -235,7 +235,7 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');
 
-  $form['#validate'][] = array('locale_audio_i18n_string_locale_translate_edit_form_validate');
+  //$form['#validate'][] = array('locale_audio_i18n_string_locale_translate_edit_form_validate');
 }
 
 function locale_audio_i18n_string_locale_translate_edit_form_validate($form, &$form_state)
