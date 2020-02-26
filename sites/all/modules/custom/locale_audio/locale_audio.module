@@ -242,12 +242,12 @@ function locale_audio_i18n_string_locale_translate_edit_form_validate($form, &$f
 {
   $lid = $form_state['values']['lid'];
   foreach ($form_state['values']['translations'] as $key => $value) {
-    if (!empty($value)) {
+    /*if (!empty($value)) {
       $audio = $form_state['values']['audio'][$key];
       if (!empty($audio)) {
         $value = json_decode('"\uFFF9"') . $value . json_decode('"\uFFFA"') . $audio . json_decode('"\uFFFB"');
         form_set_value($form['translations'][$key], $value, $form_state);
       }
-    }
+    }*/
   }
 }
