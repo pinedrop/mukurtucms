@@ -44,8 +44,8 @@ function locale_audio_atom_ajax_callback($result) {
 
 function locale_audio_menu_alter(&$items)
 {
-  $items['admin/config/regional/translate/edit/%']['page arguments'] = array('locale_audio_edit_form', 5);
-  $items['admin/config/regional/translate/translate']['title'] = t('Translate/Audio');
+  //$items['admin/config/regional/translate/edit/%']['page arguments'] = array('locale_audio_edit_form', 5);
+  //$items['admin/config/regional/translate/translate']['title'] = t('Translate/Audio');
   $items['admin/config/regional/translate/translate']['page callback'] = 'locale_audio_translate_seek_screen';
 }
 
@@ -163,175 +163,6 @@ function _locale_audio_translate_seek() {
   return $output;
 }
 
-/**
- * User interface for string editing.
- */
-function locale_audio_edit_form($form, &$form_state, $lid) {
-  // Fetch source string, if possible.
-  $source = db_query('SELECT source, context, textgroup, location FROM {locales_source} WHERE lid = :lid', array(':lid' => $lid))->fetchObject();
-  if (!$source) {
-    drupal_set_message(t('String not found.'), 'error');
-    drupal_goto('admin/config/regional/translate/translate');
-  }
-
-  // Add original text to the top and some values for form altering.
-  $form['original'] = array(
-    '#type'  => 'item',
-    '#title' => t('Original text'),
-    '#markup' => check_plain(wordwrap($source->source, 0)),
-  );
-  if (!empty($source->context)) {
-    $form['context'] = array(
-      '#type' => 'item',
-      '#title' => t('Context'),
-      '#markup' => check_plain($source->context),
-    );
-  }
-  $form['lid'] = array(
-    '#type'  => 'value',
-    '#value' => $lid
-  );
-  $form['textgroup'] = array(
-    '#type'  => 'value',
-    '#value' => $source->textgroup,
-  );
-  $form['location'] = array(
-    '#type'  => 'value',
-    '#value' => $source->location
-  );
-
-  // Include both translated and not yet translated target languages in the
-  // list. The source language is English for built-in strings and the default
-  // language for other strings.
-  $languages = language_list();
-  $default = language_default();
-  $omit = $source->textgroup == 'default' ? 'en' : $default->language;
-  unset($languages[($omit)]);
-  $form['translations'] = array('#tree' => TRUE);
-  $form['audio'] = array('#tree' => TRUE);
-  $weight = 5;
-  foreach ($languages as $langcode => $language) {
-    $form['translations'][$langcode] = array(
-      '#type' => 'textarea',
-      '#title' => t($language->name . ': Text'),
-      '#rows' => 5,
-      '#resizable' => FALSE,
-      '#weight' => $weight,
-      '#default_value' => check_plain($source->source),
-      '#description' => t('The text in this box will be displayed to users instead of the original text if the site language is <strong>@lang</strong>.', array('@lang' => t($language->name))),
-    );
-    $form['audio'][$langcode] = array(
-      '#weight' => $weight+1,
-      '#title' => t($language->name . ': Audio'),
-      '#type' => 'textfield',
-      '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
-      '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
-      '#description' => t('The audio in this box will be heard by users alongside the translated text if the site language is <strong>@lang</strong>.', array('@lang' => t($language->name))),
-    );
-    $weight = $weight + 5;
-  }
-
-  $form['#attached']['library'][] = array('dnd', 'library');
-  $form['#attached']['library'][] = array('atom_reference', 'library');
-
-  // Fetch translations and fill in default values in the form.
-  $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
-  foreach ($result as $translation) {
-    $annchar = json_decode('"\uFFF9"');
-    $annsep = json_decode('"\uFFFA"');
-    $annend = json_decode('"\uFFFB"');
-    preg_match('/^' .$annchar. '(.*)' .$annsep. '(.*)' .$annend. '/', $translation->translation, $matches);
-    //preg_match('/^<span class=[\'"]locale-audio[\'"]><(i|span).*data-locale-audio=[\'"](\d+)[\'"]><\/(i|span)><\/span>\s+(.*)$/', $translation->translation, $matches);
-    if (count($matches) > 0) {
-      $form['audio'][$translation->language]['#default_value'] = $matches[2];
-      //$form['audio'][$translation->language]['#default_value'] = $matches[2];
-      $form['audio'][$translation->language]['#field_prefix'] = '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">' .scald_render($matches[2], 'sdl_editor_representation'). '</div>';
-      $form['translations'][$translation->language]['#default_value'] = $matches[1];
-      //$form['translations'][$translation->language]['#default_value'] = $matches[4];
-    }
-    else {
-      $form['translations'][$translation->language]['#default_value'] = $translation->translation;
-    }
-  }
-
-  $form['actions'] = array('#type' => 'actions');
-  $form['actions']['submit'] = array('#type' => 'submit', '#value' => t('Save translations'));
-  return $form;
-}
-
-/**
- * Validate string editing form submissions.
- */
-function locale_audio_edit_form_validate($form, &$form_state) {
-  // Locale string check is needed for default textgroup only.
-  $safe_check_needed = $form_state['values']['textgroup'] == 'default';
-  foreach ($form_state['values']['translations'] as $key => $value) {
-    if ($safe_check_needed && !locale_string_is_safe($value)) {
-      form_set_error('translations', t('The submitted string contains disallowed HTML: %string', array('%string' => $value)));
-      watchdog('locale', 'Attempted submission of a translation string with disallowed HTML: %string', array('%string' => $value), WATCHDOG_WARNING);
-    }
-  }
-}
-
-/**
- * Process string editing form submissions.
- *
- * Saves all translations of one string submitted from a form.
- */
-function locale_audio_edit_form_submit($form, &$form_state) {
-  $lid = $form_state['values']['lid'];
-  foreach ($form_state['values']['translations'] as $key => $value) {
-    $translation = db_query("SELECT translation FROM {locales_target} WHERE lid = :lid AND language = :language", array(':lid' => $lid, ':language' => $key))->fetchField();
-    if (!empty($value)) {
-      $audio = $form_state['values']['audio'][$key];
-
-      if (!empty($audio)) {
-        $value = json_decode('"\uFFF9"').$value.json_decode('"\uFFFA"').$audio.json_decode('"\uFFFB"');
-        //$value = '<span class="locale-audio"><i class="fas fa-lg fa-asterisk" data-locale-audio="' .$audio. '"></i></span> '.$value;
-      }
-
-      // Only update or insert if we have a value to use.
-      if (is_string($translation)) {
-        db_update('locales_target')
-          ->fields(array(
-            'translation' => $value,
-          ))
-          ->condition('lid', $lid)
-          ->condition('language', $key)
-          ->execute();
-      }
-      else {
-        db_insert('locales_target')
-          ->fields(array(
-            'lid' => $lid,
-            'translation' => $value,
-            'language' => $key,
-          ))
-          ->execute();
-      }
-    }
-    elseif (!empty($translation)) {
-      // Empty translation entered: remove existing entry from database.
-      db_delete('locales_target')
-        ->condition('lid', $lid)
-        ->condition('language', $key)
-        ->execute();
-    }
-
-    // Force JavaScript translation file recreation for this language.
-    _locale_invalidate_js($key);
-  }
-
-  drupal_set_message(t('The string has been saved.'));
-
-  // Clear locale cache.
-  _locale_invalidate_js();
-  cache_clear_all('locale:', 'cache', TRUE);
-
-  $form_state['redirect'] = 'admin/config/regional/translate/translate';
-  return;
-}
-
 function locale_audio_form_locale_translation_filter_form_alter(&$form, &$form_state, $form_id) {
   $options = array(
     'all' => t('All strings'),
@@ -400,7 +231,23 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
       $form['translations'][$translation->language]['#default_value'] = $translation->translation;
     }
   }
-  
+
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');
+
+  $form['#validate'][] = array('locale_audio_i18n_string_locale_translate_edit_form_validate');
+}
+
+function locale_audio_i18n_string_locale_translate_edit_form_validate($form, &$form_state)
+{
+  $lid = $form_state['values']['lid'];
+  foreach ($form_state['values']['translations'] as $key => $value) {
+    if (!empty($value)) {
+      $audio = $form_state['values']['audio'][$key];
+      if (!empty($audio)) {
+        $value = json_decode('"\uFFF9"') . $value . json_decode('"\uFFFA"') . $audio . json_decode('"\uFFFB"');
+        form_set_value($form['translations'][$key], $value, $form_state);
+      }
+    }
+  }
 }

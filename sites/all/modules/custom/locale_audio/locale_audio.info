@@ -1,15 +1,13 @@
 name = Locale Audio
-description = "Add locale dependent audio to a site"
+description = "Use Scald to add locale dependent audio to a site's language translations"
 package = Multilingual
 core = 7.x
 
 dependencies[] = locale
+dependencies[] = i18n_string
 dependencies[] = scald
 
 scripts[] = locale-audio.js
 scripts[] = findAndReplaceDOMText.js
 scripts[] = progressiveHighlight.js
 stylesheets[all][] = locale-audio.css
-
-
-
