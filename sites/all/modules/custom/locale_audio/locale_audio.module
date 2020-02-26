@@ -174,16 +174,6 @@ function locale_audio_form_locale_translation_filter_form_alter(&$form, &$form_s
   $form['filters']['status']['translation']['#empty_option'] = $options['all'];
 }
 
-function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_state, $form_id) {
-  $form['audio'] = array(
-    '#title' => t('Audio'),
-    '#type' => 'textfield',
-    '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
-    '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
-    '#description' => t('The audio in this box will be heard by users alongside the translated text.'),
-  );
-}
-
 function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, &$form_state, $form_id) {
   $lid = $form['lid']['#value'];
   // Fetch source string, if possible.
@@ -240,7 +230,46 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
 
 function locale_audio_i18n_string_locale_translate_edit_form_validate($form, &$form_state)
 {
-  $lid = $form_state['values']['lid'];
+  foreach ($form_state['values']['translations'] as $key => $value) {
+    if (!empty($value)) {
+      $audio = $form_state['values']['audio'][$key];
+      if (!empty($audio)) {
+        $value = json_decode('"\uFFF9"') . $value . json_decode('"\uFFFA"') . $audio . json_decode('"\uFFFB"');
+        form_set_value($form['translations'][$key], $value, $form_state);
+      }
+    }
+  }
+}
+
+function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_state, $form_id) {
+  foreach ($form_state['values']['strings'] as $name => $value) {
+    $count++;
+    list($textgroup, $context) = i18n_string_context(explode(':', $name));
+    if (is_array($value)) {
+      if (isset($value['value'])) {
+        $value = $value['value'];
+        $form_state['values']['strings'][$name] = $value;
+      }
+    }
+  }
+
+  $langcode = $form_state['values']['langcode'];
+  $form['audio'] = array(
+    '#title' => t('Audio'),
+    '#type' => 'textfield',
+    '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
+    '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
+    '#description' => t('The audio in this box will be heard by users alongside the translated text.'),
+  );
+
+  $form['#attached']['library'][] = array('dnd', 'library');
+  $form['#attached']['library'][] = array('atom_reference', 'library');
+
+  $form['#validate'][] = 'locale_audio_i18n_string_translate_page_form_validate';
+}
+
+function locale_audio_i18n_string_translate_page_form_validate($form, &$form_state)
+{
   foreach ($form_state['values']['translations'] as $key => $value) {
     if (!empty($value)) {
       $audio = $form_state['values']['audio'][$key];

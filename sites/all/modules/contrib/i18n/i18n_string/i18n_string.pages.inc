@@ -199,8 +199,8 @@ function i18n_string_translate_page_form_strings($strings, $langcode) {
         }
       }
     }
-
-    $default_value = $item->format_translation($langcode, array('langcode' => $langcode, 'sanitize' => FALSE, 'debug' => FALSE));
+    $default_value = 'Testing';
+    //$default_value = $item->format_translation($langcode, array('langcode' => $langcode, 'sanitize' => FALSE, 'debug' => FALSE));
     $available_formats = array_keys(filter_formats($user));
     if (!in_array($item->format, $available_formats)) {
       $item->format = NULL;
