@@ -207,6 +207,7 @@ class i18n_string_object {
     $options += array('langcode' => $langcode, 'sanitize' => TRUE, 'cache' => FALSE, 'debug' => $this->textgroup()->debug);
     if ($translation = $this->get_translation($langcode)) {
       $string = $translation;
+      return $string;
       if (isset($options['filter'])) {
         $string = call_user_func($options['filter'], $string);
       }
@@ -229,8 +230,7 @@ class i18n_string_object {
       $options['suffix'] .= ' [' . implode(':', $info) . ']';
     }
     // Finally, apply options, filters, callback, etc...
-    return $string;
-    //return i18n_string_format($string, $options);
+    return i18n_string_format($string, $options);
   }
 
   /**
