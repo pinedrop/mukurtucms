@@ -206,6 +206,7 @@ class i18n_string_object {
   public function format_translation($langcode, $options = array()) {
     $options += array('langcode' => $langcode, 'sanitize' => TRUE, 'cache' => FALSE, 'debug' => $this->textgroup()->debug);
     if ($translation = $this->get_translation($langcode)) {
+      drupal_set_message("translation=".$string);
       $string = $translation;
       if (isset($options['filter'])) {
         $string = call_user_func($options['filter'], $string);
