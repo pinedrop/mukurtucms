@@ -255,7 +255,7 @@ function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_
   }
 
   // Fetch translations and fill in default values in the form.
-  $default = language_default();
+  /*$default = language_default();
   $omit = $source->textgroup == 'default' ? 'en' : $default->language;
   $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
   foreach ($result as $translation) {
@@ -272,7 +272,7 @@ function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_
     else {
       $form['translations'][$translation->language]['#default_value'] = $translation->translation;
     }
-  }
+  }*/
 
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');

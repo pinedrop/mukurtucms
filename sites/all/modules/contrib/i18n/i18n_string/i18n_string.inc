@@ -207,7 +207,6 @@ class i18n_string_object {
     $options += array('langcode' => $langcode, 'sanitize' => TRUE, 'cache' => FALSE, 'debug' => $this->textgroup()->debug);
     if ($translation = $this->get_translation($langcode)) {
       $string = $translation;
-      return $string;
       if (isset($options['filter'])) {
         $string = call_user_func($options['filter'], $string);
       }
