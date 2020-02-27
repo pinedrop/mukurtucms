@@ -168,8 +168,8 @@ class i18n_string_object {
   public function get_translation($langcode) {
     if (!isset($this->translations[$langcode])) {
       $translation = $this->textgroup()->load_translation($this, $langcode);
-      drupal_set_message("get_translation=".$translation);
       if ($translation && isset($translation->translation)) {
+        drupal_set_message("get_translation=".$translation->translation);
         $this->set_translation($translation, $langcode);
       }
       else {
