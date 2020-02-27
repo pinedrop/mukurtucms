@@ -186,12 +186,12 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
   $weight = 5;
   foreach ($form['translations'] as $langcode => $form_array) {
     $language = $form['translations'][$langcode]['#title'];
-    $form['translations'][$langcode]['#title'] = $language.' - '.t('Text');
+    $form['translations'][$langcode]['#title'] = $language.' ('.t('Text').')';
     $form['translations'][$langcode]['#default_value'] = check_plain($source->source);
     $form['translations'][$langcode]['#weight'] = $weight;
     $form['audio'][$langcode] = array(
       '#weight' => $weight+1,
-      '#title' => $language.' - '.t('Audio'),
+      '#title' => $language.' ('.t('Audio').')',
       '#type' => 'textfield',
       '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
       '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
@@ -243,32 +243,39 @@ function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_
   foreach ($form['strings'] as $group => $items) {
     foreach ($items as $key => $arr) {
       $form['audio'][$group][$key] = array(
-        '#title' => $form['strings'][$group][$key]['#title'].' - '.t('Audio'),
+        '#title' => $form['strings'][$group][$key]['#title'].' ('.t('Audio').')',
         '#type' => 'textfield',
         '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
         '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
-        '#description' => t('The audio in this box will be heard by users alongside the translated text. / ').$key,
+        '#description' => t('The audio in this box will be heard by users alongside the translated text.'),
       );
-      $form['strings'][$group][$key]['#title'] .= ' - '.t('Text');
+      $form['strings'][$group][$key]['#title'] .= ' ('.t('Text').')';
     }
   }
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');
 
-  //$form['#validate'][] = 'locale_audio_i18n_string_translate_page_form_validate';
+  $form['#validate'][] = 'locale_audio_i18n_string_translate_page_form_validate';
 }
 
-/*
 function locale_audio_i18n_string_translate_page_form_validate($form, &$form_state)
 {
-  foreach ($form_state['values']['translations'] as $key => $value) {
-    if (!empty($value)) {
-      $audio = $form_state['values']['audio'][$key];
+  foreach ($form_state['values']['strings'] as $name => $value) {
+    $audio = $form_state['values']['audio'][$name];
+    if (is_array($value)) {
+      if (isset($value['value'])) {
+        $value = $value['value'];
+        if (!empty($audio)) {
+          $value = json_decode('"\uFFF9"') . $value . json_decode('"\uFFFA"') . $audio . json_decode('"\uFFFB"');
+        }
+        $form_state['values']['strings'][$name] = $value;
+      }
+    }
+    else {
       if (!empty($audio)) {
         $value = json_decode('"\uFFF9"') . $value . json_decode('"\uFFFA"') . $audio . json_decode('"\uFFFB"');
-        form_set_value($form['translations'][$key], $value, $form_state);
+        $form_state['values']['strings'][$name] = $value;
       }
     }
   }
 }
-*/

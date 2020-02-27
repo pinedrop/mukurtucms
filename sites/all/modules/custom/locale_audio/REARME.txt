@@ -1,0 +1,7 @@
+Required modules
+dependencies[] = locale
+dependencies[] = i18n_string
+dependencies[] = scald
+
+Recommended modules
+i18n_block
