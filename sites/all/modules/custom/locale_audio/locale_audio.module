@@ -253,6 +253,27 @@ function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_
       $form['strings'][$group][$key]['#title'] .= ' ('.t('Text').')';
     }
   }
+
+  // Fetch translations and fill in default values in the form.
+  $default = language_default();
+  $omit = $source->textgroup == 'default' ? 'en' : $default->language;
+  $result = db_query("SELECT DISTINCT translation, language FROM {locales_target} WHERE lid = :lid AND language <> :omit", array(':lid' => $lid, ':omit' => $omit));
+  foreach ($result as $translation) {
+    $annchar = json_decode('"\uFFF9"');
+    $annsep = json_decode('"\uFFFA"');
+    $annend = json_decode('"\uFFFB"');
+    preg_match('/^' .$annchar. '(.*)' .$annsep. '(.*)' .$annend. '/', $translation->translation, $matches);
+    //preg_match('/^<span class=[\'"]locale-audio[\'"]><(i|span).*data-locale-audio=[\'"](\d+)[\'"]><\/(i|span)><\/span>\s+(.*)$/', $translation->translation, $matches);
+    if (count($matches) > 0) {
+      $form['audio'][$translation->language]['#default_value'] = $matches[2];
+      $form['audio'][$translation->language]['#field_prefix'] = '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">' .scald_render($matches[2], 'sdl_editor_representation'). '</div>';
+      $form['translations'][$translation->language]['#default_value'] = $matches[1];
+    }
+    else {
+      $form['translations'][$translation->language]['#default_value'] = $translation->translation;
+    }
+  }
+
   $form['#attached']['library'][] = array('dnd', 'library');
   $form['#attached']['library'][] = array('atom_reference', 'library');
 
