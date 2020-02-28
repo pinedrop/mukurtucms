@@ -232,6 +232,7 @@ class i18n_string_object {
     }
     // Finally, apply options, filters, callback, etc...
     drupal_set_message("preformat=".$string);
+    drupal_set_message('i18nformat='.i18n_string_format($string, $options));
     return i18n_string_format($string, $options);
   }
 
