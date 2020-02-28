@@ -169,7 +169,6 @@ class i18n_string_object {
     if (!isset($this->translations[$langcode])) {
       $translation = $this->textgroup()->load_translation($this, $langcode);
       if ($translation && isset($translation->translation)) {
-        drupal_set_message("get_translation=".$translation->translation);
         $this->set_translation($translation, $langcode);
       }
       else {
@@ -208,7 +207,6 @@ class i18n_string_object {
     $options += array('langcode' => $langcode, 'sanitize' => TRUE, 'cache' => FALSE, 'debug' => $this->textgroup()->debug);
     if ($translation = $this->get_translation($langcode)) {
       $string = $translation;
-      drupal_set_message("translation=".$string);
       if (isset($options['filter'])) {
         $string = call_user_func($options['filter'], $string);
       }
@@ -231,8 +229,6 @@ class i18n_string_object {
       $options['suffix'] .= ' [' . implode(':', $info) . ']';
     }
     // Finally, apply options, filters, callback, etc...
-    drupal_set_message("preformat=".$string);
-    drupal_set_message('i18nformat='.i18n_string_format($string, $options));
     return i18n_string_format($string, $options);
   }
 
