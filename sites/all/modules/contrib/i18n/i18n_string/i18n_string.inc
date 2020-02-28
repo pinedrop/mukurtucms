@@ -231,6 +231,7 @@ class i18n_string_object {
       $options['suffix'] .= ' [' . implode(':', $info) . ']';
     }
     // Finally, apply options, filters, callback, etc...
+    drupal_set_message("preformat=".$string);
     return i18n_string_format($string, $options);
   }
 
