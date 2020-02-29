@@ -4,4 +4,6 @@ dependencies[] = i18n_string
 dependencies[] = scald
 
 Recommended modules
-i18n_block
+Block languages (i18n_block)
+Contact translation (i18n_contact)
+

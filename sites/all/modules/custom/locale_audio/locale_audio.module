@@ -173,7 +173,7 @@ function locale_audio_form_locale_translation_filter_form_alter(&$form, &$form_s
   $form['filters']['status']['translation']['#options'] = $options;
   $form['filters']['status']['translation']['#empty_option'] = $options['all'];
 }
-
+/*
 function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, &$form_state, $form_id) {
   $lid = $form['lid']['#value'];
   // Fetch source string, if possible.
@@ -238,7 +238,7 @@ function locale_audio_i18n_string_locale_translate_edit_form_validate($form, &$f
     }
   }
 }
-
+*/
 function locale_audio_form_i18n_string_translate_page_form_alter(&$form, &$form_state, $form_id) {
   foreach ($form['strings'] as $group => $items) {
     foreach ($items as $key => $arr) {
