@@ -183,21 +183,19 @@ function locale_audio_form_i18n_string_locale_translate_edit_form_alter(&$form, 
     drupal_goto('admin/config/regional/translate/translate');
   }
   $form['audio'] = array('#tree' => TRUE);
-  $weight = 5;
   foreach ($form['translations'] as $langcode => $form_array) {
-    $language = $form['translations'][$langcode]['#title'];
-    $form['translations'][$langcode]['#title'] = $language.' ('.t('Text').')';
-    $form['translations'][$langcode]['#default_value'] = check_plain($source->source);
-    $form['translations'][$langcode]['#weight'] = $weight;
-    $form['audio'][$langcode] = array(
-      '#weight' => $weight+1,
-      '#title' => $language.' ('.t('Audio').')',
-      '#type' => 'textfield',
-      '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
-      '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
-      '#description' => t('The audio in this box will be heard by users alongside the translated text for this language.'),
-    );
-    $weight = $weight + 5;
+    if ($form_array['#type'] == 'textarea') {
+      $language = $form['translations'][$langcode]['#title'];
+      $form['translations'][$langcode]['#title'] = $language . ' (' . t('Text') . ')';
+      $form['translations'][$langcode]['#default_value'] = check_plain($source->source);
+      $form['audio'][$langcode] = array(
+        '#title' => $language . ' (' . t('Audio') . ')',
+        '#type' => 'textfield',
+        '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
+        '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
+        '#description' => t('The audio in this box will be heard by users alongside the translated text for this language.'),
+      );
+    }
   }
 
   // Fetch translations and fill in default values in the form.
