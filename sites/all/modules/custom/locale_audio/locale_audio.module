@@ -293,8 +293,14 @@ function locale_audio_i18n_string_translate_page_form_validate($form, &$form_sta
 }
 
 function locale_audio_form_l10n_client_form_alter(&$form, &$form_state, $form_id) {
+  global $language;
+
+  $form['target'] = array(
+    '#title' =>
+  $form['target']['#weight'] = -5;
   $form['audio'] = array(
-    '#title' => $language . ' (' . t('Audio') . ')',
+    '#weight' => -4,
+    '#title' => t('%language (Audio)', array('%language' => $language->native)),
     '#type' => 'textfield',
     '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
     '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
