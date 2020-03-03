@@ -12,6 +12,12 @@ function locale_audio_init() {
     )), array('type' => 'setting'));
   }
 }
+
+function locale_audio_js_alter(&$js)
+{
+  $js[drupal_get_path('module', 'l10n_client') . '/l10n_client.js']['data'] = drupal_get_path('module', 'locale_audio') . '/l10n_client.js';
+}
+
 function locale_audio_menu() {
     $items = array();
 
