@@ -295,8 +295,6 @@ function locale_audio_i18n_string_translate_page_form_validate($form, &$form_sta
 function locale_audio_form_l10n_client_form_alter(&$form, &$form_state, $form_id) {
   global $language;
 
-  $form['target'] = array(
-    '#title' =>
   $form['target']['#weight'] = -5;
   $form['audio'] = array(
     '#weight' => -4,
