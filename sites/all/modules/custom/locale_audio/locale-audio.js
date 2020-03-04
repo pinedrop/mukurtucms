@@ -21,6 +21,14 @@
           });
           $('#l10n-client-data span[data-locale-audio-id]').unwrap();
         }
+        if ($('#l10n-client-string-select').length) {
+          findAndReplaceDOMText(document.getElementById('l10n-client-string-select'), {
+            find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
+            replace: function (portion, match) {
+              return match[1];
+            }
+          });
+        }
       }
       $(context).children().once('locale-audio', function() {
         findAndReplaceDOMText(this, {
