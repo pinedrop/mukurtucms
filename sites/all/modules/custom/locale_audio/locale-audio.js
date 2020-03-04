@@ -19,7 +19,7 @@
               return wrap[0];
             }
           });
-          $('#l10n-client-data span.target').has('span.target').unwrap();
+          $('#l10n-client-data span[data-locale-audio-id]').unwrap();
         }
       }
       $(context).children().once('locale-audio', function() {
