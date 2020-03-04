@@ -12,7 +12,13 @@
       if (context == document) {
         $("body").append('<div id="locale-audio-player"></div>');
         if ($('#l10n-client-data').length) {
-          alert('l10n client!');
+          findAndReplaceDOMText(document.getElementById('l10n-client-data'), {
+            find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
+            replace: function (portion, match) {
+              var wrap = $("<span data-locale-audio='" + match[2] + "'>" + match[1] + "</span>");
+              return wrap[0];
+            }
+          });
         }
       }
       $(context).children().once('locale-audio', function() {

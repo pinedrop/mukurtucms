@@ -61,7 +61,7 @@
 
     // Get a string from the DOM tree
     getString: function (index, type) {
-      return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text();
+      return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text().trim();
     },
 
     // Set a string in the DOM tree
