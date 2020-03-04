@@ -15,10 +15,11 @@
           findAndReplaceDOMText(document.getElementById('l10n-client-data'), {
             find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
             replace: function (portion, match) {
-              var wrap = $("<span data-locale-audio='" + match[2] + "'>" + match[1] + "</span>");
+              var wrap = $("<span class='target' data-locale-audio-id='" + match[2] + "'>" + match[1] + "</span>");
               return wrap[0];
             }
           });
+          $('#l10n-client-data span.target').has('span.target').unwrap();
         }
       }
       $(context).children().once('locale-audio', function() {
