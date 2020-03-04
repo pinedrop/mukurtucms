@@ -7,3 +7,6 @@ svg.locale-audio:hover {
 #locale-audio-player {
   display: none;
 }
+li.translated span.locale-audio-icon {
+  display: none;
+}
