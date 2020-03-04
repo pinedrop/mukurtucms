@@ -11,6 +11,9 @@
 
       if (context == document) {
         $("body").append('<div id="locale-audio-player"></div>');
+        if ($('#l10n-client-data').length) {
+          alert('l10n client!');
+        }
       }
       $(context).children().once('locale-audio', function() {
         findAndReplaceDOMText(this, {

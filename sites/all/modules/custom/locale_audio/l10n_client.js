@@ -108,8 +108,8 @@
           $lis.removeClass('active');
           $this.addClass('active');
 
-          $stringEditorSoruceText.text(Drupal.l10nClient.getString(index, 'source'));
-          $l10nClientForm.find('.translation-target').val(Drupal.l10nClient.getString(index, 'target'));
+          $stringEditorSoruceText.text(Drupal.l10nClient.getString(index, 'source').trim());
+          $l10nClientForm.find('.translation-target').val(Drupal.l10nClient.getString(index, 'target').trim());
           $l10nClientForm.find('.source-textgroup').val(Drupal.l10nClient.getString(index, 'textgroup'));
           $l10nClientForm.find('.source-context').val(Drupal.l10nClient.getString(index, 'context'));
           $stringEditor.find('.context').text(Drupal.l10nClient.getString(index, 'context'));
