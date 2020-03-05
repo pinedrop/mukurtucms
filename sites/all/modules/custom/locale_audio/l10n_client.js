@@ -115,7 +115,8 @@
 
           $stringEditorSourceText.text(Drupal.l10nClient.getString(index, 'source'));
           $l10nClientForm.find('.translation-target').val(Drupal.l10nClient.getString(index, 'target'));
-          $l10nClientForm.find('.translation-audio').val(Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref'))
+          alert(Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref'));
+          $l10nClientForm.find('.translation-audio').val(Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref'));
           $l10nClientForm.find('.source-textgroup').val(Drupal.l10nClient.getString(index, 'textgroup'));
           $l10nClientForm.find('.source-context').val(Drupal.l10nClient.getString(index, 'context'));
           $stringEditor.find('.context').text(Drupal.l10nClient.getString(index, 'context'));
