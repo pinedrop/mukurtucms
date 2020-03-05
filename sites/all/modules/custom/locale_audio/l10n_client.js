@@ -115,11 +115,29 @@
 
           $stringEditorSourceText.text(Drupal.l10nClient.getString(index, 'source'));
           $l10nClientForm.find('.translation-target').val(Drupal.l10nClient.getString(index, 'target'));
-          alert(Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref'));
-          $l10nClientForm.find('.translation-audio').val(Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref'));
           $l10nClientForm.find('.source-textgroup').val(Drupal.l10nClient.getString(index, 'textgroup'));
           $l10nClientForm.find('.source-context').val(Drupal.l10nClient.getString(index, 'context'));
           $stringEditor.find('.context').text(Drupal.l10nClient.getString(index, 'context'));
+
+          var resource_id = Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref');
+          if (resource_id) {
+            var $dropZone = $l10nClientForm.find('.atom_reference_drop_zone');
+            var rendering_context = $dropZone.attr('data-rendering-context');
+
+            // Display and set id of dropped atom
+            Drupal.dnd.fetchAtom(rendering_context, resource_id, function() {
+              $dropZone
+                .empty()
+                .append(Drupal.dnd.Atoms[resource_id].contexts[rendering_context])
+                .closest('div.form-item')
+                .find('input:text')
+                .val(resource_id)
+                .change()
+                .end()
+                .find('.atom_reference_operations')
+                .show();
+            });
+          }
 
           Drupal.l10nClient.selected = index;
           $l10nClientForm.find('.form-submit').removeAttr("disabled");
