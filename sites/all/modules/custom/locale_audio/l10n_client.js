@@ -59,9 +59,14 @@
       }
     },
 
+    // Get attribute from the DOM tree
+    getAttr: function(index, type, attr) {
+      return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).attr(attr);
+    },
+
     // Get a string from the DOM tree
     getString: function (index, type) {
-      return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text().trim();
+      return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text();
     },
 
     // Set a string in the DOM tree
@@ -92,7 +97,7 @@
         var $l10nClient = $(this);
         var $l10nClientForm = $('#l10n-client-form');
         var $stringEditor = $('#l10n-client-string-editor');
-        var $stringEditorSoruceText = $stringEditor.find('.source-text');
+        var $stringEditorSourceText = $stringEditor.find('.source-text');
         var $stringSelect = $('#l10n-client-string-select');
         var cookie = parseInt($.cookie('Drupal_l10n_client'), 2);
         Drupal.l10nClient.$l10nClient = $l10nClient;
@@ -108,8 +113,9 @@
           $lis.removeClass('active');
           $this.addClass('active');
 
-          $stringEditorSoruceText.text(Drupal.l10nClient.getString(index, 'source').trim());
-          $l10nClientForm.find('.translation-target').val(Drupal.l10nClient.getString(index, 'target').trim());
+          $stringEditorSourceText.text(Drupal.l10nClient.getString(index, 'source'));
+          $l10nClientForm.find('.translation-target').val(Drupal.l10nClient.getString(index, 'target'));
+          $l10nClientForm.find('.translation-audio').val(Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref'))
           $l10nClientForm.find('.source-textgroup').val(Drupal.l10nClient.getString(index, 'textgroup'));
           $l10nClientForm.find('.source-context').val(Drupal.l10nClient.getString(index, 'context'));
           $stringEditor.find('.context').text(Drupal.l10nClient.getString(index, 'context'));
@@ -125,7 +131,7 @@
 
         // Copy source text to translation field on button click.
         $l10nClientForm.find('.edit-copy').click(function () {
-          $l10nClientForm.find('.translation-target').val($stringEditorSoruceText.text());
+          $l10nClientForm.find('.translation-target').val($stringEditorSourceText.text());
           return false;
         });
 
@@ -171,7 +177,7 @@
             url: $this.attr('action'),
             // Send source and target strings.
             data: {
-              source: $stringEditorSoruceText.text(),
+              source: $stringEditorSourceText.text(),
               target: $this.find('.translation-target').val(),
               textgroup: $this.find('.source-textgroup').val(),
               context: $stringEditor.find('.context').text(),
@@ -208,7 +214,7 @@
                 .text(newTranslationDisplay);
 
               // Empty input fields.
-              $stringEditorSoruceText.html(data);
+              $stringEditorSourceText.html(data);
               $translationTarget.val('');
               $this.find('div.ajax-progress-throbber').remove();
             },

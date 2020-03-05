@@ -15,11 +15,11 @@
           findAndReplaceDOMText(document.getElementById('l10n-client-data'), {
             find: /\uFFF9(.*?)\uFFFA(.*?)\uFFFB/g,
             replace: function (portion, match) {
-              var wrap = $("<span class='target' data-locale-audio-id='" + match[2] + "'>" + match[1] + "</span>");
+              var wrap = $("<span class='target' data-audio-ref='" + match[2] + "'>" + match[1] + "</span>");
               return wrap[0];
             }
           });
-          $('#l10n-client-data span[data-locale-audio-id]').unwrap();
+          $('#l10n-client-data span[data-audio-ref]').unwrap();
         }
         if ($('#l10n-client-string-select').length) {
           findAndReplaceDOMText(document.getElementById('l10n-client-string-select'), {

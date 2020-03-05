@@ -307,7 +307,7 @@ function locale_audio_form_l10n_client_form_alter(&$form, &$form_state, $form_id
     '#title' => t('%language (Audio)', array('%language' => $language->native)),
     '#type' => 'textfield',
     '#field_prefix' => '<div class="atom_reference_drop_zone" data-rendering-context="sdl_editor_representation">Drop an audio file from the Scald media library here</div>',
-    '#attributes' => array('data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
+    '#attributes' => array('class' => array('translation-audio'), 'data-types' => array('audio'), 'data-dnd-context' => array('sdl_editor_representation')),
     '#description' => t('The audio in this box will be heard by users alongside the translated text for this language.'),
   );
 
