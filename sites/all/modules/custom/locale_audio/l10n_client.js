@@ -119,9 +119,9 @@
           $l10nClientForm.find('.source-context').val(Drupal.l10nClient.getString(index, 'context'));
           $stringEditor.find('.context').text(Drupal.l10nClient.getString(index, 'context'));
 
+          var $dropZone = $l10nClientForm.find('.atom_reference_drop_zone');
           var resource_id = Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref');
           if (resource_id) {
-            var $dropZone = $l10nClientForm.find('.atom_reference_drop_zone');
             var rendering_context = $dropZone.attr('data-rendering-context');
 
             // Display and set id of dropped atom
@@ -139,6 +139,18 @@
             });
 
             Drupal.attachBehaviors($dropZone);
+          }
+          else {
+            $dropZone
+              .empty()
+              .append(Drupal.t('Drop audio from the Scald media library here.'))
+              .closest('div.form-item')
+              .find('input:text')
+              .val('')
+              .change()
+              .end()
+              .find('.atom_reference_operations')
+              .hide();
           }
 
           Drupal.l10nClient.selected = index;
