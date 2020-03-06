@@ -251,6 +251,16 @@
               $stringEditorSourceText.html(data);
               $translationTarget.val('');
               $this.find('div.ajax-progress-throbber').remove();
+              $l10nClientForm.find('.atom_reference_drop_zone')
+                .empty()
+                .append(Drupal.t('Drop audio from the Scald media library here.'))
+                .closest('div.form-item')
+                .find('input:text')
+                .val('')
+                .change()
+                .end()
+                .find('.atom_reference_operations')
+                .hide();
             },
             error: function (xmlhttp) {
               alert(Drupal.t('An HTTP error @status occured.', { '@status': xmlhttp.status }));
