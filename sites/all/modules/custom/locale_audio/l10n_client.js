@@ -59,16 +59,6 @@
       }
     },
 
-    // Get attribute from the DOM tree
-    getAttr: function(index, type, attr) {
-      return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).attr(attr);
-    },
-
-    // Set attribute in the DOM tree
-    getAttr: function(index, type, attr, val) {
-      $('#l10n-client-data').find('div:eq(' + index + ') .' + type).attr(attr, val);
-    },
-
     // Get a string from the DOM tree
     getString: function (index, type) {
       return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text();
@@ -77,6 +67,16 @@
     // Set a string in the DOM tree
     setString: function (index, data) {
       $('#l10n-client-data').find('div:eq(' + index + ') .target').text(data);
+    },
+
+    // Get audio ref attribute from DOM tree
+    getAudio: function(index) {
+      return $('#l10n-client-data').find('div:eq(' + index + ') .target').attr('data-audio-ref');
+    },
+
+    // Set audio ref attribute in DOM tree
+    setAudio: function(index, attr) {
+      $('#l10n-client-data').find('div:eq(' + index + ') .target').attr('data-audio-ref', attr);
     },
 
     // Filter the the string list by a search string
@@ -125,7 +125,7 @@
           $stringEditor.find('.context').text(Drupal.l10nClient.getString(index, 'context'));
 
           var $dropZone = $l10nClientForm.find('.atom_reference_drop_zone');
-          var resource_id = Drupal.l10nClient.getAttr(index, 'target', 'data-audio-ref');
+          var resource_id = Drupal.l10nClient.getAudio(index);
           if (resource_id) {
             var rendering_context = $dropZone.attr('data-rendering-context');
 
@@ -230,7 +230,7 @@
               Drupal.l10nClient.setString(Drupal.l10nClient.selected, newTranslation);
               // Store audio in local js
               if ($audio.val()) {
-                Drupal.l10nClient.setAttr(Drupal.l10nClient.selected, 'data-audio-ref', $audio.val());
+                Drupal.l10nClient.setAttr(Drupal.l10nClient.selected, $audio.val());
               }
               // Figure out the display of the new translation in the selection list.
               var newTranslationStripped = newTranslation.replace(/<\/?[^<>]+>/gi, '')
