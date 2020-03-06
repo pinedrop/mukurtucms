@@ -212,6 +212,7 @@
             data: {
               source: $stringEditorSourceText.text(),
               target: $this.find('.translation-target').val(),
+              audio: $this.find('.translation-audio').val(),
               textgroup: $this.find('.source-textgroup').val(),
               context: $stringEditor.find('.context').text(),
               'form_token': $this.find('input[name=form_token]').val()
