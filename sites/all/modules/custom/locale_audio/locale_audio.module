@@ -18,6 +18,15 @@ function locale_audio_js_alter(&$js)
   $js[drupal_get_path('module', 'l10n_client') . '/l10n_client.js']['data'] = drupal_get_path('module', 'locale_audio') . '/l10n_client.js';
 }
 
+function locale_audio_permission() {
+  return array(
+    'administer locale audio' => array(
+      'title' => t('Administer Locale Audio'),
+      'description' => t('Administer the Locale Audio module.'),
+    ),
+  );
+}
+
 function locale_audio_menu() {
   $items = array();
 
