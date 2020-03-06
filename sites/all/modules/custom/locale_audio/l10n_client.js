@@ -64,6 +64,11 @@
       return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).attr(attr);
     },
 
+    // Set attribute in the DOM tree
+    getAttr: function(index, type, attr, val) {
+      $('#l10n-client-data').find('div:eq(' + index + ') .' + type).attr(attr, val);
+    },
+
     // Get a string from the DOM tree
     getString: function (index, type) {
       return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text();
@@ -219,10 +224,14 @@
             },
             success: function (data) {
               var $translationTarget = $l10nClientForm.find('.translation-target');
+              var $audio = $l10nClientForm.find('.translation-audio');
               var newTranslation = $translationTarget.val();
               // Store string in local js
               Drupal.l10nClient.setString(Drupal.l10nClient.selected, newTranslation);
-
+              // Store audio in local js
+              if ($audio.val()) {
+                Drupal.l10nClient.setAttr(Drupal.l10nClient.selected, 'data-audio-ref', $audio.val());
+              }
               // Figure out the display of the new translation in the selection list.
               var newTranslationStripped = newTranslation.replace(/<\/?[^<>]+>/gi, '')
                 .replace(/&quot;/g, '"')
