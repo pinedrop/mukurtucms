@@ -137,6 +137,8 @@
                 .find('.atom_reference_operations')
                 .show();
             });
+
+            Drupal.attachBehaviors($dropZone);
           }
 
           Drupal.l10nClient.selected = index;
