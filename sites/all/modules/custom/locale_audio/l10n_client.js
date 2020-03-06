@@ -64,19 +64,19 @@
       return $('#l10n-client-data').find('div:eq(' + index + ') .' + type).text();
     },
 
-    // Set a string in the DOM tree
-    setString: function (index, data) {
-      $('#l10n-client-data').find('div:eq(' + index + ') .target').text(data);
-    },
-
     // Get audio ref attribute from DOM tree
     getAudio: function(index) {
       return $('#l10n-client-data').find('div:eq(' + index + ') .target').attr('data-audio-ref');
     },
 
-    // Set audio ref attribute in DOM tree
-    setAudio: function(index, attr) {
-      $('#l10n-client-data').find('div:eq(' + index + ') .target').attr('data-audio-ref', attr);
+    // Set a string in the DOM tree
+    setString: function (index, data, audio) {
+      if (audio) {
+        $('#l10n-client-data').find('div:eq(' + index + ') .target').attr('data-audio-ref', audio).text(data);
+      }
+      else {
+        $('#l10n-client-data').find('div:eq(' + index + ') .target').removeAttr('data-audio-ref').text(data);
+      }
     },
 
     // Filter the the string list by a search string
@@ -224,14 +224,10 @@
             },
             success: function (data) {
               var $translationTarget = $l10nClientForm.find('.translation-target');
-              var $audio = $l10nClientForm.find('.translation-audio');
               var newTranslation = $translationTarget.val();
               // Store string in local js
-              Drupal.l10nClient.setString(Drupal.l10nClient.selected, newTranslation);
-              // Store audio in local js
-              if ($audio.val()) {
-                Drupal.l10nClient.setAttr(Drupal.l10nClient.selected, $audio.val());
-              }
+              Drupal.l10nClient.setString(Drupal.l10nClient.selected, newTranslation, $l10nClientForm.find('.translation-audio').val());
+
               // Figure out the display of the new translation in the selection list.
               var newTranslationStripped = newTranslation.replace(/<\/?[^<>]+>/gi, '')
                 .replace(/&quot;/g, '"')
