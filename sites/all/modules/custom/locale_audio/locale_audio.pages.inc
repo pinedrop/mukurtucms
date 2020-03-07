@@ -10,7 +10,7 @@ function locale_audio_i18n_string_l10n_client_save_string() {
     $textgroup = !empty($_POST['textgroup']) ? $_POST['textgroup'] : 'default';
     // Other textgroups will be handled by l10n_client module
     if (!i18n_string_group_info($textgroup)) {
-      return l10n_client_save_string();
+      return locale_audio_l10n_client_save_string();
     }
     elseif (isset($_POST['source']) && isset($_POST['target']) && !empty($_POST['context']) && !empty($_POST['form_token']) && drupal_valid_token($_POST['form_token'], 'l10n_client_form')) {
       $name = $textgroup . ':' . $_POST['context'];
@@ -59,7 +59,8 @@ function locale_audio_l10n_client_save_string() {
       if (!empty($lid)) {
         include_once 'includes/locale.inc';
         $report = array('skips' => 0, 'additions' => 0, 'updates' => 0, 'deletes' => 0);
-        _locale_import_one_string_db($report, $language->language, $_POST['context'], $_POST['source'], $_POST['target'], $_POST['textgroup'], NULL, LOCALE_IMPORT_OVERWRITE);
+        $target = !$_POST['audio'] ? $_POST['target'] : locale_audio_ruby_annotation($_POST['target'], $_POST['audio']);
+        _locale_import_one_string_db($report, $language->language, $_POST['context'], $_POST['source'], $target, $_POST['textgroup'], NULL, LOCALE_IMPORT_OVERWRITE);
         cache_clear_all('locale:', 'cache', TRUE);
         _locale_invalidate_js($language->language);
 
